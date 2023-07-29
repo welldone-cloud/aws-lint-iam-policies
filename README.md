@@ -6,7 +6,7 @@ The actual linting is performed by the [AWS IAM Access Analyzer policy validatio
 
 ![](./doc/access_analyzer_console_1.png)
 
-The linting checks are created and maintained by AWS and are closer described [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html).
+The linting checks are created and maintained by AWS and are described closer [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html).
 
 
 
@@ -23,7 +23,7 @@ argument.
 
 
 
-Example invocations:
+### Example invocations:
 
 ```bash
 pip install -r requirements.txt
@@ -84,7 +84,7 @@ Results are written to a JSON output file. Findings are grouped once by account 
   },
   "results_grouped_by_account_id": {
     "123456789012": [
-	  {
+    {
         "account_id": "123456789012",
         "region": "us-east-1",
         "resource_type": "AWS::IAM::UserPolicy",
@@ -96,7 +96,7 @@ Results are written to a JSON output file. Findings are grouped once by account 
         "finding_description": "Using the iam:PassRole action with wildcards (*) in the resource can be overly permissive because it allows iam:PassRole permissions on multiple resources. We recommend that you specify resource ARNs or add the iam:PassedToService condition key to your statement.",
         "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-security-warning-pass-role-with-star-in-resource"
       },
-	  {
+      {
         "account_id": "123456789012",
         "region": "eu-central-1",
         "resource_type": "AWS::SQS::QueuePolicy",
@@ -124,10 +124,10 @@ Results are written to a JSON output file. Findings are grouped once by account 
           "finding_issue_code": "PASS_ROLE_WITH_STAR_IN_RESOURCE",
           "finding_description": "Using the iam:PassRole action with wildcards (*) in the resource can be overly permissive because it allows iam:PassRole permissions on multiple resources. We recommend that you specify resource ARNs or add the iam:PassedToService condition key to your statement.",
           "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-security-warning-pass-role-with-star-in-resource"
-      }
+        }
       ]
     },
-	"WARNING": {
+    "WARNING": {
       "MISSING_VERSION": [
         {
           "account_id": "123456789012",
