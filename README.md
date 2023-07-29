@@ -23,7 +23,7 @@ argument.
 
 
 
-### Example invocations:
+#### Example invocations:
 
 ```bash
 pip install -r requirements.txt
@@ -84,7 +84,7 @@ Results are written to a JSON output file. Findings are grouped once by account 
   },
   "results_grouped_by_account_id": {
     "123456789012": [
-    {
+      {
         "account_id": "123456789012",
         "region": "us-east-1",
         "resource_type": "AWS::IAM::UserPolicy",
