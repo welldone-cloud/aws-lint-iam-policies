@@ -385,7 +385,12 @@ if __name__ == "__main__":
     boto_session = boto3.session.Session(profile_name=profile)
 
     # Test for valid credentials
-    sts_client = boto_session.client("sts", config=BOTO_CONFIG, region_name=REGION_US_EAST_1)
+    sts_client = boto_session.client(
+        "sts",
+        config=BOTO_CONFIG,
+        region_name=REGION_US_EAST_1,
+        endpoint_url="https://sts.{}.amazonaws.com".format(REGION_US_EAST_1),
+    )
     try:
         get_caller_identity_response = sts_client.get_caller_identity()
         account_id = get_caller_identity_response["Account"]
