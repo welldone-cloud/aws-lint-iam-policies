@@ -211,13 +211,14 @@ def analyze_account(account_id, boto_session):
     # Get all regions enabled in the account and not excluded by configuration
     ec2_client = boto_session.client("ec2", config=BOTO_CONFIG, region_name=REGION_US_EAST_1)
     try:
-        ec2_response = ec2_client.describe_regions(AllRegions=False)
+        describe_regions_response = ec2_client.describe_regions(AllRegions=False)
     except botocore.exceptions.ClientError:
         log_error("Error for account ID {}: cannot fetch enabled regions".format(account_id))
         return
-    target_regions = sorted(
-        [region["RegionName"] for region in ec2_response["Regions"] if region["RegionName"] not in exclude_regions]
-    )
+    target_regions = []
+    for region in describe_regions_response["Regions"]:
+        if region["RegionName"] not in exclude_regions:
+            target_regions.append(region["RegionName"])
 
     # Iterate all policy types and target regions and trigger analysis for applicable combinations
     print("Analyzing account ID {}".format(account_id))
@@ -226,10 +227,10 @@ def analyze_account(account_id, boto_session):
         futures_parameters = {}
         for policy_type in POLICY_TYPES_AND_REGIONS:
             policy_type_name = policy_type.__name__.split(".")[1]
-            policy_type_applies_to_region = POLICY_TYPES_AND_REGIONS[policy_type]
             if policy_type_name in exclude_policy_types:
                 continue
 
+            policy_type_applies_to_region = POLICY_TYPES_AND_REGIONS[policy_type]
             for region in target_regions:
                 if policy_type_applies_to_region not in (REGION_ALL, region):
                     continue
@@ -252,7 +253,7 @@ def analyze_account(account_id, boto_session):
             except botocore.exceptions.ClientError as ex:
                 log_error(
                     "Error for account ID {}, region {}, policy type {}: {}".format(
-                        futures_parameters[future]["account_id"],
+                        account_id,
                         futures_parameters[future]["region"],
                         futures_parameters[future]["policy_type_name"],
                         ex.response["Error"]["Code"],
@@ -289,7 +290,7 @@ def analyze_organization():
                 account_session = boto_session
             else:
                 try:
-                    sts_response = sts_client.assume_role(
+                    assume_role_response = sts_client.assume_role(
                         RoleArn="arn:aws:iam::{}:role/{}".format(account_id, member_accounts_role),
                         RoleSessionName="aws-lint-iam-policies",
                     )
@@ -299,9 +300,9 @@ def analyze_organization():
                     )
                     continue
                 account_session = boto3.session.Session(
-                    aws_access_key_id=sts_response["Credentials"]["AccessKeyId"],
-                    aws_secret_access_key=sts_response["Credentials"]["SecretAccessKey"],
-                    aws_session_token=sts_response["Credentials"]["SessionToken"],
+                    aws_access_key_id=assume_role_response["Credentials"]["AccessKeyId"],
+                    aws_secret_access_key=assume_role_response["Credentials"]["SecretAccessKey"],
+                    aws_session_token=assume_role_response["Credentials"]["SessionToken"],
                 )
 
             analyze_account(account_id, account_session)
@@ -386,9 +387,9 @@ if __name__ == "__main__":
     # Test for valid credentials
     sts_client = boto_session.client("sts", config=BOTO_CONFIG, region_name=REGION_US_EAST_1)
     try:
-        sts_response = sts_client.get_caller_identity()
-        account_id = sts_response["Account"]
-        account_arn = sts_response["Arn"]
+        get_caller_identity_response = sts_client.get_caller_identity()
+        account_id = get_caller_identity_response["Account"]
+        account_arn = get_caller_identity_response["Arn"]
     except:
         print("No or invalid AWS credentials configured")
         sys.exit(1)
@@ -412,9 +413,9 @@ if __name__ == "__main__":
         organizations_client = boto_session.client("organizations", config=BOTO_CONFIG, region_name=REGION_US_EAST_1)
         try:
             # Collect information about the Organization
-            describe_org_response = organizations_client.describe_organization()
-            organization_id = describe_org_response["Organization"]["Id"]
-            organization_management_account_id = describe_org_response["Organization"]["MasterAccountId"]
+            describe_organization_response = organizations_client.describe_organization()
+            organization_id = describe_organization_response["Organization"]["Id"]
+            organization_management_account_id = describe_organization_response["Organization"]["MasterAccountId"]
             result_collection["_metadata"]["organization_id"] = organization_id
             result_collection["_metadata"]["organization_management_account_id"] = organization_management_account_id
 
