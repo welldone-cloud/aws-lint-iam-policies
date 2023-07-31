@@ -151,6 +151,8 @@ Results are written to a JSON output file. Findings are grouped once by account 
 
 ## Notes
 
+* To speed up execution of the script, run it within an AWS region (e.g., on EC2 or CloudShell) instead of your local machine. Network latency between AWS regions is usually lower than your machine connecting to each region via the Internet.
+
 * Analysis of a policy via AWS IAM Access Analyzer is conducted in the same AWS account and region where the policy is stored. This means that your policy information is not transferred to another region that you are not already using.
 
 * Using a delegated administrator account for AWS Organization is not supported at the moment.
