@@ -3,6 +3,7 @@ import boto3
 import botocore.config
 import botocore.exceptions
 import cachetools
+import concurrent.futures
 import datetime
 import json
 import re
@@ -44,41 +45,43 @@ AWS_REGION_NAME_PATTERN = re.compile(r"^([a-z]+-){2,}\d+$")
 
 AWS_ROLE_NAME_PATTERN = re.compile(r"^[\w+=,.@-]{1,64}$")
 
-ALL_REGIONS = "ALL"
-
-DEFAULT_REGION = "us-east-1"
-
 BOTO_CONFIG = botocore.config.Config(retries={"total_max_attempts": 5, "mode": "standard"})
 
-POLICY_TYPES_AND_REGIONS = {
-    backup_vault_policies: ALL_REGIONS,
-    ecr_private_registry_policies: ALL_REGIONS,
-    ecr_private_repository_policies: ALL_REGIONS,
-    ecr_public_repository_policies: DEFAULT_REGION,
-    efs_file_system_policies: ALL_REGIONS,
-    eventbridge_event_bus_policies: ALL_REGIONS,
-    eventbridge_schema_registry_policies: ALL_REGIONS,
-    glue_data_catalog_policies: ALL_REGIONS,
-    iam_group_inline_policies: DEFAULT_REGION,
-    iam_managed_policies: DEFAULT_REGION,
-    iam_role_inline_policies: DEFAULT_REGION,
-    iam_role_trust_policies: DEFAULT_REGION,
-    iam_user_inline_policies: DEFAULT_REGION,
-    kms_key_policies: ALL_REGIONS,
-    lambda_function_policies: ALL_REGIONS,
-    lambda_layer_policies: ALL_REGIONS,
-    organizations_service_control_policies: DEFAULT_REGION,
-    s3_access_point_policies: ALL_REGIONS,
-    s3_bucket_policies: ALL_REGIONS,
-    s3_multi_region_access_point_policies: "us-west-2",
-    s3_object_lambda_access_point_policies: ALL_REGIONS,
-    secrets_manager_secret_policies: ALL_REGIONS,
-    sns_topic_policies: ALL_REGIONS,
-    sqs_queue_policies: ALL_REGIONS,
-    vpc_endpoint_policies: ALL_REGIONS,
-}
+REGION_ALL = "ALL"
+
+REGION_US_EAST_1 = "us-east-1"
 
 SCOPE = Enum("SCOPE", ["ACCOUNT", "ORGANIZATION"])
+
+WORKER_THREADS = 8
+
+POLICY_TYPES_AND_REGIONS = {
+    backup_vault_policies: REGION_ALL,
+    ecr_private_registry_policies: REGION_ALL,
+    ecr_private_repository_policies: REGION_ALL,
+    ecr_public_repository_policies: REGION_US_EAST_1,
+    efs_file_system_policies: REGION_ALL,
+    eventbridge_event_bus_policies: REGION_ALL,
+    eventbridge_schema_registry_policies: REGION_ALL,
+    glue_data_catalog_policies: REGION_ALL,
+    iam_group_inline_policies: REGION_US_EAST_1,
+    iam_managed_policies: REGION_US_EAST_1,
+    iam_role_inline_policies: REGION_US_EAST_1,
+    iam_role_trust_policies: REGION_US_EAST_1,
+    iam_user_inline_policies: REGION_US_EAST_1,
+    kms_key_policies: REGION_ALL,
+    lambda_function_policies: REGION_ALL,
+    lambda_layer_policies: REGION_ALL,
+    organizations_service_control_policies: REGION_US_EAST_1,
+    s3_access_point_policies: REGION_ALL,
+    s3_bucket_policies: REGION_ALL,
+    s3_multi_region_access_point_policies: "us-west-2",
+    s3_object_lambda_access_point_policies: REGION_ALL,
+    secrets_manager_secret_policies: REGION_ALL,
+    sns_topic_policies: REGION_ALL,
+    sqs_queue_policies: REGION_ALL,
+    vpc_endpoint_policies: REGION_ALL,
+}
 
 
 @cachetools.cached(cache=dict())
@@ -206,7 +209,7 @@ def validate_policy(
 
 def analyze_account(account_id, boto_session):
     # Get all regions enabled in the account and not excluded by configuration
-    ec2_client = boto_session.client("ec2", config=BOTO_CONFIG, region_name=DEFAULT_REGION)
+    ec2_client = boto_session.client("ec2", config=BOTO_CONFIG, region_name=REGION_US_EAST_1)
     try:
         ec2_response = ec2_client.describe_regions(AllRegions=False)
     except botocore.exceptions.ClientError:
@@ -216,28 +219,45 @@ def analyze_account(account_id, boto_session):
         [region["RegionName"] for region in ec2_response["Regions"] if region["RegionName"] not in exclude_regions]
     )
 
-    # Iterate regions and trigger analysis of applicable policy types
+    # Iterate all policy types and target regions and trigger analysis for applicable combinations
     print("Analyzing account ID {}".format(account_id))
-    for region in target_regions:
-        print("{}{}".format(" " * 2, region))
+    with concurrent.futures.ThreadPoolExecutor(max_workers=WORKER_THREADS) as executor:
+        futures = []
+        futures_parameters = {}
         for policy_type in POLICY_TYPES_AND_REGIONS:
             policy_type_name = policy_type.__name__.split(".")[1]
             policy_type_applies_to_region = POLICY_TYPES_AND_REGIONS[policy_type]
-            if policy_type_name not in exclude_policy_types and policy_type_applies_to_region in (ALL_REGIONS, region):
-                try:
-                    policy_type.analyze(
-                        account_id=account_id,
-                        region=region,
-                        boto_session=boto_session,
-                        boto_config=BOTO_CONFIG,
-                        validation_function=validate_policy,
+            if policy_type_name in exclude_policy_types:
+                continue
+
+            for region in target_regions:
+                if policy_type_applies_to_region not in (REGION_ALL, region):
+                    continue
+                future_params = {
+                    "account_id": account_id,
+                    "region": region,
+                    "boto_session": boto_session,
+                    "boto_config": BOTO_CONFIG,
+                    "validation_function": validate_policy,
+                }
+                future = executor.submit(policy_type.analyze, **future_params)
+                futures.append(future)
+                future_params["policy_type_name"] = policy_type_name
+                futures_parameters[future] = future_params
+
+        # Log any errors that occurred
+        for future in concurrent.futures.as_completed(futures):
+            try:
+                future.result()
+            except botocore.exceptions.ClientError as ex:
+                log_error(
+                    "Error for account ID {}, region {}, policy type {}: {}".format(
+                        futures_parameters[future]["account_id"],
+                        futures_parameters[future]["region"],
+                        futures_parameters[future]["policy_type_name"],
+                        ex.response["Error"]["Code"],
                     )
-                except botocore.exceptions.ClientError as ex:
-                    log_error(
-                        "{}Error for account ID {}, region {}, policy type {}: {}".format(
-                            " " * 4, account_id, region, policy_type_name, ex.response["Error"]["Code"]
-                        )
-                    )
+                )
 
 
 def analyze_organization():
@@ -364,7 +384,7 @@ if __name__ == "__main__":
     boto_session = boto3.session.Session(profile_name=profile)
 
     # Test for valid credentials
-    sts_client = boto_session.client("sts", config=BOTO_CONFIG, region_name=DEFAULT_REGION)
+    sts_client = boto_session.client("sts", config=BOTO_CONFIG, region_name=REGION_US_EAST_1)
     try:
         sts_response = sts_client.get_caller_identity()
         account_id = sts_response["Account"]
@@ -389,7 +409,7 @@ if __name__ == "__main__":
 
     # Analyze ORGANIZATION scope
     if scope == SCOPE.ORGANIZATION:
-        organizations_client = boto_session.client("organizations", config=BOTO_CONFIG, region_name=DEFAULT_REGION)
+        organizations_client = boto_session.client("organizations", config=BOTO_CONFIG, region_name=REGION_US_EAST_1)
         try:
             # Collect information about the Organization
             describe_org_response = organizations_client.describe_organization()
