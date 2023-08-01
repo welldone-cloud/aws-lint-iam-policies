@@ -11,6 +11,7 @@ import sys
 
 from enum import Enum
 from policytypes import (
+    api_gateway_rest_api_policies,
     backup_vault_policies,
     ecr_private_registry_policies,
     ecr_private_repository_policies,
@@ -27,6 +28,7 @@ from policytypes import (
     kms_key_policies,
     lambda_function_policies,
     lambda_layer_policies,
+    opensearch_domain_policies,
     organizations_service_control_policies,
     s3_access_point_policies,
     s3_bucket_policies,
@@ -56,6 +58,7 @@ SCOPE = Enum("SCOPE", ["ACCOUNT", "ORGANIZATION"])
 WORKER_THREADS = 8
 
 POLICY_TYPES_AND_REGIONS = {
+    api_gateway_rest_api_policies: REGION_ALL,
     backup_vault_policies: REGION_ALL,
     ecr_private_registry_policies: REGION_ALL,
     ecr_private_repository_policies: REGION_ALL,
@@ -72,6 +75,7 @@ POLICY_TYPES_AND_REGIONS = {
     kms_key_policies: REGION_ALL,
     lambda_function_policies: REGION_ALL,
     lambda_layer_policies: REGION_ALL,
+    opensearch_domain_policies: REGION_ALL,
     organizations_service_control_policies: REGION_US_EAST_1,
     s3_access_point_policies: REGION_ALL,
     s3_bucket_policies: REGION_ALL,

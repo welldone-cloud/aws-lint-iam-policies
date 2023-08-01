@@ -40,6 +40,7 @@ python aws_lint_iam_policies.py --scope ORGANIZATION --member-accounts-role Orga
 ## Supported policy types
 The following IAM policy types are analyzed. A list of all AWS services that currently offer support for resource-based policies can be found [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-services-that-work-with-iam.html).
 
+* API Gateway REST API policies
 * Backup vault policies
 * ECR private registry policies
 * ECR private repository policies
@@ -56,6 +57,7 @@ The following IAM policy types are analyzed. A list of all AWS services that cur
 * KMS key policies
 * Lambda function policies
 * Lambda layer policies
+* OpenSearch domain policies
 * Organizations service control policies
 * S3 access point policies
 * S3 bucket policies

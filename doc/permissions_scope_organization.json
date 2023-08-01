@@ -5,10 +5,10 @@
             "Sid": "AllowAssumingRoleInMemberAccounts",
             "Effect": "Allow",
             "Action": "sts:AssumeRole",
-            "Resource": "arn:aws:iam::*:role/YourMemberAccountsRoleNameHere"
+            "Resource": "arn:aws:iam::*:role/OrganizationAccountAccessRole"
         },
         {
-            "Sid": "AllowReadingPolicies",
+            "Sid": "AllowLintingPolicies",
             "Effect": "Allow",
             "Action": [
                 "access-analyzer:ValidatePolicy",
@@ -23,6 +23,8 @@
                 "ecr-public:GetRepositoryPolicy",
                 "elasticfilesystem:DescribeFileSystemPolicy",
                 "elasticfilesystem:DescribeFileSystems",
+                "es:DescribeDomain",
+                "es:ListDomainNames",
                 "events:ListEventBuses",
                 "glue:GetResourcePolicy",
                 "iam:GetGroupPolicy",
@@ -70,6 +72,12 @@
                 "sqs:ListQueues"
             ],
             "Resource": "*"
+        },
+        {
+            "Sid": "AllowLintingPoliciesForAPIGatewayRESTAPIs",
+            "Effect": "Allow",
+            "Action": "apigateway:GET",
+            "Resource": "arn:aws:apigateway:*::/restapis"
         }
     ]
 }
