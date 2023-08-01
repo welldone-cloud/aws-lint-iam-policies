@@ -4,7 +4,7 @@ Runs IAM policy linting checks against either a single AWS account or all accoun
 
 The actual linting is performed by the [AWS IAM Access Analyzer policy validation feature](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-policy-validation.html), which is mostly known for showing recommendations when manually editing IAM policies on the AWS Console UI:
 
-![](./doc/access_analyzer_console_1.png)
+![](./doc/access_analyzer_console.png)
 
 The linting checks are created and maintained by AWS and are described closer [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html).
 
