@@ -8,8 +8,6 @@
                 "access-analyzer:ValidatePolicy",
                 "backup:GetBackupVaultAccessPolicy",
                 "backup:ListBackupVaults",
-                "cloudformation:GetStackPolicy",
-                "cloudformation:ListStacks",
                 "ec2:DescribeRegions",
                 "ec2:DescribeVpcEndpoints",
                 "ecr:DescribeRepositories",
