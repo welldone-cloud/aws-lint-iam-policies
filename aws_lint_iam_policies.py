@@ -8,6 +8,7 @@ import datetime
 import json
 import re
 import sys
+import traceback
 
 from enum import Enum
 from policytypes import (
@@ -263,6 +264,18 @@ def analyze_account(account_id, boto_session):
                         ex.response["Error"]["Code"],
                     )
                 )
+            except Exception as ex:
+                msg = "Uncaught exception for account ID {}, region {}, policy type {}: {}. "
+                msg += "Please report this as an issue along with the stack trace information."
+                log_error(
+                    msg.format(
+                        account_id,
+                        futures_parameters[future]["region"],
+                        futures_parameters[future]["policy_type_name"],
+                        ex.__class__.__name__,
+                    )
+                )
+                print(traceback.format_exc())
 
 
 def analyze_organization():
