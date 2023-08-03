@@ -41,6 +41,8 @@
                 "lambda:ListLayers",
                 "lambda:ListLayerVersions",
                 "lambda:ListVersionsByFunction",
+                "logs:DescribeDestinations",
+                "logs:DescribeResourcePolicies",
                 "organizations:DescribeOrganization",
                 "organizations:ListPolicies",
                 "organizations:ListRoots",

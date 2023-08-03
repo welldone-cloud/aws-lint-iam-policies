@@ -42,6 +42,8 @@ The following IAM policy types are analyzed. A list of all AWS services that cur
 
 * API Gateway REST API policies
 * Backup vault policies
+* CloudWatch Logs destination policies
+* CloudWatch Logs resource policies
 * ECR private registry policies
 * ECR private repository policies
 * ECR public repository policies
