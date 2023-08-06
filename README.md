@@ -44,6 +44,8 @@ The following IAM policy types are analyzed. A list of all AWS services that cur
 * Backup vault policies
 * CloudWatch Logs destination policies
 * CloudWatch Logs resource policies
+* CodeBuild build project policies
+* CodeBuild report group policies
 * ECR private registry policies
 * ECR private repository policies
 * ECR public repository policies
