@@ -161,7 +161,7 @@ Results are written to a JSON output file. Findings are grouped once by account 
 
 * Analysis of a policy via AWS IAM Access Analyzer is conducted in the same AWS account and region where the policy is stored. This means that your policy information is not transferred to another region that you are not already using.
 
-* Using a delegated administrator account for AWS Organization is not supported at the moment.
+* Using a delegated administrator account for AWS Organizations is not supported at the moment.
 
 * The script can only lint policies that are using the AWS IAM policy language. It is not capable of linting other policy languages, such as Cedar policies (as used in AWS Verified Access and AWS Verified Permissions, for example).
 

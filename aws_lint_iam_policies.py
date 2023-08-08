@@ -192,7 +192,7 @@ def validate_policy(
 ):
     # Send policy through Access Analyzer validation
     access_analyzer_client = boto_session.client("accessanalyzer", config=BOTO_CONFIG, region_name=region)
-    response_paginator = access_analyzer_client.get_paginator("validate_policy")
+    findings_paginator = access_analyzer_client.get_paginator("validate_policy")
     call_parameters = {
         "locale": "EN",
         "policyType": policy_type,
@@ -202,8 +202,8 @@ def validate_policy(
         call_parameters["validatePolicyResourceType"] = policy_resource_type
 
     # Add any Access Analyzer findings to the result collection
-    for response in response_paginator.paginate(**call_parameters):
-        for finding in response["findings"]:
+    for findings_page in findings_paginator.paginate(**call_parameters):
+        for finding in findings_page["findings"]:
             add_result_to_result_collection(
                 {
                     "account_id": account_id,
@@ -295,8 +295,8 @@ def analyze_organization():
 
     # Iterate all accounts of the Organization
     accounts_paginator = organizations_client.get_paginator("list_accounts")
-    for list_accounts_response in accounts_paginator.paginate():
-        for account in list_accounts_response["Accounts"]:
+    for accounts_page in accounts_paginator.paginate():
+        for account in accounts_page["Accounts"]:
             account_id = account["Id"]
 
             # Skip account when configured to do so or when it is not active
@@ -419,7 +419,6 @@ if __name__ == "__main__":
     try:
         get_caller_identity_response = sts_client.get_caller_identity()
         account_id = get_caller_identity_response["Account"]
-        account_arn = get_caller_identity_response["Arn"]
     except:
         print("No or invalid AWS credentials configured")
         sys.exit(1)
@@ -429,7 +428,7 @@ if __name__ == "__main__":
     result_collection = {
         "_metadata": {
             "invocation": " ".join(sys.argv),
-            "principal": account_arn,
+            "principal": get_caller_identity_response["Arn"],
             "run_timestamp": run_timestamp,
             "scope": scope.name,
             "errors": [],
