@@ -63,6 +63,7 @@ The following IAM policy types are analyzed. A list of all AWS services that cur
 * Lambda layer policies
 * OpenSearch domain policies
 * Organizations service control policies
+* Redshift serverless snapshot policies
 * S3 access point policies
 * S3 bucket policies
 * S3 multi-region access point policies
@@ -158,6 +159,8 @@ Results are written to a JSON output file. Findings are grouped once by account 
 ## Notes
 
 * To speed up execution of the script, run it within an AWS region (e.g., on EC2 or CloudShell) instead of your local machine. Network latency between AWS regions is usually lower than your machine connecting to each region via the Internet.
+
+* The provided minimum IAM permissions exceed the policy size limit for IAM user inline policies (2048 characters). Consider using managed policies or roles instead, which have higher policy size limits.
 
 * Analysis of a policy via AWS IAM Access Analyzer is conducted in the same AWS account and region where the policy is stored. This means that your policy information is not transferred to another region that you are not already using.
 

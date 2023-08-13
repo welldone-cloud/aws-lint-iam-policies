@@ -35,6 +35,7 @@ from policytypes import (
     lambda_layer_policies,
     opensearch_domain_policies,
     organizations_service_control_policies,
+    redshift_serverless_snapshot_policies,
     s3_access_point_policies,
     s3_bucket_policies,
     s3_multi_region_access_point_policies,
@@ -86,6 +87,7 @@ POLICY_TYPES_AND_REGIONS = {
     lambda_layer_policies: REGION_ALL,
     opensearch_domain_policies: REGION_ALL,
     organizations_service_control_policies: REGION_US_EAST_1,
+    redshift_serverless_snapshot_policies: REGION_ALL,
     s3_access_point_policies: REGION_ALL,
     s3_bucket_policies: REGION_ALL,
     s3_multi_region_access_point_policies: "us-west-2",
@@ -259,11 +261,15 @@ def analyze_account(account_id, boto_session):
                 future_params["policy_type_name"] = policy_type_name
                 futures_parameters[future] = future_params
 
-        # Log any errors that occurred
+        # Process any errors that occurred
         for future in concurrent.futures.as_completed(futures):
             try:
                 future.result()
+            except botocore.exceptions.EndpointConnectionError:
+                # Ignore errors when an AWS service is not available in a certain region
+                pass
             except botocore.exceptions.ClientError as ex:
+                # Log expected errors such as a lack of permissions, regions/services denied by SCPs, etc.
                 log_error(
                     "Error for account ID {}, region {}, policy type {}: {}".format(
                         account_id,
@@ -273,6 +279,7 @@ def analyze_account(account_id, boto_session):
                     )
                 )
             except Exception as ex:
+                # Log all remaining and unexpected errors and print stack trace details
                 msg = "Uncaught exception for account ID {}, region {}, policy type {}: {}. "
                 msg += "Please report this as an issue along with the stack trace information."
                 log_error(

@@ -49,6 +49,8 @@
                 "organizations:DescribeOrganization",
                 "organizations:ListPolicies",
                 "organizations:ListRoots",
+                "redshift-serverless:GetResourcePolicy",
+                "redshift-serverless:ListSnapshots",
                 "s3:GetAccessPointPolicy",
                 "s3:GetAccessPointPolicyForObjectLambda",
                 "s3:GetBucketLocation",
