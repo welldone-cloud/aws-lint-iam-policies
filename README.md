@@ -52,6 +52,8 @@ The following IAM policy types are analyzed. A list of all AWS services that cur
 * EFS file system policies
 * EventBridge event bus policies
 * EventBridge schema registry policies
+* Glacier vault lock policies
+* Glacier vault resource policies
 * Glue data catalog policies
 * IAM group inline policies
 * IAM managed policies
