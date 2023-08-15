@@ -14,6 +14,8 @@
                 "access-analyzer:ValidatePolicy",
                 "backup:GetBackupVaultAccessPolicy",
                 "backup:ListBackupVaults",
+                "codeartifact:GetDomainPermissionsPolicy",
+                "codeartifact:ListDomains",
                 "codebuild:GetResourcePolicy",
                 "codebuild:ListProjects",
                 "codebuild:ListReportGroups",
