@@ -74,6 +74,7 @@ The following IAM policy types are analyzed. A list of all AWS services that cur
 * S3 multi-region access point policies
 * S3 object Lambda access point policies
 * Secrets manager secret policies
+* SES authorization policies
 * SNS topic policies
 * SQS queue policies
 * VPC endpoint policies

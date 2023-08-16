@@ -45,6 +45,7 @@ from policytypes import (
     s3_multi_region_access_point_policies,
     s3_object_lambda_access_point_policies,
     secrets_manager_secret_policies,
+    ses_authorization_policies,
     sns_topic_policies,
     sqs_queue_policies,
     vpc_endpoint_policies,
@@ -62,6 +63,8 @@ BOTO_CONFIG = botocore.config.Config(retries={"total_max_attempts": 5, "mode": "
 REGION_ALL = "ALL"
 
 REGION_US_EAST_1 = "us-east-1"
+
+REGION_US_WEST_2 = "us-west-2"
 
 SCOPE = Enum("SCOPE", ["ACCOUNT", "ORGANIZATION"])
 
@@ -98,9 +101,10 @@ POLICY_TYPES_AND_REGIONS = {
     redshift_serverless_snapshot_policies: REGION_ALL,
     s3_access_point_policies: REGION_ALL,
     s3_bucket_policies: REGION_ALL,
-    s3_multi_region_access_point_policies: "us-west-2",
+    s3_multi_region_access_point_policies: REGION_US_WEST_2,
     s3_object_lambda_access_point_policies: REGION_ALL,
     secrets_manager_secret_policies: REGION_ALL,
+    ses_authorization_policies: REGION_ALL,
     sns_topic_policies: REGION_ALL,
     sqs_queue_policies: REGION_ALL,
     vpc_endpoint_policies: REGION_ALL,
