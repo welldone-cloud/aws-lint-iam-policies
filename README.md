@@ -66,6 +66,8 @@ The following IAM policy types are analyzed. A list of all AWS services that cur
 * KMS key policies
 * Lambda function policies
 * Lambda layer policies
+* Lex bot alias policies
+* Lex bot policies
 * OpenSearch domain policies
 * Organizations service control policies
 * Redshift serverless snapshot policies
