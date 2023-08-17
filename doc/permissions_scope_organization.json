@@ -72,6 +72,8 @@
                 "organizations:ListRoots",
                 "redshift-serverless:GetResourcePolicy",
                 "redshift-serverless:ListSnapshots",
+                "rekognition:DescribeProjects",
+                "rekognition:ListProjectPolicies",
                 "s3:GetAccessPointPolicy",
                 "s3:GetAccessPointPolicyForObjectLambda",
                 "s3:GetBucketLocation",

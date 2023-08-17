@@ -72,6 +72,7 @@ The following IAM policy types are analyzed. A list of all AWS services that cur
 * OpenSearch domain policies
 * Organizations service control policies
 * Redshift serverless snapshot policies
+* Rekognition custom labels project policies
 * S3 access point policies
 * S3 bucket policies
 * S3 multi-region access point policies
