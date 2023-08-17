@@ -16,6 +16,8 @@
                 "acm-pca:ListCertificateAuthorities",
                 "backup:GetBackupVaultAccessPolicy",
                 "backup:ListBackupVaults",
+                "cloudtrail:GetResourcePolicy",
+                "cloudtrail:ListChannels",
                 "codeartifact:GetDomainPermissionsPolicy",
                 "codeartifact:GetRepositoryPermissionsPolicy",
                 "codeartifact:ListDomains",

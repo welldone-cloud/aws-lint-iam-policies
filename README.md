@@ -44,6 +44,7 @@ The following IAM policy types are analyzed. A list of all AWS services that cur
 * ACM private CA policies
 * API Gateway REST API policies
 * Backup vault policies
+* CloudTrail channel policies
 * CloudWatch Logs destination policies
 * CloudWatch Logs resource policies
 * CodeArtifact domain policies
