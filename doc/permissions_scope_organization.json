@@ -95,7 +95,9 @@
                 "sns:GetTopicAttributes",
                 "sns:ListTopics",
                 "sqs:GetQueueAttributes",
-                "sqs:ListQueues"
+                "sqs:ListQueues",
+                "ssm-incidents:GetResourcePolicies",
+                "ssm-incidents:ListResponsePlans"
             ],
             "Resource": "*"
         },
