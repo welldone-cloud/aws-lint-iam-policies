@@ -12,6 +12,7 @@ import traceback
 
 from enum import Enum
 from policytypes import (
+    acm_private_ca_policies,
     api_gateway_rest_api_policies,
     backup_vault_policies,
     cloudwatch_logs_destination_policies,
@@ -73,6 +74,7 @@ SCOPE = Enum("SCOPE", ["ACCOUNT", "ORGANIZATION"])
 WORKER_THREADS = 8
 
 POLICY_TYPES_AND_REGIONS = {
+    acm_private_ca_policies: REGION_ALL,
     api_gateway_rest_api_policies: REGION_ALL,
     backup_vault_policies: REGION_ALL,
     cloudwatch_logs_destination_policies: REGION_ALL,

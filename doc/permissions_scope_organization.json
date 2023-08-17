@@ -12,6 +12,8 @@
             "Effect": "Allow",
             "Action": [
                 "access-analyzer:ValidatePolicy",
+                "acm-pca:GetPolicy",
+                "acm-pca:ListCertificateAuthorities",
                 "backup:GetBackupVaultAccessPolicy",
                 "backup:ListBackupVaults",
                 "codeartifact:GetDomainPermissionsPolicy",
