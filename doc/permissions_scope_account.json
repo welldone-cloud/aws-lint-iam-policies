@@ -87,6 +87,8 @@
                 "sns:ListTopics",
                 "sqs:GetQueueAttributes",
                 "sqs:ListQueues",
+                "ssm-contacts:GetContactPolicy",
+                "ssm-contacts:ListContacts",
                 "ssm-incidents:GetResourcePolicies",
                 "ssm-incidents:ListResponsePlans"
             ],

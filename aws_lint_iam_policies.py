@@ -53,6 +53,7 @@ from policytypes import (
     ses_authorization_policies,
     sns_topic_policies,
     sqs_queue_policies,
+    ssm_incident_manager_contact_policies,
     ssm_incident_manager_response_plan_policies,
     vpc_endpoint_policies,
 )
@@ -118,6 +119,7 @@ POLICY_TYPES_AND_REGIONS = {
     ses_authorization_policies: REGION_ALL,
     sns_topic_policies: REGION_ALL,
     sqs_queue_policies: REGION_ALL,
+    ssm_incident_manager_contact_policies: REGION_ALL,
     ssm_incident_manager_response_plan_policies: REGION_ALL,
     vpc_endpoint_policies: REGION_ALL,
 }

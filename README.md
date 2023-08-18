@@ -82,6 +82,7 @@ The following IAM policy types are analyzed. A list of all AWS services that cur
 * SES authorization policies
 * SNS topic policies
 * SQS queue policies
+* SSM Incident Manager contact policies
 * SSM Incident Manager response plan policies
 * VPC endpoint policies
 
