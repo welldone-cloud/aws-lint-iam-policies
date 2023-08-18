@@ -76,7 +76,7 @@ REGION_US_WEST_2 = "us-west-2"
 
 SCOPE = Enum("SCOPE", ["ACCOUNT", "ORGANIZATION"])
 
-WORKER_THREADS = 8
+WORKER_THREADS = 32
 
 POLICY_TYPES_AND_REGIONS = {
     acm_private_ca_policies: REGION_ALL,
