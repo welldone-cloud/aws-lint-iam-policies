@@ -74,6 +74,8 @@
                 "organizations:ListRoots",
                 "redshift-serverless:GetResourcePolicy",
                 "redshift-serverless:ListSnapshots",
+                "refactor-spaces:GetResourcePolicy",
+                "refactor-spaces:ListEnvironments",
                 "rekognition:DescribeProjects",
                 "rekognition:ListProjectPolicies",
                 "s3:GetAccessPointPolicy",
