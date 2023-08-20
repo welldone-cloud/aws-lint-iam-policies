@@ -60,6 +60,8 @@
                 "lex:ListBots",
                 "logs:DescribeDestinations",
                 "logs:DescribeResourcePolicies",
+                "mediastore:GetContainerPolicy",
+                "mediastore:ListContainers",
                 "organizations:DescribeOrganization",
                 "organizations:ListPolicies",
                 "organizations:ListRoots",

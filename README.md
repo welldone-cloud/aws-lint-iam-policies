@@ -55,6 +55,7 @@ The following IAM policy types are analyzed. A list of all AWS services that cur
 * ECR private repository policies
 * ECR public repository policies
 * EFS file system policies
+* Elemental MediaStore container policies
 * EventBridge event bus policies
 * EventBridge schema registry policies
 * Glacier vault lock policies
