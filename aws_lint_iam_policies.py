@@ -11,54 +11,7 @@ import sys
 import traceback
 
 from enum import Enum
-from policytypes import (
-    acm_private_ca_policies,
-    api_gateway_rest_api_policies,
-    backup_vault_policies,
-    cloudtrail_channel_policies,
-    cloudwatch_logs_destination_policies,
-    cloudwatch_logs_resource_policies,
-    codeartifact_domain_policies,
-    codeartifact_repository_policies,
-    codebuild_build_project_policies,
-    codebuild_report_group_policies,
-    ecr_private_registry_policies,
-    ecr_private_repository_policies,
-    ecr_public_repository_policies,
-    efs_file_system_policies,
-    elemental_mediastore_container_policies,
-    eventbridge_event_bus_policies,
-    eventbridge_schema_registry_policies,
-    glacier_vault_lock_policies,
-    glacier_vault_resource_policies,
-    glue_data_catalog_policies,
-    iam_group_inline_policies,
-    iam_managed_policies,
-    iam_role_inline_policies,
-    iam_role_trust_policies,
-    iam_user_inline_policies,
-    kms_key_policies,
-    lambda_function_policies,
-    lambda_layer_policies,
-    lex_bot_alias_policies,
-    lex_bot_policies,
-    migration_hub_refactor_spaces_environment_policies,
-    opensearch_domain_policies,
-    organizations_service_control_policies,
-    redshift_serverless_snapshot_policies,
-    rekognition_custom_labels_project_policies,
-    s3_access_point_policies,
-    s3_bucket_policies,
-    s3_multi_region_access_point_policies,
-    s3_object_lambda_access_point_policies,
-    secrets_manager_secret_policies,
-    ses_authorization_policies,
-    sns_topic_policies,
-    sqs_queue_policies,
-    ssm_incident_manager_contact_policies,
-    ssm_incident_manager_response_plan_policies,
-    vpc_endpoint_policies,
-)
+from policytypes import *
 
 
 AWS_ACCOUNT_ID_PATTERN = re.compile(r"^\d{12,}$")
@@ -67,7 +20,7 @@ AWS_REGION_NAME_PATTERN = re.compile(r"^([a-z]+-){2,}\d+$")
 
 AWS_ROLE_NAME_PATTERN = re.compile(r"^[\w+=,.@-]{1,64}$")
 
-BOTO_CONFIG = botocore.config.Config(retries={"total_max_attempts": 5, "mode": "standard"})
+BOTO_CLIENT_CONFIG = botocore.config.Config(retries={"total_max_attempts": 5, "mode": "standard"})
 
 REGION_ALL = "ALL"
 
@@ -76,8 +29,6 @@ REGION_US_EAST_1 = "us-east-1"
 REGION_US_WEST_2 = "us-west-2"
 
 SCOPE = Enum("SCOPE", ["ACCOUNT", "ORGANIZATION"])
-
-WORKER_THREADS = 32
 
 POLICY_TYPES_AND_REGIONS = {
     acm_private_ca_policies: REGION_ALL,
@@ -127,6 +78,11 @@ POLICY_TYPES_AND_REGIONS = {
     ssm_incident_manager_response_plan_policies: REGION_ALL,
     vpc_endpoint_policies: REGION_ALL,
 }
+
+
+@cachetools.cached(cache=cachetools.LRUCache(maxsize=64))
+def get_access_analyzer_client(boto_session, region):
+    return boto_session.client("accessanalyzer", config=BOTO_CLIENT_CONFIG, region_name=region)
 
 
 @cachetools.cached(cache=dict())
@@ -194,23 +150,6 @@ def log_error(msg):
     print(msg)
 
 
-def add_result_to_result_collection(result):
-    # Add to results_grouped_by_account_id
-    account_id = result["account_id"]
-    if account_id not in result_collection["results_grouped_by_account_id"]:
-        result_collection["results_grouped_by_account_id"][account_id] = []
-    result_collection["results_grouped_by_account_id"][account_id].append(result)
-
-    # Add to results_grouped_by_finding_category
-    finding_type = result["finding_type"]
-    finding_issue_code = result["finding_issue_code"]
-    if finding_type not in result_collection["results_grouped_by_finding_category"]:
-        result_collection["results_grouped_by_finding_category"][finding_type] = {}
-    if finding_issue_code not in result_collection["results_grouped_by_finding_category"][finding_type]:
-        result_collection["results_grouped_by_finding_category"][finding_type][finding_issue_code] = []
-    result_collection["results_grouped_by_finding_category"][finding_type][finding_issue_code].append(result)
-
-
 def validate_policy(
     account_id,
     region,
@@ -223,7 +162,7 @@ def validate_policy(
     policy_resource_type=None,
 ):
     # Send policy through Access Analyzer validation
-    access_analyzer_client = boto_session.client("accessanalyzer", config=BOTO_CONFIG, region_name=region)
+    access_analyzer_client = get_access_analyzer_client(boto_session, region)
     findings_paginator = access_analyzer_client.get_paginator("validate_policy")
     call_parameters = {
         "locale": "EN",
@@ -236,40 +175,54 @@ def validate_policy(
     # Add any Access Analyzer findings to the result collection
     for findings_page in findings_paginator.paginate(**call_parameters):
         for finding in findings_page["findings"]:
-            add_result_to_result_collection(
-                {
-                    "account_id": account_id,
-                    "region": region,
-                    "resource_type": resource_type,
-                    "resource_name": resource_name,
-                    "resource_arn": resource_arn,
-                    "policy_type": policy_type,
-                    "finding_type": finding["findingType"],
-                    "finding_issue_code": finding["issueCode"],
-                    "finding_description": finding["findingDetails"],
-                    "finding_link": finding["learnMoreLink"],
-                }
+            result_summary = {
+                "account_id": account_id,
+                "region": region,
+                "resource_type": resource_type,
+                "resource_name": resource_name,
+                "resource_arn": resource_arn,
+                "policy_type": policy_type,
+                "finding_type": finding["findingType"],
+                "finding_issue_code": finding["issueCode"],
+                "finding_description": finding["findingDetails"],
+                "finding_link": finding["learnMoreLink"],
+            }
+
+            # Add to results_grouped_by_account_id
+            if account_id not in result_collection["results_grouped_by_account_id"]:
+                result_collection["results_grouped_by_account_id"][account_id] = []
+            result_collection["results_grouped_by_account_id"][account_id].append(result_summary)
+
+            # Add to results_grouped_by_finding_category
+            finding_type = finding["findingType"]
+            finding_issue_code = finding["issueCode"]
+            if finding_type not in result_collection["results_grouped_by_finding_category"]:
+                result_collection["results_grouped_by_finding_category"][finding_type] = {}
+            if finding_issue_code not in result_collection["results_grouped_by_finding_category"][finding_type]:
+                result_collection["results_grouped_by_finding_category"][finding_type][finding_issue_code] = []
+            result_collection["results_grouped_by_finding_category"][finding_type][finding_issue_code].append(
+                result_summary
             )
 
 
 def analyze_account(account_id, boto_session):
     # Get all regions enabled in the account and not excluded by configuration
-    ec2_client = boto_session.client("ec2", config=BOTO_CONFIG, region_name=REGION_US_EAST_1)
+    ec2_client = boto_session.client("ec2", config=BOTO_CLIENT_CONFIG, region_name=REGION_US_EAST_1)
     try:
         describe_regions_response = ec2_client.describe_regions(AllRegions=False)
     except botocore.exceptions.ClientError:
         log_error("Error for account ID {}: cannot fetch enabled regions".format(account_id))
         return
-    target_regions = []
-    for region in describe_regions_response["Regions"]:
-        if region["RegionName"] not in exclude_regions:
-            target_regions.append(region["RegionName"])
+    target_regions = [
+        region["RegionName"]
+        for region in describe_regions_response["Regions"]
+        if region["RegionName"] not in exclude_regions
+    ]
 
     # Iterate all policy types and target regions and trigger analysis for applicable combinations
     print("Analyzing account ID {}".format(account_id))
-    with concurrent.futures.ThreadPoolExecutor(max_workers=WORKER_THREADS) as executor:
-        futures = []
-        futures_parameters = {}
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        futures = {}
         for policy_type in POLICY_TYPES_AND_REGIONS:
             policy_type_name = policy_type.__name__.split(".")[1]
             if policy_type_name in exclude_policy_types:
@@ -283,16 +236,15 @@ def analyze_account(account_id, boto_session):
                     "account_id": account_id,
                     "region": region,
                     "boto_session": boto_session,
-                    "boto_config": BOTO_CONFIG,
+                    "boto_config": BOTO_CLIENT_CONFIG,
                     "validation_function": validate_policy,
                 }
                 future = executor.submit(policy_type.analyze, **future_params)
-                futures.append(future)
                 future_params["policy_type_name"] = policy_type_name
-                futures_parameters[future] = future_params
+                futures[future] = future_params
 
         # Process any errors that occurred
-        for future in concurrent.futures.as_completed(futures):
+        for future in concurrent.futures.as_completed(futures.keys()):
             try:
                 future.result()
             except botocore.exceptions.EndpointConnectionError:
@@ -303,8 +255,8 @@ def analyze_account(account_id, boto_session):
                 log_error(
                     "Error for account ID {}, region {}, policy type {}: {}".format(
                         account_id,
-                        futures_parameters[future]["region"],
-                        futures_parameters[future]["policy_type_name"],
+                        futures[future]["region"],
+                        futures[future]["policy_type_name"],
                         ex.response["Error"]["Code"],
                     )
                 )
@@ -315,8 +267,8 @@ def analyze_account(account_id, boto_session):
                 log_error(
                     msg.format(
                         account_id,
-                        futures_parameters[future]["region"],
-                        futures_parameters[future]["policy_type_name"],
+                        futures[future]["region"],
+                        futures[future]["policy_type_name"],
                         ex.__class__.__name__,
                     )
                 )
@@ -347,10 +299,8 @@ def analyze_organization():
                 log_error("Error for account ID {}: account status is not active".format(account_id))
                 continue
 
-            # Assume a role in the target account, if required
-            if account_id == organization_management_account_id:
-                account_session = boto_session
-            else:
+            # Assume a role in the target account, if we are not currently analyzing the management account itself
+            if account_id != organization_management_account_id:
                 try:
                     assume_role_response = sts_client.assume_role(
                         RoleArn="arn:aws:iam::{}:role/{}".format(account_id, member_accounts_role),
@@ -366,6 +316,8 @@ def analyze_organization():
                     aws_secret_access_key=assume_role_response["Credentials"]["SecretAccessKey"],
                     aws_session_token=assume_role_response["Credentials"]["SessionToken"],
                 )
+            else:
+                account_session = boto_session
 
             analyze_account(account_id, account_session)
 
@@ -444,12 +396,13 @@ if __name__ == "__main__":
     else:
         exclude_policy_types = []
     profile = args.profile[0] if args.profile else None
+
     boto_session = boto3.session.Session(profile_name=profile)
 
     # Test for valid credentials
     sts_client = boto_session.client(
         "sts",
-        config=BOTO_CONFIG,
+        config=BOTO_CLIENT_CONFIG,
         region_name=REGION_US_EAST_1,
         endpoint_url="https://sts.{}.amazonaws.com".format(REGION_US_EAST_1),
     )
@@ -476,7 +429,9 @@ if __name__ == "__main__":
 
     # Analyze ORGANIZATION scope
     if scope == SCOPE.ORGANIZATION:
-        organizations_client = boto_session.client("organizations", config=BOTO_CONFIG, region_name=REGION_US_EAST_1)
+        organizations_client = boto_session.client(
+            "organizations", config=BOTO_CLIENT_CONFIG, region_name=REGION_US_EAST_1
+        )
         try:
             # Collect information about the Organization
             describe_organization_response = organizations_client.describe_organization()
