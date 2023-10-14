@@ -63,6 +63,7 @@ POLICY_TYPES_AND_REGIONS = {
     lex_bot_policies: REGION_ALL,
     migration_hub_refactor_spaces_environment_policies: REGION_ALL,
     opensearch_domain_policies: REGION_ALL,
+    organizations_delegation_policies: REGION_US_EAST_1,
     organizations_service_control_policies: REGION_US_EAST_1,
     redshift_serverless_snapshot_policies: REGION_ALL,
     rekognition_custom_labels_project_policies: REGION_ALL,

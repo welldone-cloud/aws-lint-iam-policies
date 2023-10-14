@@ -32,6 +32,7 @@ __all__ = [
     "lex_bot_policies",
     "migration_hub_refactor_spaces_environment_policies",
     "opensearch_domain_policies",
+    "organizations_delegation_policies",
     "organizations_service_control_policies",
     "redshift_serverless_snapshot_policies",
     "rekognition_custom_labels_project_policies",

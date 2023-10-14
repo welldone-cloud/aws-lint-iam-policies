@@ -73,6 +73,7 @@ The following IAM policy types are analyzed. A list of all AWS services that cur
 * Lex bot policies
 * Migration Hub Refactor Spaces environment policies
 * OpenSearch domain policies
+* Organizations delegation policies
 * Organizations service control policies
 * Redshift serverless snapshot policies
 * Rekognition custom labels project policies
