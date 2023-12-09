@@ -1,7 +1,7 @@
 import json
 
 
-def analyze(account_id, region, boto_session, boto_config, validation_function):
+def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     iam_client = boto_session.client("iam", config=boto_config, region_name=region)
     groups_paginator = iam_client.get_paginator("list_groups")
 
@@ -17,8 +17,7 @@ def analyze(account_id, region, boto_session, boto_config, validation_function):
                         GroupName=group["GroupName"], PolicyName=policy_name
                     )
 
-                    # Forward policy to validation
-                    validation_function(
+                    policy_analysis_function(
                         account_id=account_id,
                         region=region,
                         boto_session=boto_session,

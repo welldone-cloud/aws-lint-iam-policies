@@ -1,4 +1,4 @@
-def analyze(account_id, region, boto_session, boto_config, validation_function):
+def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     acm_pca_client = boto_session.client("acm-pca", config=boto_config, region_name=region)
     certificate_authorities_paginator = acm_pca_client.get_paginator("list_certificate_authorities")
 
@@ -18,8 +18,7 @@ def analyze(account_id, region, boto_session, boto_config, validation_function):
             except KeyError:
                 ca_name = certificate_authority["Arn"].split("/")[-1]
 
-            # Forward policy to validation
-            validation_function(
+            policy_analysis_function(
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,

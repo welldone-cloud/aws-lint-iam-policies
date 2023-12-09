@@ -1,4 +1,4 @@
-def analyze(account_id, region, boto_session, boto_config, validation_function):
+def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     redshift_client = boto_session.client("redshift-serverless", config=boto_config, region_name=region)
     list_snapshots_paginator = redshift_client.get_paginator("list_snapshots")
 
@@ -11,8 +11,7 @@ def analyze(account_id, region, boto_session, boto_config, validation_function):
             except redshift_client.exceptions.from_code("ResourceNotFoundException"):
                 continue
 
-            # Forward policy to validation
-            validation_function(
+            policy_analysis_function(
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,

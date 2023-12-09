@@ -8,6 +8,7 @@ import datetime
 import json
 import os
 import re
+import string
 import sys
 import traceback
 
@@ -30,6 +31,8 @@ REGION_US_EAST_1 = "us-east-1"
 REGION_US_WEST_2 = "us-west-2"
 
 SCOPE = Enum("SCOPE", ["ACCOUNT", "ORGANIZATION"])
+
+VALID_FILE_NAME_CHARACTERS = string.ascii_letters + string.digits + "_+=,.@-"
 
 POLICY_TYPES_AND_REGIONS = {
     acm_private_ca_policies: REGION_ALL,
@@ -152,7 +155,7 @@ def log_error(msg):
     print(msg)
 
 
-def validate_policy(
+def analyze_policy(
     account_id,
     region,
     boto_session,
@@ -206,6 +209,23 @@ def validate_policy(
                 result_summary
             )
 
+    # Dump the policy, if configured
+    if dump_policies:
+        # Some AWS resources can have multiple policies attached, so an index is put into the file name
+        index = 0
+        while True:
+            file_name = "".join(
+                char if char in VALID_FILE_NAME_CHARACTERS else "_"
+                for char in "{}_{}_{}_{}_{}.json".format(account_id, region, resource_type, resource_name, index)
+            )
+            dump_file = os.path.join(policy_dump_directory, file_name)
+            if os.path.isfile(dump_file):
+                index += 1
+            else:
+                with open(dump_file, "w") as out_file:
+                    json.dump(json.loads(policy_document), out_file, indent=2)
+                break
+
 
 def analyze_account(account_id, boto_session):
     # Get all regions enabled in the account and not excluded by configuration
@@ -239,7 +259,7 @@ def analyze_account(account_id, boto_session):
                     "region": region,
                     "boto_session": boto_session,
                     "boto_config": BOTO_CLIENT_CONFIG,
-                    "validation_function": validate_policy,
+                    "policy_analysis_function": analyze_policy,
                 }
                 future = executor.submit(policy_type.analyze, **future_params)
                 future_params["policy_type_name"] = policy_type_name
@@ -374,6 +394,13 @@ if __name__ == "__main__":
         type=parse_exclude_policy_types,
         help="comma-separated list of policy type names that should be skipped",
     )
+    parser.add_argument(
+        "--dump-policies",
+        required=False,
+        default=False,
+        action="store_true",
+        help="store a copy of all policies analyzed",
+    )
     parser.add_argument("--profile", required=False, nargs=1, help="named AWS profile to use")
 
     # Parse arguments
@@ -397,6 +424,7 @@ if __name__ == "__main__":
         exclude_policy_types = [val for val in args.exclude_policy_types[0].split(",") if val]
     else:
         exclude_policy_types = []
+    dump_policies = args.dump_policies
     profile = args.profile[0] if args.profile else None
 
     boto_session = boto3.session.Session(profile_name=profile)
@@ -415,7 +443,7 @@ if __name__ == "__main__":
         print("No or invalid AWS credentials configured")
         sys.exit(1)
 
-    # Prepare result collection JSON structure and results directory
+    # Prepare result collection JSON structure
     run_timestamp = datetime.datetime.utcnow().strftime("%Y%m%d%H%M%S")
     result_collection = {
         "_metadata": {
@@ -428,11 +456,16 @@ if __name__ == "__main__":
         "results_grouped_by_account_id": {},
         "results_grouped_by_finding_category": {},
     }
+
+    # Prepare results directory
     results_directory = os.path.join(os.path.relpath(os.path.dirname(__file__)), "results")
     try:
         os.mkdir(results_directory)
     except FileExistsError:
         pass
+    if dump_policies:
+        policy_dump_directory = os.path.join(results_directory, "policy_dump_{}".format(run_timestamp))
+        os.mkdir(policy_dump_directory)
 
     # Analyze ORGANIZATION scope
     if scope == SCOPE.ORGANIZATION:
@@ -471,7 +504,10 @@ if __name__ == "__main__":
         analyze_account(account_id, boto_session)
 
     # Write result file
-    result_file_path = os.path.join(results_directory, "policy_linting_results_{}.json".format(run_timestamp))
-    with open(result_file_path, "w") as out_file:
+    result_file = os.path.join(results_directory, "policy_linting_results_{}.json".format(run_timestamp))
+    with open(result_file, "w") as out_file:
         json.dump(result_collection, out_file, indent=2)
-    print("Result file written to {}".format(result_file_path))
+
+    print("Result file written to {}".format(result_file))
+    if dump_policies:
+        print("Policy dump written to {}".format(policy_dump_directory))

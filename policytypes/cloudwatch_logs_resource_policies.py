@@ -1,12 +1,11 @@
-def analyze(account_id, region, boto_session, boto_config, validation_function):
+def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     logs_client = boto_session.client("logs", config=boto_config, region_name=region)
     policies_paginator = logs_client.get_paginator("describe_resource_policies")
 
     # Iterate all resource policies
     for policies_page in policies_paginator.paginate():
         for policy in policies_page["resourcePolicies"]:
-            # Forward policy to validation
-            validation_function(
+            policy_analysis_function(
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,

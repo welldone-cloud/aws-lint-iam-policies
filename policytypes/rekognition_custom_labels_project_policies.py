@@ -1,4 +1,4 @@
-def analyze(account_id, region, boto_session, boto_config, validation_function):
+def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     rekognition_client = boto_session.client("rekognition", config=boto_config, region_name=region)
 
     # Custom labels is a sub feature of Rekognition. There can be regions where Rekognition is available but
@@ -21,8 +21,7 @@ def analyze(account_id, region, boto_session, boto_config, validation_function):
         list_project_policies_paginator = rekognition_client.get_paginator("list_project_policies")
         for policies_page in list_project_policies_paginator.paginate(ProjectArn=project["ProjectArn"]):
             for policy in policies_page["ProjectPolicies"]:
-                # Forward policy to validation
-                validation_function(
+                policy_analysis_function(
                     account_id=account_id,
                     region=region,
                     boto_session=boto_session,

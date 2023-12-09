@@ -4,7 +4,7 @@ import json
 SERVICE_LINKED_ROLE_PATH_PREFIX = "/aws-service-role/"
 
 
-def analyze(account_id, region, boto_session, boto_config, validation_function):
+def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     iam_client = boto_session.client("iam", config=boto_config, region_name=region)
     roles_paginator = iam_client.get_paginator("list_roles")
 
@@ -15,8 +15,7 @@ def analyze(account_id, region, boto_session, boto_config, validation_function):
             if role["Path"].startswith(SERVICE_LINKED_ROLE_PATH_PREFIX):
                 continue
 
-            # Forward policy to validation
-            validation_function(
+            policy_analysis_function(
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,

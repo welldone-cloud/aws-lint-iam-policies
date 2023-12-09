@@ -1,4 +1,4 @@
-def analyze(account_id, region, boto_session, boto_config, validation_function):
+def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     apigw_client = boto_session.client("apigateway", config=boto_config, region_name=region)
     apis_paginator = apigw_client.get_paginator("get_rest_apis")
 
@@ -9,8 +9,7 @@ def analyze(account_id, region, boto_session, boto_config, validation_function):
             if "policy" not in api:
                 continue
 
-            # Forward policy to validation
-            validation_function(
+            policy_analysis_function(
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,

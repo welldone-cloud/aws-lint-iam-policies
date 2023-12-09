@@ -1,12 +1,11 @@
-def analyze(account_id, region, boto_session, boto_config, validation_function):
+def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     ecr_client = boto_session.client("ecr", config=boto_config, region_name=region)
     try:
         get_registry_policy_response = ecr_client.get_registry_policy()
     except ecr_client.exceptions.from_code("RegistryPolicyNotFoundException"):
         return
 
-    # Forward policy to validation
-    validation_function(
+    policy_analysis_function(
         account_id=account_id,
         region=region,
         boto_session=boto_session,

@@ -1,4 +1,4 @@
-def analyze(account_id, region, boto_session, boto_config, validation_function):
+def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     s3_client = boto_session.client("s3control", config=boto_config, region_name=region)
 
     # Iterate all access points (there is unfortunately no paginator available for this at the moment)
@@ -15,8 +15,7 @@ def analyze(account_id, region, boto_session, boto_config, validation_function):
                 # This access point does not have a policy configured
                 continue
 
-            # Forward policy to validation
-            validation_function(
+            policy_analysis_function(
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,

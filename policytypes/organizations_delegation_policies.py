@@ -1,4 +1,4 @@
-def analyze(account_id, region, boto_session, boto_config, validation_function):
+def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     organizations_client = boto_session.client("organizations", config=boto_config, region_name=region)
     try:
         describe_resource_policy_response = organizations_client.describe_resource_policy()
@@ -12,8 +12,7 @@ def analyze(account_id, region, boto_session, boto_config, validation_function):
         # There is no delegation policy set
         return
 
-    # Forward policy to validation
-    validation_function(
+    policy_analysis_function(
         account_id=account_id,
         region=region,
         boto_session=boto_session,

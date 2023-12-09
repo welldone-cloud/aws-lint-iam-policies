@@ -1,4 +1,4 @@
-def analyze(account_id, region, boto_session, boto_config, validation_function):
+def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     efs_client = boto_session.client("efs", config=boto_config, region_name=region)
     file_systems_paginator = efs_client.get_paginator("describe_file_systems")
 
@@ -14,8 +14,7 @@ def analyze(account_id, region, boto_session, boto_config, validation_function):
                 # This file system does not have a policy configured
                 continue
 
-            # Forward policy to validation
-            validation_function(
+            policy_analysis_function(
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,

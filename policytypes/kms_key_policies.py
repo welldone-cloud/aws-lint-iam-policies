@@ -1,4 +1,4 @@
-def analyze(account_id, region, boto_session, boto_config, validation_function):
+def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     kms_client = boto_session.client("kms", config=boto_config, region_name=region)
     keys_paginator = kms_client.get_paginator("list_keys")
 
@@ -15,8 +15,7 @@ def analyze(account_id, region, boto_session, boto_config, validation_function):
             # Fetch the key policy
             get_key_policy_response = kms_client.get_key_policy(KeyId=key["KeyId"], PolicyName="default")
 
-            # Forward policy to validation
-            validation_function(
+            policy_analysis_function(
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,

@@ -1,4 +1,4 @@
-def analyze(account_id, region, boto_session, boto_config, validation_function):
+def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     sns_client = boto_session.client("sns", config=boto_config, region_name=region)
     topics_paginator = sns_client.get_paginator("list_topics")
 
@@ -8,8 +8,7 @@ def analyze(account_id, region, boto_session, boto_config, validation_function):
             # Fetch the topic policy
             get_topic_attributes_response = sns_client.get_topic_attributes(TopicArn=topic["TopicArn"])
 
-            # Forward policy to validation
-            validation_function(
+            policy_analysis_function(
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,

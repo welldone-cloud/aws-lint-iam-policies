@@ -1,4 +1,4 @@
-def analyze(account_id, region, boto_session, boto_config, validation_function):
+def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     eventbridge_client = boto_session.client("schemas", config=boto_config, region_name=region)
     schema_registries_paginator = eventbridge_client.get_paginator("list_registries")
 
@@ -14,8 +14,7 @@ def analyze(account_id, region, boto_session, boto_config, validation_function):
                 # This schema registry does not have a policy configured
                 continue
 
-            # Forward policy to validation
-            validation_function(
+            policy_analysis_function(
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,

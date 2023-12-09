@@ -1,4 +1,4 @@
-def analyze(account_id, region, boto_session, boto_config, validation_function):
+def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     cloudtrail_client = boto_session.client("cloudtrail", config=boto_config, region_name=region)
 
     # Iterate all channels (there is unfortunately no paginator available for this at the moment)
@@ -16,8 +16,7 @@ def analyze(account_id, region, boto_session, boto_config, validation_function):
                 # Skip if there is no policy set
                 continue
 
-            # Forward policy to validation
-            validation_function(
+            policy_analysis_function(
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,

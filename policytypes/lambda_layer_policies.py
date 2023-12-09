@@ -1,4 +1,4 @@
-def analyze(account_id, region, boto_session, boto_config, validation_function):
+def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     lambda_client = boto_session.client("lambda", config=boto_config, region_name=region)
     lambda_layers_paginator = lambda_client.get_paginator("list_layers")
 
@@ -18,8 +18,7 @@ def analyze(account_id, region, boto_session, boto_config, validation_function):
                         # This layer version does not have a policy configured
                         continue
 
-                    # Forward policy to validation
-                    validation_function(
+                    policy_analysis_function(
                         account_id=account_id,
                         region=region,
                         boto_session=boto_session,

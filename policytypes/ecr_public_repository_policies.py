@@ -1,4 +1,4 @@
-def analyze(account_id, region, boto_session, boto_config, validation_function):
+def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     ecr_client = boto_session.client("ecr-public", config=boto_config, region_name=region)
     repositories_paginator = ecr_client.get_paginator("describe_repositories")
 
@@ -13,8 +13,7 @@ def analyze(account_id, region, boto_session, boto_config, validation_function):
             except ecr_client.exceptions.from_code("RepositoryPolicyNotFoundException"):
                 continue
 
-            # Forward policy to validation
-            validation_function(
+            policy_analysis_function(
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,

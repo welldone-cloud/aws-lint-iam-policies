@@ -1,4 +1,4 @@
-def analyze(account_id, region, boto_session, boto_config, validation_function):
+def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     # Test whether SCPs are enabled and return if they are not
     organizations_client = boto_session.client("organizations", config=boto_config, region_name=region)
     scps_enabled = False
@@ -27,7 +27,7 @@ def analyze(account_id, region, boto_session, boto_config, validation_function):
             if policy["AwsManaged"]:
                 continue
             describe_policy_reponse = organizations_client.describe_policy(PolicyId=policy["Id"])
-            validation_function(
+            policy_analysis_function(
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,

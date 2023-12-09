@@ -1,4 +1,4 @@
-def analyze(account_id, region, boto_session, boto_config, validation_function):
+def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     ssm_client = boto_session.client("ssm-incidents", config=boto_config, region_name=region)
     response_plans_paginator = ssm_client.get_paginator("list_response_plans")
 
@@ -9,8 +9,7 @@ def analyze(account_id, region, boto_session, boto_config, validation_function):
             resource_policies_paginator = ssm_client.get_paginator("get_resource_policies")
             for resource_policies_page in resource_policies_paginator.paginate(resourceArn=response_plan["arn"]):
                 for resource_policy in resource_policies_page["resourcePolicies"]:
-                    # Forward policy to validation
-                    validation_function(
+                    policy_analysis_function(
                         account_id=account_id,
                         region=region,
                         boto_session=boto_session,

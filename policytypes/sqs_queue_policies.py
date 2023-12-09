@@ -1,4 +1,4 @@
-def analyze(account_id, region, boto_session, boto_config, validation_function):
+def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     sqs_client = boto_session.client("sqs", config=boto_config, region_name=region)
     queues_paginator = sqs_client.get_paginator("list_queues")
 
@@ -14,8 +14,7 @@ def analyze(account_id, region, boto_session, boto_config, validation_function):
             if "Policy" not in get_queue_attributes_response["Attributes"]:
                 continue
 
-            # Forward policy to validation
-            validation_function(
+            policy_analysis_function(
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,

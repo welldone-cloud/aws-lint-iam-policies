@@ -1,12 +1,11 @@
-def analyze(account_id, region, boto_session, boto_config, validation_function):
+def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     ec2_client = boto_session.client("ec2", config=boto_config, region_name=region)
     endpoints_paginator = ec2_client.get_paginator("describe_vpc_endpoints")
 
     # Iterate all VPC endpoints
     for endpoints_page in endpoints_paginator.paginate():
         for endpoint in endpoints_page["VpcEndpoints"]:
-            # Forward policy to validation
-            validation_function(
+            policy_analysis_function(
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,

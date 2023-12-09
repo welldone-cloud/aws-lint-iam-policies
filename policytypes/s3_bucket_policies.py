@@ -1,7 +1,7 @@
 S3_DEFAULT_LOCATION = "us-east-1"
 
 
-def analyze(account_id, region, boto_session, boto_config, validation_function):
+def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     s3_client = boto_session.client("s3", config=boto_config, region_name=region)
     list_buckets_response = s3_client.list_buckets()
 
@@ -25,8 +25,7 @@ def analyze(account_id, region, boto_session, boto_config, validation_function):
         except s3_client.exceptions.from_code("NoSuchBucketPolicy"):
             continue
 
-        # Forward policy to validation
-        validation_function(
+        policy_analysis_function(
             account_id=account_id,
             region=region,
             boto_session=boto_session,

@@ -1,4 +1,4 @@
-def analyze(account_id, region, boto_session, boto_config, validation_function):
+def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     logs_client = boto_session.client("logs", config=boto_config, region_name=region)
     policies_paginator = logs_client.get_paginator("describe_destinations")
 
@@ -9,8 +9,7 @@ def analyze(account_id, region, boto_session, boto_config, validation_function):
             if "accessPolicy" not in destination:
                 continue
 
-            # Forward policy to validation
-            validation_function(
+            policy_analysis_function(
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,

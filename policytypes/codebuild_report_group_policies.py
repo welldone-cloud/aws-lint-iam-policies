@@ -1,4 +1,4 @@
-def analyze(account_id, region, boto_session, boto_config, validation_function):
+def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     codebuild_client = boto_session.client("codebuild", config=boto_config, region_name=region)
     report_groups_paginator = codebuild_client.get_paginator("list_report_groups")
 
@@ -12,8 +12,7 @@ def analyze(account_id, region, boto_session, boto_config, validation_function):
                 # Skip if there is no policy set
                 continue
 
-            # Forward policy to validation
-            validation_function(
+            policy_analysis_function(
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,
