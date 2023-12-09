@@ -6,6 +6,7 @@ import cachetools
 import concurrent.futures
 import datetime
 import json
+import os
 import re
 import sys
 import traceback
@@ -414,7 +415,7 @@ if __name__ == "__main__":
         print("No or invalid AWS credentials configured")
         sys.exit(1)
 
-    # Prepare result collection structure
+    # Prepare result collection JSON structure and results directory
     run_timestamp = datetime.datetime.utcnow().strftime("%Y%m%d%H%M%S")
     result_collection = {
         "_metadata": {
@@ -427,6 +428,11 @@ if __name__ == "__main__":
         "results_grouped_by_account_id": {},
         "results_grouped_by_finding_category": {},
     }
+    results_directory = os.path.join(os.path.relpath(os.path.dirname(__file__)), "results")
+    try:
+        os.mkdir(results_directory)
+    except FileExistsError:
+        pass
 
     # Analyze ORGANIZATION scope
     if scope == SCOPE.ORGANIZATION:
@@ -465,7 +471,7 @@ if __name__ == "__main__":
         analyze_account(account_id, boto_session)
 
     # Write result file
-    output_file_name = "policy_linting_results_{}.json".format(run_timestamp)
-    with open(output_file_name, "w") as out_file:
+    result_file_path = os.path.join(results_directory, "policy_linting_results_{}.json".format(run_timestamp))
+    with open(result_file_path, "w") as out_file:
         json.dump(result_collection, out_file, indent=2)
-    print("Output file written to {}".format(output_file_name))
+    print("Result file written to {}".format(result_file_path))

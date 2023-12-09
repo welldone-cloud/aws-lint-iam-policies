@@ -91,9 +91,9 @@ The following IAM policy types are analyzed. A list of all AWS services that cur
 
 
 
-## Example output file
+## Example result file
 
-Results are written to a JSON output file. Findings are grouped once by account ID and once by finding category. This means that one specific finding is present twice in the result file.
+Results are written to a JSON file. Findings are grouped once by account ID and once by finding category. This means that one specific finding is present twice in the result file.
 
 ```json
 {
