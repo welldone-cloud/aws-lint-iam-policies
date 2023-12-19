@@ -15,7 +15,7 @@ The linting checks are created and maintained by AWS and are described closer [h
 
 Make sure you have AWS credentials configured for your targeted environment. This can either be done using [environment 
 variables](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html) or by specifying a [named 
-profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) in the optional `--profile` 
+profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html) in the optional `--profile` 
 argument.
 
 * If your are using `--scope ACCOUNT`, you require at least [these permissions](doc/permissions_scope_account.json). 
