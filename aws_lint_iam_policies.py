@@ -60,6 +60,7 @@ POLICY_TYPES_AND_REGIONS = {
     iam_role_inline_policies: REGION_US_EAST_1,
     iam_role_trust_policies: REGION_US_EAST_1,
     iam_user_inline_policies: REGION_US_EAST_1,
+    kinesis_data_stream_policies: REGION_ALL,
     kms_key_policies: REGION_ALL,
     lambda_function_policies: REGION_ALL,
     lambda_layer_policies: REGION_ALL,
@@ -211,7 +212,7 @@ def analyze_policy(
 
     # Dump the policy, if configured
     if dump_policies:
-        # Some AWS resources can have multiple policies attached, so an index is put into the file name
+        # Some AWS resources can have multiple policies attached, so an index is put at the end of the file name
         index = 0
         while True:
             file_name = "".join(
@@ -219,12 +220,11 @@ def analyze_policy(
                 for char in "{}_{}_{}_{}_{}.json".format(account_id, region, resource_type, resource_name, index)
             )
             dump_file = os.path.join(policy_dump_directory, file_name)
-            if os.path.isfile(dump_file):
-                index += 1
-            else:
-                with open(dump_file, "w") as out_file:
-                    json.dump(json.loads(policy_document), out_file, indent=2)
+            if not os.path.isfile(dump_file):
                 break
+            index += 1
+        with open(dump_file, "w") as out_file:
+            json.dump(json.loads(policy_document), out_file, indent=2)
 
 
 def analyze_account(account_id, boto_session):
