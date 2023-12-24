@@ -22,7 +22,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                         region=region,
                         boto_session=boto_session,
                         resource_type="AWS::IAM::UserPolicy",
-                        resource_name=policy_name,
+                        resource_name="{}:{}".format(user["UserName"], policy_name),
                         resource_arn=user["Arn"],
                         policy_document=json.dumps(get_user_policy_response["PolicyDocument"]),
                         policy_type="IDENTITY_POLICY",
