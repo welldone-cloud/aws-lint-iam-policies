@@ -23,7 +23,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                         region=region,
                         boto_session=boto_session,
                         resource_type="AWS::Lambda::LayerVersionPermission",
-                        resource_name="{}:{}".format(lambda_layer["LayerName"], layer_version["Version"]),
+                        resource_name="{}:v{}".format(lambda_layer["LayerName"], layer_version["Version"]),
                         resource_arn=layer_version["LayerVersionArn"],
                         policy_document=get_policy_response["Policy"],
                         policy_type="RESOURCE_POLICY",

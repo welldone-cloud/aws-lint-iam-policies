@@ -19,7 +19,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                     region=region,
                     boto_session=boto_session,
                     resource_type="AWS::IoT::Policy",
-                    resource_name="{}:{}".format(policy["policyName"], policy_version["versionId"]),
+                    resource_name="{}:v{}".format(policy["policyName"], policy_version["versionId"]),
                     resource_arn=policy["policyArn"],
                     policy_document=get_policy_version_response["policyDocument"],
                     policy_type="IDENTITY_POLICY",
