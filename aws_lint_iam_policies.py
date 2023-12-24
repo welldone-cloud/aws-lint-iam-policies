@@ -60,6 +60,7 @@ POLICY_TYPES_AND_REGIONS = {
     iam_role_inline_policies: REGION_US_EAST_1,
     iam_role_trust_policies: REGION_US_EAST_1,
     iam_user_inline_policies: REGION_US_EAST_1,
+    iot_core_policies: REGION_ALL,
     kinesis_data_stream_consumer_policies: REGION_ALL,
     kinesis_data_stream_policies: REGION_ALL,
     kms_key_policies: REGION_ALL,

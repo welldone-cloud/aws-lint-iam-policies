@@ -25,6 +25,7 @@ __all__ = [
     "iam_role_inline_policies",
     "iam_role_trust_policies",
     "iam_user_inline_policies",
+    "iot_core_policies",
     "kinesis_data_stream_consumer_policies",
     "kinesis_data_stream_policies",
     "kms_key_policies",

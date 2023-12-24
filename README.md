@@ -68,6 +68,7 @@ The following IAM policy types are analyzed. A list of all AWS services that cur
 * IAM role inline policies
 * IAM role trust policies
 * IAM user inline policies
+* IoT core policies
 * Kinesis data stream consumer policies
 * Kinesis data stream policies
 * KMS key policies
