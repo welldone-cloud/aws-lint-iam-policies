@@ -215,7 +215,7 @@ def analyze_policy(
     # Dump the policy, if configured
     if dump_policies:
         # Some AWS resources may have multiple policies attached or use the same resource name (while having different
-        # ID values), so an index is put at the end of the file name to handle collisions
+        # ID values). An index is put at the end of the file name to account for these collisions.
         index = 0
         while True:
             file_name = "".join(

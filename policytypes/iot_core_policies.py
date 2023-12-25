@@ -14,6 +14,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                     policyVersionId=policy_version["versionId"],
                 )
 
+                # Uses policy_type="IDENTITY_POLICY", as IoT core policies don't have a Principal element
                 policy_analysis_function(
                     account_id=account_id,
                     region=region,
