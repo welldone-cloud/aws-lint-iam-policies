@@ -48,6 +48,7 @@
                 "iam:ListGroupPolicies",
                 "iam:ListGroups",
                 "iam:ListPolicies",
+                "iam:ListPolicyVersions",
                 "iam:ListRolePolicies",
                 "iam:ListRoles",
                 "iam:ListUserPolicies",
