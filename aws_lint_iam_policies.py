@@ -461,7 +461,7 @@ if __name__ == "__main__":
     }
 
     # Prepare results directory
-    results_directory = os.path.join(os.path.relpath(os.path.dirname(__file__)), "results")
+    results_directory = os.path.join(os.path.relpath(os.path.dirname(__file__) or "."), "results")
     try:
         os.mkdir(results_directory)
     except FileExistsError:
