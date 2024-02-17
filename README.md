@@ -196,4 +196,3 @@ Linting results are written to a JSON file. Findings are grouped once by account
 If this script does not quite fulfill your needs, consider looking at the following projects that offer similar functionality:
 * https://github.com/duo-labs/parliament
 * https://github.com/sjakthol/aws-access-analyzer-validator
-* https://github.com/salesforce/cloudsplaining
