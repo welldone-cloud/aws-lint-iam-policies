@@ -84,6 +84,7 @@ The following IAM policy types are analyzed. A list of all AWS services that cur
 * Rekognition custom labels project policies
 * S3 access point policies
 * S3 bucket policies
+* S3 directory bucket policies
 * S3 multi-region access point policies
 * S3 object Lambda access point policies
 * Secrets manager secret policies

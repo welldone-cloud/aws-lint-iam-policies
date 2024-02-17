@@ -76,6 +76,7 @@ POLICY_TYPES_AND_REGIONS = {
     rekognition_custom_labels_project_policies: REGION_ALL,
     s3_access_point_policies: REGION_ALL,
     s3_bucket_policies: REGION_ALL,
+    s3_directory_bucket_policies: REGION_ALL,
     s3_multi_region_access_point_policies: REGION_US_WEST_2,
     s3_object_lambda_access_point_policies: REGION_ALL,
     secrets_manager_secret_policies: REGION_ALL,
@@ -336,7 +337,7 @@ def analyze_organization():
                         "Error for account ID {}: cannot assume specified member accounts role".format(account_id)
                     )
                     continue
-                account_session = boto3.session.Session(
+                account_session = boto3.Session(
                     aws_access_key_id=assume_role_response["Credentials"]["AccessKeyId"],
                     aws_secret_access_key=assume_role_response["Credentials"]["SecretAccessKey"],
                     aws_session_token=assume_role_response["Credentials"]["SessionToken"],
@@ -430,7 +431,7 @@ if __name__ == "__main__":
     dump_policies = args.dump_policies
     profile = args.profile[0] if args.profile else None
 
-    boto_session = boto3.session.Session(profile_name=profile)
+    boto_session = boto3.Session(profile_name=profile)
 
     # Test for valid credentials
     sts_client = boto_session.client(

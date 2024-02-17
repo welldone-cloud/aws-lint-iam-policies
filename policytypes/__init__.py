@@ -41,6 +41,7 @@ __all__ = [
     "rekognition_custom_labels_project_policies",
     "s3_access_point_policies",
     "s3_bucket_policies",
+    "s3_directory_bucket_policies",
     "s3_multi_region_access_point_policies",
     "s3_object_lambda_access_point_policies",
     "secrets_manager_secret_policies",

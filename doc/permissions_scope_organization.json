@@ -96,6 +96,8 @@
                 "s3:ListAccessPointsForObjectLambda",
                 "s3:ListAllMyBuckets",
                 "s3:ListMultiRegionAccessPoints",
+                "s3express:GetBucketPolicy",
+                "s3express:ListAllMyDirectoryBuckets",
                 "schemas:GetResourcePolicy",
                 "schemas:ListRegistries",
                 "secretsmanager:GetResourcePolicy",
