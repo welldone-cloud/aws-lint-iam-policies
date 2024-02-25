@@ -109,6 +109,8 @@
                 "sns:ListTopics",
                 "sqs:GetQueueAttributes",
                 "sqs:ListQueues",
+                "ssm:DescribeParameters",
+                "ssm:GetResourcePolicies",
                 "ssm-contacts:GetContactPolicy",
                 "ssm-contacts:ListContacts",
                 "ssm-incidents:GetResourcePolicies",

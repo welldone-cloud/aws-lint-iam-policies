@@ -50,5 +50,6 @@ __all__ = [
     "sqs_queue_policies",
     "ssm_incident_manager_contact_policies",
     "ssm_incident_manager_response_plan_policies",
+    "ssm_parameter_store_parameter_policies",
     "vpc_endpoint_policies",
 ]

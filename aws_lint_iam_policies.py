@@ -7,6 +7,7 @@ import concurrent.futures
 import datetime
 import json
 import os
+import pkg_resources
 import re
 import string
 import sys
@@ -85,6 +86,7 @@ POLICY_TYPES_AND_REGIONS = {
     sqs_queue_policies: REGION_ALL,
     ssm_incident_manager_contact_policies: REGION_ALL,
     ssm_incident_manager_response_plan_policies: REGION_ALL,
+    ssm_parameter_store_parameter_policies: REGION_ALL,
     vpc_endpoint_policies: REGION_ALL,
 }
 
@@ -353,6 +355,13 @@ if __name__ == "__main__":
     if sys.version_info[0] < 3:
         print("Python version 3 required")
         sys.exit(1)
+    with open("requirements.txt") as requirements_file:
+        try:
+            for requirement in requirements_file:
+                pkg_resources.require(requirement)
+        except:
+            print("Unfulfilled requirement: {}".format(requirement.strip()))
+            sys.exit(1)
 
     # Define arguments
     parser = argparse.ArgumentParser()
