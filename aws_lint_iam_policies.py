@@ -357,10 +357,10 @@ if __name__ == "__main__":
         sys.exit(1)
     with open("requirements.txt") as requirements_file:
         try:
-            for requirement in requirements_file:
-                pkg_resources.require(requirement)
-        except:
-            print("Unfulfilled requirement: {}".format(requirement.strip()))
+            for package in requirements_file.read().splitlines():
+                pkg_resources.require(package)
+        except (pkg_resources.ResolutionError, pkg_resources.ExtractionError):
+            print("Unfulfilled requirement: {}".format(package))
             sys.exit(1)
 
     # Define arguments
