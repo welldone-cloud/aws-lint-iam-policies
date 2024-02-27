@@ -93,6 +93,7 @@ The following IAM policy types are analyzed:
 * SQS queue policies
 * SSM Incident Manager contact policies
 * SSM Incident Manager response plan policies
+* SSM OpsCenter OpsItemGroup resource policies
 * SSM Parameter Store parameter policies
 * VPC endpoint policies
 

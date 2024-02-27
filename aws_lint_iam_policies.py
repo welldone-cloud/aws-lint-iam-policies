@@ -86,6 +86,7 @@ POLICY_TYPES_AND_REGIONS = {
     sqs_queue_policies: REGION_ALL,
     ssm_incident_manager_contact_policies: REGION_ALL,
     ssm_incident_manager_response_plan_policies: REGION_ALL,
+    ssm_opscenter_opsitemgroup_resource_policies: REGION_ALL,
     ssm_parameter_store_parameter_policies: REGION_ALL,
     vpc_endpoint_policies: REGION_ALL,
 }
