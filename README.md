@@ -18,9 +18,9 @@ variables](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvar
 profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html) in the optional `--profile` 
 argument.
 
-* If your are using `--scope ACCOUNT`, you require at least [these permissions](doc/permissions_scope_account.json). 
+* If your are running the checks against a single AWS account (`--scope ACCOUNT`), you require at least [these permissions](doc/permissions_scope_account.json). 
 
-* If you are using `--scope ORGANIZATION`, you must use credentials that belong to the Organizations management account and have at least [these permissions](doc/permissions_scope_organization.json) (take care to adapt the IAM role name). The Organizations member accounts need to have an IAM role configured that can be assumed from the Organizations management account. In many cases, there is the default `OrganizationAccountAccessRole` available. If you are instead using custom roles within the Organizations member accounts, they require at least [these permissions](doc/permissions_scope_account.json). 
+* If you are running the checks against an AWS Organization (`--scope ORGANIZATION`), you must use credentials that belong to the Organizations management account and have at least [these permissions](doc/permissions_scope_organization.json) (take care to adapt the IAM role name). The Organizations member accounts need to have an IAM role configured that can be assumed from the Organizations management account. In many cases, there is the default `OrganizationAccountAccessRole` available. If you are instead using custom roles within the Organizations member accounts, they require at least [these permissions](doc/permissions_scope_account.json). 
 
 
 
@@ -188,7 +188,7 @@ Linting results are written to a JSON file. Findings are grouped once by account
 
 * Analysis of a policy via AWS IAM Access Analyzer is conducted in the same AWS account and region where the policy is stored. This means that your policy information is not transferred to another region that you are not already using.
 
-* Using a delegated administrator account for AWS Organizations is not supported at the moment.
+* Using a delegated administrator account for AWS Organizations is not supported.
 
 * The script can only lint policies that are using the AWS IAM policy language. It is not capable of linting other policy languages, such as Cedar policies (as used in AWS Verified Access and AWS Verified Permissions, for example).
 
