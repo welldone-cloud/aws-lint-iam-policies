@@ -40,6 +40,7 @@ POLICY_TYPES_AND_REGIONS = {
     api_gateway_rest_api_policies: REGION_ALL,
     backup_vault_policies: REGION_ALL,
     cloudtrail_channel_policies: REGION_ALL,
+    cloudwatch_logs_delivery_destination_policies: REGION_ALL,
     cloudwatch_logs_destination_policies: REGION_ALL,
     cloudwatch_logs_resource_policies: REGION_ALL,
     codeartifact_domain_policies: REGION_ALL,

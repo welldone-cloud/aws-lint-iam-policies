@@ -47,6 +47,7 @@ The following IAM policy types are analyzed:
 * API Gateway REST API policies
 * Backup vault policies
 * CloudTrail channel policies
+* CloudWatch Logs delivery destination policies
 * CloudWatch Logs destination policies
 * CloudWatch Logs resource policies
 * CodeArtifact domain policies

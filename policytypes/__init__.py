@@ -4,6 +4,7 @@ __all__ = [
     "api_gateway_rest_api_policies",
     "backup_vault_policies",
     "cloudtrail_channel_policies",
+    "cloudwatch_logs_delivery_destination_policies",
     "cloudwatch_logs_destination_policies",
     "cloudwatch_logs_resource_policies",
     "codeartifact_domain_policies",
