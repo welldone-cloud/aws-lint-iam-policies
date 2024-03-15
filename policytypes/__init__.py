@@ -38,6 +38,7 @@ __all__ = [
     "opensearch_domain_policies",
     "organizations_delegation_policies",
     "organizations_service_control_policies",
+    "ram_customer_managed_permissions",
     "redshift_serverless_snapshot_policies",
     "rekognition_custom_labels_project_policies",
     "s3_access_point_policies",

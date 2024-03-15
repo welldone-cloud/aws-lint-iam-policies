@@ -74,6 +74,7 @@ POLICY_TYPES_AND_REGIONS = {
     opensearch_domain_policies: REGION_ALL,
     organizations_delegation_policies: REGION_US_EAST_1,
     organizations_service_control_policies: REGION_US_EAST_1,
+    ram_customer_managed_permissions: REGION_ALL,
     redshift_serverless_snapshot_policies: REGION_ALL,
     rekognition_custom_labels_project_policies: REGION_ALL,
     s3_access_point_policies: REGION_ALL,
@@ -173,6 +174,7 @@ def analyze_policy(
     policy_document,
     policy_type,
     policy_resource_type=None,
+    ignore_finding_issue_codes=[],
 ):
     # Send policy through Access Analyzer validation
     access_analyzer_client = get_access_analyzer_client(boto_session, region)
@@ -188,6 +190,10 @@ def analyze_policy(
     # Add any Access Analyzer findings to the result collection
     for findings_page in findings_paginator.paginate(**call_parameters):
         for finding in findings_page["findings"]:
+            # Skip if this finding issue code should not be reported
+            if finding["issueCode"] in ignore_finding_issue_codes:
+                continue
+
             result_summary = {
                 "account_id": account_id,
                 "region": region,

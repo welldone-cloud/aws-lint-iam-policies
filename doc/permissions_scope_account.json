@@ -74,6 +74,8 @@
                 "organizations:DescribeOrganization",
                 "organizations:ListPolicies",
                 "organizations:ListRoots",
+                "ram:GetPermission",
+                "ram:ListPermissions",
                 "redshift-serverless:GetResourcePolicy",
                 "redshift-serverless:ListSnapshots",
                 "refactor-spaces:GetResourcePolicy",
