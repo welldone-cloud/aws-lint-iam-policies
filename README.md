@@ -83,6 +83,7 @@ The following IAM policy types are analyzed:
 * CodeArtifact repository policies
 * CodeBuild build project policies
 * CodeBuild report group policies
+* DynamoDB stream policies
 * DynamoDB table policies
 * ECR private registry policies
 * ECR private repository policies

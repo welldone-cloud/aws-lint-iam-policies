@@ -47,6 +47,7 @@ POLICY_TYPES_AND_REGIONS = {
     codeartifact_repository_policies: REGION_ALL,
     codebuild_build_project_policies: REGION_ALL,
     codebuild_report_group_policies: REGION_ALL,
+    dynamodb_stream_policies: REGION_ALL,
     dynamodb_table_policies: REGION_ALL,
     ecr_private_registry_policies: REGION_ALL,
     ecr_private_repository_policies: REGION_ALL,
