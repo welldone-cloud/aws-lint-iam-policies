@@ -204,7 +204,6 @@ def analyze_policy(
                 "resource_type": resource_type,
                 "resource_name": resource_name,
                 "resource_arn": resource_arn,
-                "policy_type": policy_type,
                 "finding_type": finding["findingType"],
                 "finding_issue_code": finding["issueCode"],
                 "finding_description": finding["findingDetails"],
