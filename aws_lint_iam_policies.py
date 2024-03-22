@@ -31,7 +31,7 @@ REGION_US_EAST_1 = "us-east-1"
 
 REGION_US_WEST_2 = "us-west-2"
 
-SCOPE = Enum("SCOPE", ["ACCOUNT", "ORGANIZATION"])
+SCOPE = Enum("SCOPE", ["ACCOUNT", "ORGANIZATION", "NONE"])
 
 VALID_FILE_NAME_CHARACTERS = string.ascii_letters + string.digits + "_+=,.@-"
 
@@ -117,6 +117,10 @@ def get_scope():
             return SCOPE.ORGANIZATION
 
 
+def get_policy_type_names():
+    return [policy_type.__name__.split(".")[1] for policy_type in POLICY_TYPES_AND_REGIONS]
+
+
 def parse_member_accounts_role(val):
     if get_scope() == SCOPE.ACCOUNT:
         raise argparse.ArgumentTypeError("Invalid option for scope {}".format(SCOPE.ACCOUNT.name))
@@ -125,7 +129,7 @@ def parse_member_accounts_role(val):
     return val
 
 
-def parse_exclude_accounts(val):
+def parse_accounts(val):
     if get_scope() == SCOPE.ACCOUNT:
         raise argparse.ArgumentTypeError("Invalid option for scope {}".format(SCOPE.ACCOUNT.name))
     for account in val.split(","):
@@ -134,14 +138,14 @@ def parse_exclude_accounts(val):
     return val
 
 
-def parse_exclude_regions(val):
+def parse_regions(val):
     for region in val.split(","):
         if region and not AWS_REGION_NAME_PATTERN.match(region):
             raise argparse.ArgumentTypeError("Invalid region name format")
     return val
 
 
-def parse_exclude_ous(val):
+def parse_ous(val):
     if get_scope() == SCOPE.ACCOUNT:
         raise argparse.ArgumentTypeError("Invalid option for scope {}".format(SCOPE.ACCOUNT.name))
     for ou in val.split(","):
@@ -150,11 +154,9 @@ def parse_exclude_ous(val):
     return val
 
 
-def parse_exclude_policy_types(val):
-    for exclude_type in val.split(","):
-        if exclude_type and exclude_type not in [
-            policy_type.__name__.split(".")[1] for policy_type in POLICY_TYPES_AND_REGIONS
-        ]:
+def parse_policy_types(val):
+    for policy_type_name in val.split(","):
+        if policy_type_name and policy_type_name not in get_policy_type_names():
             raise argparse.ArgumentTypeError("Unrecognized policy type name")
     return val
 
@@ -242,26 +244,28 @@ def analyze_policy(
 
 
 def analyze_account(account_id, boto_session):
-    # Get all regions enabled in the account and not excluded by configuration
+    # Get all regions enabled in the account and match with provided region restriction arguments
     ec2_client = boto_session.client("ec2", config=BOTO_CLIENT_CONFIG, region_name=REGION_US_EAST_1)
     try:
         describe_regions_response = ec2_client.describe_regions(AllRegions=False)
     except botocore.exceptions.ClientError:
         log_error("Error for account ID {}: cannot fetch enabled regions".format(account_id))
         return
-    target_regions = [
-        region["RegionName"]
-        for region in describe_regions_response["Regions"]
-        if region["RegionName"] not in exclude_regions
-    ]
+    target_regions = []
+    for region in describe_regions_response["Regions"]:
+        region_name = region["RegionName"]
+        if region_name not in exclude_regions and (not include_regions or region_name in include_regions):
+            target_regions.append(region_name)
 
-    # Iterate all policy types and target regions and trigger analysis for applicable combinations
+    # Iterate all policy types and target regions and trigger analysis for enabled and applicable combinations
     print("Analyzing account ID {}".format(account_id))
     with concurrent.futures.ThreadPoolExecutor() as executor:
         futures = {}
         for policy_type in POLICY_TYPES_AND_REGIONS:
             policy_type_name = policy_type.__name__.split(".")[1]
-            if policy_type_name in exclude_policy_types:
+            if policy_type_name in exclude_policy_types or (
+                include_policy_types and policy_type_name not in include_policy_types
+            ):
                 continue
 
             policy_type_applies_to_region = POLICY_TYPES_AND_REGIONS[policy_type]
@@ -279,8 +283,12 @@ def analyze_account(account_id, boto_session):
                 future_params["policy_type_name"] = policy_type_name
                 futures[future] = future_params
 
-        # Process any errors that occurred
+        # Show status and process any errors that occurred
+        futures_completed = 0
         for future in concurrent.futures.as_completed(futures.keys()):
+            futures_completed += 1
+            print("{}%".format(int(futures_completed * 100 / len(futures))), end="\r")
+
             try:
                 future.result()
             except botocore.exceptions.EndpointConnectionError:
@@ -324,14 +332,20 @@ def analyze_organization():
         for account in accounts_page["Accounts"]:
             account_id = account["Id"]
 
-            # Skip account when configured to do so or when it is not active
-            if account_id in exclude_accounts:
+            # Skip accounts that should not be targeted because of include or exclude arguments
+            if account_id in exclude_accounts or (include_accounts and account_id not in include_accounts):
                 continue
-            elif exclude_ous and any(
+            if exclude_ous and any(
                 ou in exclude_ous for ou in get_organizations_parents(organizations_client, account_id)
             ):
                 continue
-            elif account["Status"] != "ACTIVE":
+            if include_ous and all(
+                ou not in include_ous for ou in get_organizations_parents(organizations_client, account_id)
+            ):
+                continue
+
+            # Skip accounts that are not active
+            if account["Status"] != "ACTIVE":
                 log_error("Error for account ID {}: account status is not active".format(account_id))
                 continue
 
@@ -374,8 +388,15 @@ if __name__ == "__main__":
     # Define arguments
     parser = argparse.ArgumentParser()
     parser.add_argument(
+        "--list-policy-types",
+        required=False,
+        default=False,
+        action="store_true",
+        help="list all supported policy types and exit",
+    )
+    parser.add_argument(
         "--scope",
-        required=True,
+        required="--list-policy-types" not in sys.argv,
         choices=[SCOPE.ACCOUNT.name, SCOPE.ORGANIZATION.name],
         nargs=1,
         help="target either an individual account or all accounts of an AWS Organization",
@@ -391,29 +412,57 @@ if __name__ == "__main__":
         "--exclude-accounts",
         required=False,
         nargs=1,
-        type=parse_exclude_accounts,
-        help="comma-separated list of account IDs that should be skipped",
+        type=parse_accounts,
+        help="do not target the specified comma-separated list of account IDs",
+    )
+    parser.add_argument(
+        "--include-accounts",
+        required=False,
+        nargs=1,
+        type=parse_accounts,
+        help="only target the specified comma-separated list of account IDs",
     )
     parser.add_argument(
         "--exclude-regions",
         required=False,
         nargs=1,
-        type=parse_exclude_regions,
-        help="comma-separated list of region names that should be skipped",
+        type=parse_regions,
+        help="do not target the specified comma-separated list of region names",
+    )
+    parser.add_argument(
+        "--include-regions",
+        required=False,
+        nargs=1,
+        type=parse_regions,
+        help="only target the specified comma-separated list of region names",
     )
     parser.add_argument(
         "--exclude-ous",
         required=False,
         nargs=1,
-        type=parse_exclude_ous,
-        help="comma-separated list of Organizations OU IDs that should be skipped",
+        type=parse_ous,
+        help="do not target the specified comma-separated list of Organizations OU IDs",
+    )
+    parser.add_argument(
+        "--include-ous",
+        required=False,
+        nargs=1,
+        type=parse_ous,
+        help="only target the specified comma-separated list of Organizations OU IDs",
     )
     parser.add_argument(
         "--exclude-policy-types",
         required=False,
         nargs=1,
-        type=parse_exclude_policy_types,
-        help="comma-separated list of policy type names that should be skipped",
+        type=parse_policy_types,
+        help="do not target the specified comma-separated list of policy types",
+    )
+    parser.add_argument(
+        "--include-policy-types",
+        required=False,
+        nargs=1,
+        type=parse_policy_types,
+        help="only target the specified comma-separated list of policy types",
     )
     parser.add_argument(
         "--dump-policies",
@@ -426,31 +475,32 @@ if __name__ == "__main__":
 
     # Parse arguments
     args = parser.parse_args()
-    scope = SCOPE[args.scope[0]]
-    if args.member_accounts_role:
-        member_accounts_role = args.member_accounts_role[0]
-    if args.exclude_accounts:
-        exclude_accounts = [val for val in args.exclude_accounts[0].split(",") if val]
-    else:
-        exclude_accounts = []
-    if args.exclude_regions:
-        exclude_regions = [val for val in args.exclude_regions[0].split(",") if val]
-    else:
-        exclude_regions = []
-    if args.exclude_ous:
-        exclude_ous = [val for val in args.exclude_ous[0].split(",") if val]
-    else:
-        exclude_ous = []
-    if args.exclude_policy_types:
-        exclude_policy_types = [val for val in args.exclude_policy_types[0].split(",") if val]
-    else:
-        exclude_policy_types = []
+    list_policy_types = args.list_policy_types
+    scope = SCOPE[args.scope[0]] if args.scope else SCOPE.NONE
+    member_accounts_role = args.member_accounts_role[0] if args.member_accounts_role else None
+    exclude_accounts = [val for val in args.exclude_accounts[0].split(",") if val] if args.exclude_accounts else []
+    include_accounts = [val for val in args.include_accounts[0].split(",") if val] if args.include_accounts else []
+    exclude_regions = [val for val in args.exclude_regions[0].split(",") if val] if args.exclude_regions else []
+    include_regions = [val for val in args.include_regions[0].split(",") if val] if args.include_regions else []
+    exclude_ous = [val for val in args.exclude_ous[0].split(",") if val] if args.exclude_ous else []
+    include_ous = [val for val in args.include_ous[0].split(",") if val] if args.include_ous else []
+    exclude_policy_types = (
+        [val for val in args.exclude_policy_types[0].split(",") if val] if args.exclude_policy_types else []
+    )
+    include_policy_types = (
+        [val for val in args.include_policy_types[0].split(",") if val] if args.include_policy_types else []
+    )
     dump_policies = args.dump_policies
     profile = args.profile[0] if args.profile else None
 
-    boto_session = boto3.Session(profile_name=profile)
+    # List policy types and exit, if configured
+    if list_policy_types:
+        for policy_type_name in sorted(get_policy_type_names()):
+            print(policy_type_name)
+        sys.exit(0)
 
     # Test for valid credentials
+    boto_session = boto3.Session(profile_name=profile)
     sts_client = boto_session.client(
         "sts",
         config=BOTO_CLIENT_CONFIG,

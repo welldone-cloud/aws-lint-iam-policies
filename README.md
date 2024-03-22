@@ -20,22 +20,51 @@ argument.
 
 * If your are running the checks against a single AWS account (`--scope ACCOUNT`), you require at least [these permissions](doc/permissions_scope_account.json). 
 
-* If you are running the checks against an AWS Organization (`--scope ORGANIZATION`), you must use credentials that belong to the Organizations management account and have at least [these permissions](doc/permissions_scope_organization.json) (take care to adapt the IAM role name). The Organizations member accounts need to have an IAM role configured that can be assumed from the Organizations management account. In many cases, there is the default `OrganizationAccountAccessRole` available. If you are instead using custom roles within the Organizations member accounts, they require at least [these permissions](doc/permissions_scope_account.json). 
+* If you are running the checks against all accounts of an AWS Organization (`--scope ORGANIZATION`), you must use credentials that belong to the Organizations management account and have at least [these permissions](doc/permissions_scope_organization.json). The Organizations member accounts need to have an IAM role configured that can be assumed from the Organizations management account. In many cases, there is the default `OrganizationAccountAccessRole` available. If you are instead using custom roles within the Organizations member accounts, they require at least [these permissions](doc/permissions_scope_account.json). 
 
-
+By default, all supported policy types and all regions are analyzed in the targeted AWS account(s). See the list of supported arguments below, in case you want to reduce coverage.
 
 #### Example invocations:
 
 ```bash
 pip install -r requirements.txt
 
-python aws_lint_iam_policies.py --scope ACCOUNT
-
 python aws_lint_iam_policies.py --scope ACCOUNT --dump-policies
 
 python aws_lint_iam_policies.py --scope ORGANIZATION --member-accounts-role OrganizationAccountAccessRole
 
-python aws_lint_iam_policies.py --scope ORGANIZATION --member-accounts-role OrganizationAccountAccessRole --exclude-accounts 112233445566,998877665544 --exclude-ous ou-lodr-r0rbg49t --exclude-policy-types lambda_function_policies
+python aws_lint_iam_policies.py --scope ORGANIZATION --member-accounts-role OrganizationAccountAccessRole --exclude-accounts 112233445566,998877665544 --include-policy-types lambda_function_policies,s3_bucket_policies
+```
+
+
+## Supported arguments
+```
+--list-policy-types
+    list all supported policy types and exit
+--scope {ACCOUNT,ORGANIZATION}
+    target either an individual account or all accounts of an AWS Organization
+--member-accounts-role MEMBER_ACCOUNTS_ROLE
+    IAM role name present in member accounts that can be assumed from the Organizations management account
+--exclude-accounts EXCLUDE_ACCOUNTS
+    do not target the specified comma-separated list of account IDs
+--include-accounts INCLUDE_ACCOUNTS
+    only target the specified comma-separated list of account IDs
+--exclude-regions EXCLUDE_REGIONS
+    do not target the specified comma-separated list of region names
+--include-regions INCLUDE_REGIONS
+    only target the specified comma-separated list of region names
+--exclude-ous EXCLUDE_OUS
+    do not target the specified comma-separated list of Organizations OU IDs
+--include-ous INCLUDE_OUS
+    only target the specified comma-separated list of Organizations OU IDs
+--exclude-policy-types EXCLUDE_POLICY_TYPES
+    do not target the specified comma-separated list of policy types
+--include-policy-types INCLUDE_POLICY_TYPES
+    only target the specified comma-separated list of policy types
+--dump-policies       
+    store a copy of all policies analyzed
+--profile PROFILE
+    named AWS profile to use
 ```
 
 
