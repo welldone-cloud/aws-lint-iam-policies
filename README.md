@@ -24,7 +24,7 @@ argument.
 
 By default, all supported policy types and all regions are analyzed in the targeted AWS account(s). See the list of supported arguments below, in case you want to reduce coverage.
 
-#### Example invocations:
+Example invocations:
 
 ```bash
 pip install -r requirements.txt
@@ -83,6 +83,7 @@ The following IAM policy types are analyzed:
 * CodeArtifact repository policies
 * CodeBuild build project policies
 * CodeBuild report group policies
+* DynamoDB table policies
 * ECR private registry policies
 * ECR private repository policies
 * ECR public repository policies
