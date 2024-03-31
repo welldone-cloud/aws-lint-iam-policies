@@ -45,23 +45,23 @@ python aws_lint_iam_policies.py --scope ORGANIZATION --member-accounts-role Orga
     target either an individual account or all accounts of an AWS Organization
 --member-accounts-role MEMBER_ACCOUNTS_ROLE
     IAM role name present in member accounts that can be assumed from the Organizations management account
---exclude-accounts EXCLUDE_ACCOUNTS
-    do not target the specified comma-separated list of account IDs
---include-accounts INCLUDE_ACCOUNTS
-    only target the specified comma-separated list of account IDs
---exclude-regions EXCLUDE_REGIONS
-    do not target the specified comma-separated list of region names
---include-regions INCLUDE_REGIONS
-    only target the specified comma-separated list of region names
---exclude-ous EXCLUDE_OUS
-    do not target the specified comma-separated list of Organizations OU IDs
---include-ous INCLUDE_OUS
-    only target the specified comma-separated list of Organizations OU IDs
 --exclude-policy-types EXCLUDE_POLICY_TYPES
     do not target the specified comma-separated list of policy types
 --include-policy-types INCLUDE_POLICY_TYPES
     only target the specified comma-separated list of policy types
---dump-policies       
+--exclude-regions EXCLUDE_REGIONS
+    do not target the specified comma-separated list of region names
+--include-regions INCLUDE_REGIONS
+    only target the specified comma-separated list of region names
+--exclude-accounts EXCLUDE_ACCOUNTS
+    do not target the specified comma-separated list of account IDs
+--include-accounts INCLUDE_ACCOUNTS
+    only target the specified comma-separated list of account IDs
+--exclude-ous EXCLUDE_OUS
+    do not target the specified comma-separated list of Organizations OU IDs
+--include-ous INCLUDE_OUS
+    only target the specified comma-separated list of Organizations OU IDs
+--dump-policies
     store a copy of all policies analyzed
 --profile PROFILE
     named AWS profile to use

@@ -131,12 +131,10 @@ def parse_member_accounts_role(val):
     return val
 
 
-def parse_accounts(val):
-    if get_scope() == SCOPE.ACCOUNT:
-        raise argparse.ArgumentTypeError("Invalid option for scope {}".format(SCOPE.ACCOUNT.name))
-    for account in val.split(","):
-        if account and not AWS_ACCOUNT_ID_PATTERN.match(account):
-            raise argparse.ArgumentTypeError("Invalid account ID format")
+def parse_policy_types(val):
+    for policy_type_name in val.split(","):
+        if policy_type_name and policy_type_name not in get_policy_type_names():
+            raise argparse.ArgumentTypeError("Unrecognized policy type name")
     return val
 
 
@@ -147,19 +145,21 @@ def parse_regions(val):
     return val
 
 
+def parse_accounts(val):
+    if get_scope() == SCOPE.ACCOUNT:
+        raise argparse.ArgumentTypeError("Invalid option for scope {}".format(SCOPE.ACCOUNT.name))
+    for account in val.split(","):
+        if account and not AWS_ACCOUNT_ID_PATTERN.match(account):
+            raise argparse.ArgumentTypeError("Invalid account ID format")
+    return val
+
+
 def parse_ous(val):
     if get_scope() == SCOPE.ACCOUNT:
         raise argparse.ArgumentTypeError("Invalid option for scope {}".format(SCOPE.ACCOUNT.name))
     for ou in val.split(","):
         if ou and not ou.startswith("ou-"):
             raise argparse.ArgumentTypeError("Invalid OU ID format")
-    return val
-
-
-def parse_policy_types(val):
-    for policy_type_name in val.split(","):
-        if policy_type_name and policy_type_name not in get_policy_type_names():
-            raise argparse.ArgumentTypeError("Unrecognized policy type name")
     return val
 
 
@@ -410,18 +410,18 @@ if __name__ == "__main__":
         help="IAM role name present in member accounts that can be assumed from the Organizations management account",
     )
     parser.add_argument(
-        "--exclude-accounts",
+        "--exclude-policy-types",
         required=False,
         nargs=1,
-        type=parse_accounts,
-        help="do not target the specified comma-separated list of account IDs",
+        type=parse_policy_types,
+        help="do not target the specified comma-separated list of policy types",
     )
     parser.add_argument(
-        "--include-accounts",
+        "--include-policy-types",
         required=False,
         nargs=1,
-        type=parse_accounts,
-        help="only target the specified comma-separated list of account IDs",
+        type=parse_policy_types,
+        help="only target the specified comma-separated list of policy types",
     )
     parser.add_argument(
         "--exclude-regions",
@@ -438,6 +438,20 @@ if __name__ == "__main__":
         help="only target the specified comma-separated list of region names",
     )
     parser.add_argument(
+        "--exclude-accounts",
+        required=False,
+        nargs=1,
+        type=parse_accounts,
+        help="do not target the specified comma-separated list of account IDs",
+    )
+    parser.add_argument(
+        "--include-accounts",
+        required=False,
+        nargs=1,
+        type=parse_accounts,
+        help="only target the specified comma-separated list of account IDs",
+    )
+    parser.add_argument(
         "--exclude-ous",
         required=False,
         nargs=1,
@@ -450,20 +464,6 @@ if __name__ == "__main__":
         nargs=1,
         type=parse_ous,
         help="only target the specified comma-separated list of Organizations OU IDs",
-    )
-    parser.add_argument(
-        "--exclude-policy-types",
-        required=False,
-        nargs=1,
-        type=parse_policy_types,
-        help="do not target the specified comma-separated list of policy types",
-    )
-    parser.add_argument(
-        "--include-policy-types",
-        required=False,
-        nargs=1,
-        type=parse_policy_types,
-        help="only target the specified comma-separated list of policy types",
     )
     parser.add_argument(
         "--dump-policies",
@@ -479,18 +479,18 @@ if __name__ == "__main__":
     list_policy_types = args.list_policy_types
     scope = SCOPE[args.scope[0]] if args.scope else SCOPE.NONE
     member_accounts_role = args.member_accounts_role[0] if args.member_accounts_role else None
-    exclude_accounts = [val for val in args.exclude_accounts[0].split(",") if val] if args.exclude_accounts else []
-    include_accounts = [val for val in args.include_accounts[0].split(",") if val] if args.include_accounts else []
-    exclude_regions = [val for val in args.exclude_regions[0].split(",") if val] if args.exclude_regions else []
-    include_regions = [val for val in args.include_regions[0].split(",") if val] if args.include_regions else []
-    exclude_ous = [val for val in args.exclude_ous[0].split(",") if val] if args.exclude_ous else []
-    include_ous = [val for val in args.include_ous[0].split(",") if val] if args.include_ous else []
     exclude_policy_types = (
         [val for val in args.exclude_policy_types[0].split(",") if val] if args.exclude_policy_types else []
     )
     include_policy_types = (
         [val for val in args.include_policy_types[0].split(",") if val] if args.include_policy_types else []
     )
+    exclude_regions = [val for val in args.exclude_regions[0].split(",") if val] if args.exclude_regions else []
+    include_regions = [val for val in args.include_regions[0].split(",") if val] if args.include_regions else []
+    exclude_accounts = [val for val in args.exclude_accounts[0].split(",") if val] if args.exclude_accounts else []
+    include_accounts = [val for val in args.include_accounts[0].split(",") if val] if args.include_accounts else []
+    exclude_ous = [val for val in args.exclude_ous[0].split(",") if val] if args.exclude_ous else []
+    include_ous = [val for val in args.include_ous[0].split(",") if val] if args.include_ous else []
     dump_policies = args.dump_policies
     profile = args.profile[0] if args.profile else None
 
