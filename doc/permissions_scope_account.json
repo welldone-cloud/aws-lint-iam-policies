@@ -8,6 +8,7 @@
                 "access-analyzer:ValidatePolicy",
                 "acm-pca:GetPolicy",
                 "acm-pca:ListCertificateAuthorities",
+                "appsync:GetResourcePolicy",
                 "backup:GetBackupVaultAccessPolicy",
                 "backup:ListBackupVaults",
                 "cloudtrail:GetResourcePolicy",
