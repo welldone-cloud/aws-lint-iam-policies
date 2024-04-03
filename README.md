@@ -74,7 +74,7 @@ The following IAM policy types are analyzed:
 
 * ACM private CA policies
 * API Gateway REST API policies
-* AppSync GraphQL API policies
+* AppSync GraphQL API policies (via RAM)
 * Backup vault policies
 * CloudTrail channel policies
 * CloudWatch Logs delivery destination policies
@@ -114,6 +114,7 @@ The following IAM policy types are analyzed:
 * Organizations delegation policies
 * Organizations service control policies
 * RAM customer managed permissions
+* RDS Aurora cluster policies (via RAM)
 * Redshift serverless snapshot policies
 * Rekognition custom labels project policies
 * S3 access point policies

@@ -78,6 +78,7 @@ POLICY_TYPES_AND_REGIONS = {
     organizations_delegation_policies: REGION_US_EAST_1,
     organizations_service_control_policies: REGION_US_EAST_1,
     ram_customer_managed_permissions: REGION_ALL,
+    rds_aurora_cluster_policies: REGION_ALL,
     redshift_serverless_snapshot_policies: REGION_ALL,
     rekognition_custom_labels_project_policies: REGION_ALL,
     s3_access_point_policies: REGION_ALL,
