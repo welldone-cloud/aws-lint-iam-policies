@@ -230,14 +230,15 @@ def analyze_policy(
 
     # Dump the policy, if configured
     if dump_policies:
-        # Some AWS resources may have multiple policies attached or use the same resource name (while having different
-        # ID values). An index is put at the end of the file name to account for these collisions.
+        # Some AWS resources may have multiple policies attached or use the same resource name. An index is put at
+        # the end of the file name to account for these collisions.
         index = 0
         while True:
             file_name = "".join(
                 char if char in VALID_FILE_NAME_CHARACTERS else "_"
                 for char in "{}_{}_{}_{}_{}.json".format(account_id, region, resource_type, resource_name, index)
             )
+            file_name = re.sub("_+", "_", file_name)
             dump_file = os.path.join(policy_dump_directory, file_name)
             if not os.path.isfile(dump_file):
                 break
