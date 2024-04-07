@@ -5,7 +5,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
     ram_client = boto_session.client("ram", config=boto_config, region_name=region)
     resources_paginator = ram_client.get_paginator("list_resources")
 
-    # Iterate all clusters
+    # Iterate resources via RAM
     try:
         for resource_page in resources_paginator.paginate(
             resourceType="rds:Cluster",
@@ -33,7 +33,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                             policy_type="RESOURCE_POLICY",
                         )
 
-    # Skip if the RAM resource type "rds:Cluster" is not supported in this region
+    # Skip if this RAM resource type is not supported in this region
     except ram_client.exceptions.from_code("InvalidParameterException") as ex:
         if "Invalid resource type" in ex.response["Error"]["Message"]:
             return
