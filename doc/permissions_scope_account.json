@@ -20,6 +20,7 @@
                 "codebuild:GetResourcePolicy",
                 "codebuild:ListProjects",
                 "codebuild:ListReportGroups",
+                "datazone:GetDomainSharingPolicy",
                 "dynamodb:DescribeTable",
                 "dynamodb:GetResourcePolicy",
                 "dynamodb:ListTables",

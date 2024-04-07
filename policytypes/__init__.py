@@ -12,6 +12,7 @@ __all__ = [
     "codeartifact_repository_policies",
     "codebuild_build_project_policies",
     "codebuild_report_group_policies",
+    "datazone_domain_policies",
     "dynamodb_stream_policies",
     "dynamodb_table_policies",
     "ecr_private_registry_policies",

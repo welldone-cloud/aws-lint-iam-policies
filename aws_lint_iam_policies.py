@@ -48,6 +48,7 @@ POLICY_TYPES_AND_REGIONS = {
     codeartifact_repository_policies: REGION_ALL,
     codebuild_build_project_policies: REGION_ALL,
     codebuild_report_group_policies: REGION_ALL,
+    datazone_domain_policies: REGION_ALL,
     dynamodb_stream_policies: REGION_ALL,
     dynamodb_table_policies: REGION_ALL,
     ecr_private_registry_policies: REGION_ALL,
@@ -301,11 +302,12 @@ def analyze_account(account_id, boto_session):
             except botocore.exceptions.ClientError as ex:
                 # Log expected errors such as a lack of permissions, regions/services denied by SCPs, etc.
                 log_error(
-                    "Error for account ID {}, region {}, policy type {}: {}".format(
+                    "Error for account ID {}, region {}, policy type {}: {} ({})".format(
                         account_id,
                         futures[future]["region"],
                         futures[future]["policy_type_name"],
                         ex.response["Error"]["Code"],
+                        ex.response["Error"]["Message"],
                     )
                 )
             except Exception as ex:
