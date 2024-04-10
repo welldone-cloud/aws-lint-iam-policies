@@ -183,6 +183,22 @@ def analyze_policy(
     policy_resource_type=None,
     ignore_finding_issue_codes=[],
 ):
+    # Dump the policy to a file. Some AWS resources may have multiple policies attached or use the same name. An index
+    # is thus put at the end of the file name to account for these collisions.
+    index = 0
+    while True:
+        dump_file_name = "".join(
+            char if char in VALID_FILE_NAME_CHARACTERS else "_"
+            for char in "{}_{}_{}_{}_{}.json".format(account_id, region, resource_type, resource_name, index)
+        )
+        dump_file_name = re.sub("_+", "_", dump_file_name)
+        dump_file_path = os.path.join(policy_dump_directory, dump_file_name)
+        if not os.path.isfile(dump_file_path):
+            break
+        index += 1
+    with open(dump_file_path, "w") as out_file:
+        json.dump(json.loads(policy_document), out_file, indent=2)
+
     # Send policy through Access Analyzer validation
     access_analyzer_client = get_access_analyzer_client(boto_session, region)
     findings_paginator = access_analyzer_client.get_paginator("validate_policy")
@@ -211,6 +227,7 @@ def analyze_policy(
                 "finding_issue_code": finding["issueCode"],
                 "finding_description": finding["findingDetails"],
                 "finding_link": finding["learnMoreLink"],
+                "policy_dump_file_name": dump_file_name,
             }
 
             # Add to results_grouped_by_account_id
@@ -228,24 +245,6 @@ def analyze_policy(
             result_collection["results_grouped_by_finding_category"][finding_type][finding_issue_code].append(
                 result_summary
             )
-
-    # Dump the policy, if configured
-    if dump_policies:
-        # Some AWS resources may have multiple policies attached or use the same resource name. An index is put at
-        # the end of the file name to account for these collisions.
-        index = 0
-        while True:
-            file_name = "".join(
-                char if char in VALID_FILE_NAME_CHARACTERS else "_"
-                for char in "{}_{}_{}_{}_{}.json".format(account_id, region, resource_type, resource_name, index)
-            )
-            file_name = re.sub("_+", "_", file_name)
-            dump_file = os.path.join(policy_dump_directory, file_name)
-            if not os.path.isfile(dump_file):
-                break
-            index += 1
-        with open(dump_file, "w") as out_file:
-            json.dump(json.loads(policy_document), out_file, indent=2)
 
 
 def analyze_account(account_id, boto_session):
@@ -470,13 +469,6 @@ if __name__ == "__main__":
         type=parse_ous,
         help="only target the specified comma-separated list of Organizations OU IDs",
     )
-    parser.add_argument(
-        "--dump-policies",
-        required=False,
-        default=False,
-        action="store_true",
-        help="store a copy of all policies analyzed",
-    )
     parser.add_argument("--profile", required=False, nargs=1, help="named AWS profile to use")
 
     # Parse arguments
@@ -496,7 +488,6 @@ if __name__ == "__main__":
     include_accounts = [val for val in args.include_accounts[0].split(",") if val] if args.include_accounts else []
     exclude_ous = [val for val in args.exclude_ous[0].split(",") if val] if args.exclude_ous else []
     include_ous = [val for val in args.include_ous[0].split(",") if val] if args.include_ous else []
-    dump_policies = args.dump_policies
     profile = args.profile[0] if args.profile else None
 
     # List policy types and exit, if configured
@@ -540,9 +531,8 @@ if __name__ == "__main__":
         os.mkdir(results_directory)
     except FileExistsError:
         pass
-    if dump_policies:
-        policy_dump_directory = os.path.join(results_directory, "policy_dump_{}".format(run_timestamp))
-        os.mkdir(policy_dump_directory)
+    policy_dump_directory = os.path.join(results_directory, "policy_dump_{}".format(run_timestamp))
+    os.mkdir(policy_dump_directory)
 
     # Analyze ORGANIZATION scope
     if scope == SCOPE.ORGANIZATION:
@@ -586,5 +576,4 @@ if __name__ == "__main__":
         json.dump(result_collection, out_file, indent=2)
 
     print("Result file written to {}".format(result_file))
-    if dump_policies:
-        print("Policy dump written to {}".format(policy_dump_directory))
+    print("Policy dump written to {}".format(policy_dump_directory))

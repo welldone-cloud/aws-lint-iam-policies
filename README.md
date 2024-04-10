@@ -1,6 +1,6 @@
 # aws-lint-iam-policies
 
-Runs IAM policy linting checks against either a single AWS account or all accounts of an AWS Organization. Reports on policies that violate security best practices or contain errors. Supports both identity-based and resource-based policies. Optionally dumps all policies analyzed. See the accompanying blog post 
+Runs IAM policy linting checks against either a single AWS account or all accounts of an AWS Organization. Dumps all supported identity-based and resource-based policies and reports on those that violate security best practices or contain errors. See the accompanying blog post 
 [here](https://medium.com/@michael.kirchner/linting-aws-iam-policies-e76b95859c93).
 
 The actual linting is performed by the [AWS IAM Access Analyzer policy validation feature](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-policy-validation.html), which is mostly known for showing recommendations when manually editing IAM policies on the AWS Console UI:
@@ -29,7 +29,7 @@ Example invocations:
 ```bash
 pip install -r requirements.txt
 
-python aws_lint_iam_policies.py --scope ACCOUNT --dump-policies
+python aws_lint_iam_policies.py --scope ACCOUNT
 
 python aws_lint_iam_policies.py --scope ORGANIZATION --member-accounts-role OrganizationAccountAccessRole
 
@@ -61,8 +61,6 @@ python aws_lint_iam_policies.py --scope ORGANIZATION --member-accounts-role Orga
     do not target the specified comma-separated list of Organizations OU IDs
 --include-ous INCLUDE_OUS
     only target the specified comma-separated list of Organizations OU IDs
---dump-policies
-    store a copy of all policies analyzed
 --profile PROFILE
     named AWS profile to use
 ```
@@ -160,7 +158,8 @@ Linting results are written to a JSON file. Findings are grouped once by account
         "finding_type": "SECURITY_WARNING",
         "finding_issue_code": "PASS_ROLE_WITH_STAR_IN_RESOURCE",
         "finding_description": "Using the iam:PassRole action with wildcards (*) in the resource can be overly permissive because it allows iam:PassRole permissions on multiple resources. We recommend that you specify resource ARNs or add the iam:PassedToService condition key to your statement.",
-        "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-security-warning-pass-role-with-star-in-resource"
+        "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-security-warning-pass-role-with-star-in-resource",
+        "policy_dump_file_name": "123456789012_us-east-1_AWS_IAM_UserPolicy_inlinepolicy_0.json"
       },
       {
         "account_id": "123456789012",
@@ -171,7 +170,8 @@ Linting results are written to a JSON file. Findings are grouped once by account
         "finding_type": "WARNING",
         "finding_issue_code": "MISSING_VERSION",
         "finding_description": "We recommend that you specify the Version element to help you with debugging permission issues.",
-        "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-general-warning-missing-version"
+        "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-general-warning-missing-version",
+        "policy_dump_file_name": "123456789012_eu-central-1_AWS_SQS_QueuePolicy_queue1_0.json"
       }
     ]
   },
@@ -187,7 +187,8 @@ Linting results are written to a JSON file. Findings are grouped once by account
           "finding_type": "SECURITY_WARNING",
           "finding_issue_code": "PASS_ROLE_WITH_STAR_IN_RESOURCE",
           "finding_description": "Using the iam:PassRole action with wildcards (*) in the resource can be overly permissive because it allows iam:PassRole permissions on multiple resources. We recommend that you specify resource ARNs or add the iam:PassedToService condition key to your statement.",
-          "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-security-warning-pass-role-with-star-in-resource"
+          "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-security-warning-pass-role-with-star-in-resource",
+          "policy_dump_file_name": "123456789012_us-east-1_AWS_IAM_UserPolicy_inlinepolicy_0.json"
         }
       ]
     },
@@ -202,7 +203,8 @@ Linting results are written to a JSON file. Findings are grouped once by account
           "finding_type": "WARNING",
           "finding_issue_code": "MISSING_VERSION",
           "finding_description": "We recommend that you specify the Version element to help you with debugging permission issues.",
-          "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-general-warning-missing-version"
+          "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-general-warning-missing-version",
+          "policy_dump_file_name": "123456789012_eu-central-1_AWS_SQS_QueuePolicy_queue1_0.json"
         }
       ]
     }
