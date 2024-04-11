@@ -31,10 +31,13 @@ pip install -r requirements.txt
 
 python aws_lint_iam_policies.py --scope ACCOUNT
 
+python aws_lint_iam_policies.py --scope ACCOUNT --include-policy-types s3_bucket_policies,kms_key_policies
+
 python aws_lint_iam_policies.py --scope ORGANIZATION --member-accounts-role OrganizationAccountAccessRole
 
-python aws_lint_iam_policies.py --scope ORGANIZATION --member-accounts-role OrganizationAccountAccessRole --exclude-accounts 112233445566,998877665544 --include-policy-types lambda_function_policies,s3_bucket_policies
+python aws_lint_iam_policies.py --scope ORGANIZATION --member-accounts-role OrganizationAccountAccessRole --exclude-accounts 112233445566,998877665544
 ```
+
 
 
 ## Supported arguments
@@ -153,13 +156,13 @@ Linting results are written to a JSON file. Findings are grouped once by account
         "account_id": "123456789012",
         "region": "us-east-1",
         "resource_type": "AWS::IAM::UserPolicy",
-        "resource_name": "inlinepolicy",
+        "resource_name": "user1:inlinepolicy",
         "resource_arn": "arn:aws:iam::123456789012:user/user1",
         "finding_type": "SECURITY_WARNING",
         "finding_issue_code": "PASS_ROLE_WITH_STAR_IN_RESOURCE",
         "finding_description": "Using the iam:PassRole action with wildcards (*) in the resource can be overly permissive because it allows iam:PassRole permissions on multiple resources. We recommend that you specify resource ARNs or add the iam:PassedToService condition key to your statement.",
         "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-security-warning-pass-role-with-star-in-resource",
-        "policy_dump_file_name": "123456789012_us-east-1_AWS_IAM_UserPolicy_inlinepolicy_0.json"
+        "policy_dump_file_name": "123456789012_us-east-1_AWS_IAM_UserPolicy_user1_inlinepolicy_0.json"
       },
       {
         "account_id": "123456789012",
@@ -182,13 +185,13 @@ Linting results are written to a JSON file. Findings are grouped once by account
           "account_id": "123456789012",
           "region": "us-east-1",
           "resource_type": "AWS::IAM::UserPolicy",
-          "resource_name": "inlinepolicy",
+          "resource_name": "user1:inlinepolicy",
           "resource_arn": "arn:aws:iam::123456789012:user/user1",
           "finding_type": "SECURITY_WARNING",
           "finding_issue_code": "PASS_ROLE_WITH_STAR_IN_RESOURCE",
           "finding_description": "Using the iam:PassRole action with wildcards (*) in the resource can be overly permissive because it allows iam:PassRole permissions on multiple resources. We recommend that you specify resource ARNs or add the iam:PassedToService condition key to your statement.",
           "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-security-warning-pass-role-with-star-in-resource",
-          "policy_dump_file_name": "123456789012_us-east-1_AWS_IAM_UserPolicy_inlinepolicy_0.json"
+          "policy_dump_file_name": "123456789012_us-east-1_AWS_IAM_UserPolicy_user1_inlinepolicy_0.json"
         }
       ]
     },
