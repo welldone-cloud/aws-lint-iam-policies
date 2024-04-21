@@ -116,7 +116,11 @@
                 "ssm-contacts:GetContactPolicy",
                 "ssm-contacts:ListContacts",
                 "ssm-incidents:GetResourcePolicies",
-                "ssm-incidents:ListResponsePlans"
+                "ssm-incidents:ListResponsePlans",
+                "sso:DescribePermissionSet",
+                "sso:GetInlinePolicyForPermissionSet",
+                "sso:ListInstances",
+                "sso:ListPermissionSets"
             ],
             "Resource": "*"
         },

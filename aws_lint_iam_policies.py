@@ -62,6 +62,7 @@ POLICY_TYPES_AND_REGIONS = {
     glacier_vault_resource_policies: REGION_ALL,
     glue_data_catalog_policies: REGION_ALL,
     iam_group_inline_policies: REGION_US_EAST_1,
+    iam_identity_center_permission_set_inline_policies: REGION_ALL,
     iam_managed_policies: REGION_US_EAST_1,
     iam_role_inline_policies: REGION_US_EAST_1,
     iam_role_trust_policies: REGION_US_EAST_1,
