@@ -89,6 +89,7 @@ POLICY_TYPES_AND_REGIONS = {
     s3_multi_region_access_point_policies: REGION_US_WEST_2,
     s3_object_lambda_access_point_policies: REGION_ALL,
     secrets_manager_secret_policies: REGION_ALL,
+    security_hub_product_subscription_policies: REGION_ALL,
     ses_authorization_policies: REGION_ALL,
     sns_topic_policies: REGION_ALL,
     sqs_queue_policies: REGION_ALL,

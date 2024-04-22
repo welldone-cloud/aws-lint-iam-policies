@@ -113,6 +113,8 @@
                 "schemas:ListRegistries",
                 "secretsmanager:GetResourcePolicy",
                 "secretsmanager:ListSecrets",
+                "securityhub:DescribeProducts",
+                "securityhub:ListEnabledProductsForImport",
                 "ses:GetIdentityPolicies",
                 "ses:ListIdentities",
                 "ses:ListIdentityPolicies",
