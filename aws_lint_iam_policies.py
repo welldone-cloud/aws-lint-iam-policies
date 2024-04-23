@@ -38,6 +38,7 @@ VALID_FILE_NAME_CHARACTERS = string.ascii_letters + string.digits + "_+=,.@-"
 POLICY_TYPES_AND_REGIONS = {
     acm_private_ca_policies: REGION_ALL,
     api_gateway_rest_api_policies: REGION_ALL,
+    app_mesh_mesh_policies: REGION_ALL,
     appsync_graphql_api_policies: REGION_ALL,
     backup_vault_policies: REGION_ALL,
     cloudtrail_channel_policies: REGION_ALL,

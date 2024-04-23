@@ -75,6 +75,7 @@ The following IAM policy types are analyzed:
 
 * ACM private CA policies
 * API Gateway REST API policies
+* App Mesh mesh policies (via RAM)
 * AppSync GraphQL API policies (via RAM)
 * Backup vault policies
 * CloudTrail channel policies

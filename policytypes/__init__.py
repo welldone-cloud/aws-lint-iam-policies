@@ -2,6 +2,7 @@
 __all__ = [
     "acm_private_ca_policies",
     "api_gateway_rest_api_policies",
+    "app_mesh_mesh_policies",
     "appsync_graphql_api_policies",
     "backup_vault_policies",
     "cloudtrail_channel_policies",
