@@ -78,6 +78,8 @@
                 "mediastore:GetContainerPolicy",
                 "mediastore:ListContainers",
                 "organizations:DescribeOrganization",
+                "organizations:DescribePolicy",
+                "organizations:DescribeResourcePolicy",
                 "organizations:ListPolicies",
                 "organizations:ListRoots",
                 "ram:GetPermission",

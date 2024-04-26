@@ -8,6 +8,15 @@
             "Resource": "arn:aws:iam::*:role/OrganizationAccountAccessRole"
         },
         {
+            "Sid": "AllowListingMemberAccounts",
+            "Effect": "Allow",
+            "Action": [
+                "organizations:ListAccounts",
+                "organizations:ListParents"
+            ],
+            "Resource": "*"
+        },
+        {
             "Sid": "AllowLintingPolicies",
             "Effect": "Allow",
             "Action": [
@@ -85,8 +94,7 @@
                 "mediastore:ListContainers",
                 "organizations:DescribeOrganization",
                 "organizations:DescribePolicy",
-                "organizations:ListAccounts",
-                "organizations:ListParents",
+                "organizations:DescribeResourcePolicy",
                 "organizations:ListPolicies",
                 "organizations:ListRoots",
                 "ram:GetPermission",
