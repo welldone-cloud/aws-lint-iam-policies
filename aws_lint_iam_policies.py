@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import argparse
 import boto3
 import botocore.config
@@ -25,7 +27,7 @@ AWS_ROLE_NAME_PATTERN = re.compile(r"^[\w+=,.@-]{1,64}$")
 
 BOTO_CLIENT_CONFIG = botocore.config.Config(retries={"total_max_attempts": 5, "mode": "standard"})
 
-ERROR_MESSAGE_INVALID_PARAM_COMBINATOIN = "Invalid combination of parameters"
+ERROR_MESSAGE_INVALID_PARAM_COMBINATION = "Invalid combination of parameters"
 
 REGION = Enum("REGION", [("ALL", "all"), ("US_EAST_1", "us-east-1"), ("US_WEST_2", "us-west-2")])
 
@@ -50,6 +52,8 @@ POLICY_TYPES_AND_REGIONS = {
     datazone_domain_policies: REGION.ALL,
     dynamodb_stream_policies: REGION.ALL,
     dynamodb_table_policies: REGION.ALL,
+    ec2_capacity_reservation_policies: REGION.ALL,
+    ec2_placement_group_policies: REGION.ALL,
     ecr_private_registry_policies: REGION.ALL,
     ecr_private_repository_policies: REGION.ALL,
     ecr_public_repository_policies: REGION.US_EAST_1,
@@ -130,7 +134,7 @@ def get_policy_type_names():
 
 def parse_member_accounts_role(val):
     if val and get_scope() != SCOPE.ORGANIZATION:
-        raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAM_COMBINATOIN)
+        raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAM_COMBINATION)
     elif not val and get_scope() == SCOPE.ORGANIZATION:
         raise argparse.ArgumentTypeError("Parameter required when using scope {}".format(SCOPE.ORGANIZATION.name))
     if val and not AWS_ROLE_NAME_PATTERN.match(val):
@@ -140,7 +144,7 @@ def parse_member_accounts_role(val):
 
 def parse_policy_types(val):
     if get_scope() not in (SCOPE.ORGANIZATION, SCOPE.ACCOUNT):
-        raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAM_COMBINATOIN)
+        raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAM_COMBINATION)
     for policy_type_name in val.split(","):
         if policy_type_name not in get_policy_type_names():
             raise argparse.ArgumentTypeError("Unrecognized policy type name: {}".format(policy_type_name))
@@ -149,7 +153,7 @@ def parse_policy_types(val):
 
 def parse_regions(val):
     if get_scope() not in (SCOPE.ORGANIZATION, SCOPE.ACCOUNT):
-        raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAM_COMBINATOIN)
+        raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAM_COMBINATION)
     for region in val.split(","):
         if not AWS_REGION_NAME_PATTERN.match(region):
             raise argparse.ArgumentTypeError("Invalid region name format: {}".format(region))
@@ -158,7 +162,7 @@ def parse_regions(val):
 
 def parse_accounts(val):
     if get_scope() != SCOPE.ORGANIZATION:
-        raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAM_COMBINATOIN)
+        raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAM_COMBINATION)
     for account in val.split(","):
         if not AWS_ACCOUNT_ID_PATTERN.match(account):
             raise argparse.ArgumentTypeError("Invalid account ID format: {}".format(account))
@@ -167,7 +171,7 @@ def parse_accounts(val):
 
 def parse_ous(val):
     if get_scope() != SCOPE.ORGANIZATION:
-        raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAM_COMBINATOIN)
+        raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAM_COMBINATION)
     for ou in val.split(","):
         if not ou.startswith("ou-"):
             raise argparse.ArgumentTypeError("Invalid OU ID format: {}".format(ou))

@@ -16,6 +16,8 @@ __all__ = [
     "datazone_domain_policies",
     "dynamodb_stream_policies",
     "dynamodb_table_policies",
+    "ec2_capacity_reservation_policies",
+    "ec2_placement_group_policies",
     "ecr_private_registry_policies",
     "ecr_private_repository_policies",
     "ecr_public_repository_policies",

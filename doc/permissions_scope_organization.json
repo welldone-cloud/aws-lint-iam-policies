@@ -42,6 +42,7 @@
                 "dynamodb:ListTables",
                 "ec2:DescribeRegions",
                 "ec2:DescribeVpcEndpoints",
+                "ec2:GetResourcePolicy",
                 "ecr:DescribeRepositories",
                 "ecr:GetRepositoryPolicy",
                 "ecr:GetRegistryPolicy",
