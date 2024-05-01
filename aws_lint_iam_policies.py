@@ -53,6 +53,7 @@ POLICY_TYPES_AND_REGIONS = {
     dynamodb_stream_policies: REGION.ALL,
     dynamodb_table_policies: REGION.ALL,
     ec2_capacity_reservation_policies: REGION.ALL,
+    ec2_dedicated_host_policies: REGION.ALL,
     ec2_placement_group_policies: REGION.ALL,
     ecr_private_registry_policies: REGION.ALL,
     ecr_private_repository_policies: REGION.ALL,
@@ -483,7 +484,11 @@ if __name__ == "__main__":
         sys.exit(0)
 
     # Test for valid credentials
-    boto_session = boto3.Session(profile_name=args.profile)
+    try:
+        boto_session = boto3.Session(profile_name=args.profile)
+    except botocore.exceptions.ProfileNotFound as ex:
+        print("Error: {}".format(ex))
+        sys.exit(1)
     sts_client = boto_session.client(
         "sts",
         config=BOTO_CLIENT_CONFIG,

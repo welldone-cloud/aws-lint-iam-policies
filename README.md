@@ -90,6 +90,7 @@ The following IAM policy types are analyzed:
 * DynamoDB stream policies
 * DynamoDB table policies
 * EC2 capacity reservation policies (via RAM)
+* EC2 dedicated host policies (via RAM)
 * EC2 placement group policies (via RAM)
 * ECR private registry policies
 * ECR private repository policies
