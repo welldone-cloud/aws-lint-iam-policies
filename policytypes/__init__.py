@@ -18,6 +18,7 @@ __all__ = [
     "dynamodb_table_policies",
     "ec2_capacity_reservation_policies",
     "ec2_dedicated_host_policies",
+    "ec2_image_builder_component_policies",
     "ec2_placement_group_policies",
     "ecr_private_registry_policies",
     "ecr_private_repository_policies",

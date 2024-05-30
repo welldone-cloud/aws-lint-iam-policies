@@ -54,6 +54,7 @@ POLICY_TYPES_AND_REGIONS = {
     dynamodb_table_policies: REGION.ALL,
     ec2_capacity_reservation_policies: REGION.ALL,
     ec2_dedicated_host_policies: REGION.ALL,
+    ec2_image_builder_component_policies: REGION.ALL,
     ec2_placement_group_policies: REGION.ALL,
     ecr_private_registry_policies: REGION.ALL,
     ecr_private_repository_policies: REGION.ALL,
