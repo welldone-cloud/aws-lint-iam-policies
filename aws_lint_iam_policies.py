@@ -56,6 +56,7 @@ POLICY_TYPES_AND_REGIONS = {
     ec2_dedicated_host_policies: REGION.ALL,
     ec2_image_builder_component_policies: REGION.ALL,
     ec2_placement_group_policies: REGION.ALL,
+    ec2_image_builder_container_recipe_policies: REGION.ALL,
     ecr_private_registry_policies: REGION.ALL,
     ecr_private_repository_policies: REGION.ALL,
     ecr_public_repository_policies: REGION.US_EAST_1,
