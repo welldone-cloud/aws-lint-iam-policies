@@ -21,6 +21,7 @@ __all__ = [
     "ec2_image_builder_component_policies",
     "ec2_image_builder_container_recipe_policies",
     "ec2_image_builder_image_policies",
+    "ec2_image_builder_image_recipe_policies",
     "ec2_placement_group_policies",
     "ecr_private_registry_policies",
     "ecr_private_repository_policies",

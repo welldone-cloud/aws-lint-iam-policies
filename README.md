@@ -94,6 +94,7 @@ The following IAM policy types are analyzed:
 * EC2 Image Builder component policies
 * EC2 Image Builder container recipe policies
 * EC2 Image Builder image policies
+* EC2 Image Builder image recipe policies
 * EC2 placement group policies (via RAM)
 * ECR private registry policies
 * ECR private repository policies
