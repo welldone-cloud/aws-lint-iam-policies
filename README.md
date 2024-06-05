@@ -103,6 +103,7 @@ The following IAM policy types are analyzed:
 * Elemental MediaStore container policies
 * EventBridge event bus policies
 * EventBridge schema registry policies
+* FSx volume policies (via RAM)
 * Glacier vault lock policies
 * Glacier vault resource policies
 * Glue data catalog policies

@@ -66,6 +66,7 @@ POLICY_TYPES_AND_REGIONS = {
     elemental_mediastore_container_policies: REGION.ALL,
     eventbridge_event_bus_policies: REGION.ALL,
     eventbridge_schema_registry_policies: REGION.ALL,
+    fsx_volume_policies: REGION.ALL,
     glacier_vault_lock_policies: REGION.ALL,
     glacier_vault_resource_policies: REGION.ALL,
     glue_data_catalog_policies: REGION.ALL,

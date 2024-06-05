@@ -30,6 +30,7 @@ __all__ = [
     "elemental_mediastore_container_policies",
     "eventbridge_event_bus_policies",
     "eventbridge_schema_registry_policies",
+    "fsx_volume_policies",
     "glacier_vault_lock_policies",
     "glacier_vault_resource_policies",
     "glue_data_catalog_policies",

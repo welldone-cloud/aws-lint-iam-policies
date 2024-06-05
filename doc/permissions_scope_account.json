@@ -38,6 +38,7 @@
                 "es:DescribeDomain",
                 "es:ListDomainNames",
                 "events:ListEventBuses",
+                "fsx:GetResourcePolicy",
                 "glacier:GetVaultAccessPolicy",
                 "glacier:GetVaultLock",
                 "glacier:ListVaults",
