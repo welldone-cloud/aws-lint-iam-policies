@@ -59,6 +59,7 @@
                 "glacier:ListVaults",
                 "glue:GetDatabases",
                 "glue:GetResourcePolicy",
+                "glue:GetTables",
                 "iam:GetGroupPolicy",
                 "iam:GetPolicyVersion",
                 "iam:GetRolePolicy",

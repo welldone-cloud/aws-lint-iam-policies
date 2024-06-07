@@ -35,6 +35,7 @@ __all__ = [
     "glacier_vault_resource_policies",
     "glue_data_catalog_policies",
     "glue_database_policies",
+    "glue_table_policies",
     "iam_group_inline_policies",
     "iam_identity_center_permission_set_inline_policies",
     "iam_managed_policies",
