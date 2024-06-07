@@ -70,6 +70,7 @@ POLICY_TYPES_AND_REGIONS = {
     glacier_vault_lock_policies: REGION.ALL,
     glacier_vault_resource_policies: REGION.ALL,
     glue_data_catalog_policies: REGION.ALL,
+    glue_database_policies: REGION.ALL,
     iam_group_inline_policies: REGION.US_EAST_1,
     iam_identity_center_permission_set_inline_policies: REGION.ALL,
     iam_managed_policies: REGION.US_EAST_1,

@@ -107,6 +107,7 @@ The following IAM policy types are analyzed:
 * Glacier vault lock policies
 * Glacier vault resource policies
 * Glue data catalog policies
+* Glue database policies
 * IAM Identity Center permission set inline policies
 * IAM group inline policies
 * IAM managed policies
