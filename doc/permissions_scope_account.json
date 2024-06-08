@@ -10,6 +10,8 @@
                 "acm-pca:ListCertificateAuthorities",
                 "appmesh:GetMeshPolicy",
                 "appsync:GetResourcePolicy",
+                "aws-marketplace:GetResourcePolicy",
+                "aws-marketplace:ListEntities",
                 "backup:GetBackupVaultAccessPolicy",
                 "backup:ListBackupVaults",
                 "cloudtrail:GetResourcePolicy",

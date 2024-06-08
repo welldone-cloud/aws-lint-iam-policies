@@ -51,6 +51,7 @@ __all__ = [
     "lex_bot_alias_policies",
     "lex_bot_policies",
     "license_manager_license_configuration_policies",
+    "marketplace_catalog_entity_policies",
     "migration_hub_refactor_spaces_environment_policies",
     "opensearch_domain_policies",
     "organizations_delegation_policies",

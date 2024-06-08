@@ -124,6 +124,7 @@ The following IAM policy types are analyzed:
 * Lex bot alias policies
 * Lex bot policies
 * License Manager license configuration policies (via RAM)
+* Marketplace Catalog entity policies
 * Migration Hub Refactor Spaces environment policies
 * OpenSearch domain policies
 * Organizations delegation policies
