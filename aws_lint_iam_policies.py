@@ -86,6 +86,7 @@ POLICY_TYPES_AND_REGIONS = {
     lambda_layer_policies: REGION.ALL,
     lex_bot_alias_policies: REGION.ALL,
     lex_bot_policies: REGION.ALL,
+    license_manager_license_configuration_policies: REGION.ALL,
     migration_hub_refactor_spaces_environment_policies: REGION.ALL,
     opensearch_domain_policies: REGION.ALL,
     organizations_delegation_policies: REGION.US_EAST_1,

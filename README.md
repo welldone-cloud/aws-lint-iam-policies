@@ -1,6 +1,6 @@
 # aws-lint-iam-policies
 
-Runs IAM policy linting checks against either a single AWS account or all accounts of an AWS Organization. Dumps all supported identity-based and resource-based policies and reports on those that violate security best practices or contain errors. See the accompanying blog post 
+Runs IAM policy linting checks against either a single AWS account or all accounts of an AWS Organization. Dumps all supported identity-based and resource-based policies to a local directory and reports on those that violate security best practices or contain errors. See the accompanying blog post 
 [here](https://medium.com/@michael.kirchner/linting-aws-iam-policies-e76b95859c93).
 
 The actual linting is performed by the [AWS IAM Access Analyzer policy validation feature](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-policy-validation.html), which is mostly known for showing recommendations when manually editing IAM policies on the AWS Console UI:
@@ -123,6 +123,7 @@ The following IAM policy types are analyzed:
 * Lambda layer policies
 * Lex bot alias policies
 * Lex bot policies
+* License Manager license configuration policies (via RAM)
 * Migration Hub Refactor Spaces environment policies
 * OpenSearch domain policies
 * Organizations delegation policies
