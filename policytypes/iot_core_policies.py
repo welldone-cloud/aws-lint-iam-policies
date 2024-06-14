@@ -14,7 +14,6 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                     policyVersionId=policy_version["versionId"],
                 )
 
-                # Uses policy_type="IDENTITY_POLICY", as IoT core policies don't have a Principal element
                 policy_analysis_function(
                     account_id=account_id,
                     region=region,
@@ -23,5 +22,6 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                     resource_name="{}:v{}".format(policy["policyName"], policy_version["versionId"]),
                     resource_arn=policy["policyArn"],
                     policy_document=get_policy_version_response["policyDocument"],
-                    policy_type="IDENTITY_POLICY",
+                    policy_type="RESOURCE_POLICY",
+                    ignore_finding_issue_codes=["MISSING_PRINCIPAL"],
                 )
