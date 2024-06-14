@@ -92,7 +92,6 @@ POLICY_TYPES_AND_REGIONS = {
     opensearch_domain_policies: REGION.ALL,
     organizations_delegation_policies: REGION.US_EAST_1,
     organizations_service_control_policies: REGION.US_EAST_1,
-    ram_customer_managed_permissions: REGION.ALL,
     rds_aurora_cluster_policies: REGION.ALL,
     redshift_serverless_snapshot_policies: REGION.ALL,
     rekognition_custom_labels_project_policies: REGION.ALL,
