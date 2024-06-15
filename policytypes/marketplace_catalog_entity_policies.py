@@ -1,6 +1,6 @@
 import json
 
-ENTITY_TYPES = [
+ENTITY_TYPES = (
     "AmiProduct",
     "ContainerProduct",
     "DataProduct",
@@ -12,7 +12,7 @@ ENTITY_TYPES = [
     "Offer",
     "Seller",
     "ResaleAuthorization",
-]
+)
 
 SOURCE_SERVICE = "marketplace-catalog"
 

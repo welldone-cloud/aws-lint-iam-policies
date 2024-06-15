@@ -28,7 +28,6 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 resource_arn=access_point["AccessPointArn"],
                 policy_document=get_access_point_policy_response["Policy"],
                 policy_type="RESOURCE_POLICY",
-                policy_resource_type="AWS::S3::AccessPoint",
             )
 
         try:

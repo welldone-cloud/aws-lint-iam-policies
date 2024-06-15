@@ -116,6 +116,16 @@ POLICY_TYPES_AND_REGIONS = {
     vpc_endpoint_policies: REGION.ALL,
 }
 
+ACCESS_ANALYZER_SUPPORTED_TYPES_VALIDATE_POLICY = (
+    # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/accessanalyzer/client/validate_policy.html
+    "AWS::S3::Bucket",
+    "AWS::S3::AccessPoint",
+    "AWS::S3::MultiRegionAccessPoint",
+    "AWS::S3ObjectLambda::AccessPoint",
+    "AWS::IAM::AssumeRolePolicyDocument",
+    "AWS::DynamoDB::Table",
+)
+
 
 @cachetools.cached(cache=cachetools.LRUCache(maxsize=64))
 def get_access_analyzer_client(boto_session, region):
@@ -206,7 +216,6 @@ def analyze_policy(
     resource_arn,
     policy_document,
     policy_type,
-    policy_resource_type=None,
     ignore_finding_issue_codes=[],
 ):
     # Create a policy dump file. Some AWS resources can have multiple policies attached or can use the same name,
@@ -235,8 +244,8 @@ def analyze_policy(
         "policyType": policy_type,
         "policyDocument": policy_document,
     }
-    if policy_resource_type:
-        call_parameters["validatePolicyResourceType"] = policy_resource_type
+    if resource_type in ACCESS_ANALYZER_SUPPORTED_TYPES_VALIDATE_POLICY:
+        call_parameters["validatePolicyResourceType"] = resource_type
 
     # Add any Access Analyzer findings to the result collection
     for findings_page in findings_paginator.paginate(**call_parameters):

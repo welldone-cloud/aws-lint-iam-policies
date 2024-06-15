@@ -37,5 +37,4 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
             resource_arn="arn:aws:s3:::{}".format(bucket_name),
             policy_document=bucket_policy,
             policy_type="RESOURCE_POLICY",
-            policy_resource_type="AWS::S3::Bucket",
         )

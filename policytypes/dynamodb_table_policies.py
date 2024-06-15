@@ -32,5 +32,4 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 resource_arn=describe_table_response["Table"]["TableArn"],
                 policy_document=get_resource_policy_response["Policy"],
                 policy_type="RESOURCE_POLICY",
-                policy_resource_type="AWS::DynamoDB::Table",
             )
