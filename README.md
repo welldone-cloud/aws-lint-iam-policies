@@ -169,6 +169,7 @@ Linting results are written to a JSON file. Findings are grouped once by account
       {
         "account_id": "123456789012",
         "region": "us-east-1",
+        "source_service": "iam",
         "resource_type": "AWS::IAM::UserPolicy",
         "resource_name": "user1:inlinepolicy",
         "resource_arn": "arn:aws:iam::123456789012:user/user1",
@@ -181,6 +182,7 @@ Linting results are written to a JSON file. Findings are grouped once by account
       {
         "account_id": "123456789012",
         "region": "eu-central-1",
+        "source_service": "sqs",
         "resource_type": "AWS::SQS::QueuePolicy",
         "resource_name": "queue1",
         "resource_arn": "arn:aws:sqs:eu-central-1:123456789012:queue1",
@@ -198,6 +200,7 @@ Linting results are written to a JSON file. Findings are grouped once by account
         {
           "account_id": "123456789012",
           "region": "us-east-1",
+          "source_service": "iam",
           "resource_type": "AWS::IAM::UserPolicy",
           "resource_name": "user1:inlinepolicy",
           "resource_arn": "arn:aws:iam::123456789012:user/user1",
@@ -214,6 +217,7 @@ Linting results are written to a JSON file. Findings are grouped once by account
         {
           "account_id": "123456789012",
           "region": "eu-central-1",
+          "source_service": "sqs",
           "resource_type": "AWS::SQS::QueuePolicy",
           "resource_name": "queue1",
           "resource_arn": "arn:aws:sqs:eu-central-1:123456789012:queue1",
