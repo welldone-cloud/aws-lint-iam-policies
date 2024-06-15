@@ -1,6 +1,9 @@
+SOURCE_SERVICE = "organizations"
+
+
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     # Test whether SCPs are enabled and return if they are not
-    organizations_client = boto_session.client("organizations", config=boto_config, region_name=region)
+    organizations_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
     scps_enabled = False
     roots_paginator = organizations_client.get_paginator("list_roots")
     try:
@@ -31,6 +34,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,
+                source_service=SOURCE_SERVICE,
                 resource_type="AWS::Organizations::Policy",
                 resource_name=describe_policy_reponse["Policy"]["PolicySummary"]["Name"],
                 resource_arn=describe_policy_reponse["Policy"]["PolicySummary"]["Arn"],

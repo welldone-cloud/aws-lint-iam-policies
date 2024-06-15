@@ -1,8 +1,11 @@
 import json
 
 
+SOURCE_SERVICE = "imagebuilder"
+
+
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
-    image_builder_client = boto_session.client("imagebuilder", config=boto_config, region_name=region)
+    image_builder_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
 
     # Iterate all container recipes (there is unfortunately no paginator available for this at the moment)
     call_params = {}
@@ -23,6 +26,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,
+                source_service=SOURCE_SERVICE,
                 resource_type="AWS::ImageBuilder::ContainerRecipe",
                 resource_name=container_recipe["name"],
                 resource_arn=container_recipe["arn"],

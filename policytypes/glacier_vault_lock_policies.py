@@ -1,5 +1,8 @@
+SOURCE_SERVICE = "glacier"
+
+
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
-    glacier_client = boto_session.client("glacier", config=boto_config, region_name=region)
+    glacier_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
     vaults_paginator = glacier_client.get_paginator("list_vaults")
 
     # Iterate all vaults
@@ -16,6 +19,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,
+                source_service=SOURCE_SERVICE,
                 resource_type="AWS::S3::GlacierVaultLock",
                 resource_name=vault["VaultName"],
                 resource_arn=vault["VaultARN"],

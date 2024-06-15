@@ -1,5 +1,8 @@
+SOURCE_SERVICE = "lexv2-models"
+
+
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
-    lex_client = boto_session.client("lexv2-models", config=boto_config, region_name=region)
+    lex_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
 
     # Iterate all bots (there is unfortunately no paginator available for this at the moment)
     call_params = {}
@@ -19,6 +22,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,
+                source_service=SOURCE_SERVICE,
                 resource_type="AWS::Lex::Bot",
                 resource_name=bot["botName"],
                 resource_arn=bot_arn,

@@ -1,5 +1,8 @@
+SOURCE_SERVICE = "kms"
+
+
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
-    kms_client = boto_session.client("kms", config=boto_config, region_name=region)
+    kms_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
     keys_paginator = kms_client.get_paginator("list_keys")
 
     # Iterate all KMS keys
@@ -19,6 +22,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,
+                source_service=SOURCE_SERVICE,
                 resource_type="AWS::KMS::Key",
                 resource_name=key["KeyId"],
                 resource_arn=describe_key_response["KeyMetadata"]["Arn"],

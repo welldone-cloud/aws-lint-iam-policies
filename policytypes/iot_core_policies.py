@@ -1,5 +1,8 @@
+SOURCE_SERVICE = "iot"
+
+
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
-    iot_client = boto_session.client("iot", config=boto_config, region_name=region)
+    iot_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
     policies_paginator = iot_client.get_paginator("list_policies")
 
     # Iterate all IoT core policies
@@ -18,6 +21,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                     account_id=account_id,
                     region=region,
                     boto_session=boto_session,
+                    source_service=SOURCE_SERVICE,
                     resource_type="AWS::IoT::Policy",
                     resource_name="{}:v{}".format(policy["policyName"], policy_version["versionId"]),
                     resource_arn=policy["policyArn"],

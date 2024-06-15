@@ -1,5 +1,8 @@
+SOURCE_SERVICE = "events"
+
+
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
-    eventbridge_client = boto_session.client("events", config=boto_config, region_name=region)
+    eventbridge_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
 
     # Iterate all event buses (there is unfortunately no paginator available for this at the moment)
     call_params = {}
@@ -14,6 +17,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,
+                source_service=SOURCE_SERVICE,
                 resource_type="AWS::Events::EventBus",
                 resource_name=event_bus["Name"],
                 resource_arn=event_bus["Arn"],

@@ -1,5 +1,8 @@
+SOURCE_SERVICE = "rekognition"
+
+
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
-    rekognition_client = boto_session.client("rekognition", config=boto_config, region_name=region)
+    rekognition_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
 
     # Custom labels is a sub feature of Rekognition. There can be regions where Rekognition is available but
     # the custom labels feature is not. In these cases, the service unfortunately returns AccessDeniedException,
@@ -25,6 +28,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                     account_id=account_id,
                     region=region,
                     boto_session=boto_session,
+                    source_service=SOURCE_SERVICE,
                     resource_type="AWS::Rekognition::Project",
                     resource_name="{}:{}".format(project["ProjectArn"].split("/")[-2], policy["PolicyName"]),
                     resource_arn=project["ProjectArn"],

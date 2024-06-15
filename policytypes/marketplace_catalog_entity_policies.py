@@ -14,9 +14,11 @@ ENTITY_TYPES = [
     "ResaleAuthorization",
 ]
 
+SOURCE_SERVICE = "marketplace-catalog"
+
 
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
-    marketplace_client = boto_session.client("marketplace-catalog", config=boto_config, region_name=region)
+    marketplace_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
     entities_paginator = marketplace_client.get_paginator("list_entities")
 
     # Iterate all Marketplace entities
@@ -36,6 +38,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                     account_id=account_id,
                     region=region,
                     boto_session=boto_session,
+                    source_service=SOURCE_SERVICE,
                     resource_type="AWS::Marketplace::Entity",
                     resource_name="{}/{}".format(entity["EntityType"], entity["Name"]),
                     resource_arn=entity["EntityArn"],

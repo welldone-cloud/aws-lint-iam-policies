@@ -1,5 +1,8 @@
+SOURCE_SERVICE = "redshift-serverless"
+
+
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
-    redshift_client = boto_session.client("redshift-serverless", config=boto_config, region_name=region)
+    redshift_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
     list_snapshots_paginator = redshift_client.get_paginator("list_snapshots")
 
     # Iterate all Redshift serverless snapshots
@@ -18,6 +21,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                     account_id=account_id,
                     region=region,
                     boto_session=boto_session,
+                    source_service=SOURCE_SERVICE,
                     resource_type="AWS::RedshiftServerless::Snapshot",
                     resource_name=snapshot["snapshotName"],
                     resource_arn=snapshot["snapshotArn"],

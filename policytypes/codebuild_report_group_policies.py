@@ -1,5 +1,8 @@
+SOURCE_SERVICE = "codebuild"
+
+
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
-    codebuild_client = boto_session.client("codebuild", config=boto_config, region_name=region)
+    codebuild_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
     report_groups_paginator = codebuild_client.get_paginator("list_report_groups")
 
     # Iterate all report groups
@@ -16,6 +19,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,
+                source_service=SOURCE_SERVICE,
                 resource_type="AWS::CodeBuild::ReportGroup",
                 resource_name=report_group_arn.split(":")[-1],
                 resource_arn=report_group_arn,

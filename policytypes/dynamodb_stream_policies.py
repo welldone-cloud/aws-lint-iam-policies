@@ -1,5 +1,8 @@
+SOURCE_SERVICE = "dynamodb"
+
+
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
-    dynamodb_client = boto_session.client("dynamodb", config=boto_config, region_name=region)
+    dynamodb_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
     tables_paginator = dynamodb_client.get_paginator("list_tables")
 
     # Iterate all tables
@@ -27,6 +30,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,
+                source_service=SOURCE_SERVICE,
                 resource_type="AWS::DynamoDB::Stream",
                 resource_name=describe_table_response["Table"]["LatestStreamArn"].split("/", maxsplit=1)[1],
                 resource_arn=describe_table_response["Table"]["LatestStreamArn"],

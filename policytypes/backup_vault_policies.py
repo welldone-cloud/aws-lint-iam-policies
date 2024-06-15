@@ -1,5 +1,8 @@
+SOURCE_SERVICE = "backup"
+
+
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
-    backup_client = boto_session.client("backup", config=boto_config, region_name=region)
+    backup_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
     vaults_paginator = backup_client.get_paginator("list_backup_vaults")
 
     # Iterate all backup vaults
@@ -18,6 +21,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,
+                source_service=SOURCE_SERVICE,
                 resource_type="AWS::Backup::BackupVault",
                 resource_name=backup_vault["BackupVaultName"],
                 resource_arn=backup_vault["BackupVaultArn"],

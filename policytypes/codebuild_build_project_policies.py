@@ -1,5 +1,8 @@
+SOURCE_SERVICE = "codebuild"
+
+
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
-    codebuild_client = boto_session.client("codebuild", config=boto_config, region_name=region)
+    codebuild_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
     build_projects_paginator = codebuild_client.get_paginator("list_projects")
 
     # Iterate all build projects
@@ -18,6 +21,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,
+                source_service=SOURCE_SERVICE,
                 resource_type="AWS::CodeBuild::Project",
                 resource_name=build_project_name,
                 resource_arn=build_project_arn,

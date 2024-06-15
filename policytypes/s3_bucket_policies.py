@@ -1,8 +1,10 @@
 S3_DEFAULT_LOCATION = "us-east-1"
 
+SOURCE_SERVICE = "s3"
+
 
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
-    s3_client = boto_session.client("s3", config=boto_config, region_name=region)
+    s3_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
     list_buckets_response = s3_client.list_buckets()
 
     # Iterate all buckets
@@ -29,6 +31,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
             account_id=account_id,
             region=region,
             boto_session=boto_session,
+            source_service=SOURCE_SERVICE,
             resource_type="AWS::S3::Bucket",
             resource_name=bucket_name,
             resource_arn="arn:aws:s3:::{}".format(bucket_name),

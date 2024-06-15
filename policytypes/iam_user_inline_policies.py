@@ -1,8 +1,11 @@
 import json
 
 
+SOURCE_SERVICE = "iam"
+
+
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
-    iam_client = boto_session.client("iam", config=boto_config, region_name=region)
+    iam_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
     users_paginator = iam_client.get_paginator("list_users")
 
     # Iterate all IAM users
@@ -21,6 +24,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                         account_id=account_id,
                         region=region,
                         boto_session=boto_session,
+                        source_service=SOURCE_SERVICE,
                         resource_type="AWS::IAM::User",
                         resource_name="{}:{}".format(user["UserName"], policy_name),
                         resource_arn=user["Arn"],

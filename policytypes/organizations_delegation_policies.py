@@ -1,5 +1,8 @@
+SOURCE_SERVICE = "organizations"
+
+
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
-    organizations_client = boto_session.client("organizations", config=boto_config, region_name=region)
+    organizations_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
     try:
         describe_resource_policy_response = organizations_client.describe_resource_policy()
     except (
@@ -16,6 +19,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
         account_id=account_id,
         region=region,
         boto_session=boto_session,
+        source_service=SOURCE_SERVICE,
         resource_type="AWS::Organizations::ResourcePolicy",
         resource_name=describe_resource_policy_response["ResourcePolicy"]["ResourcePolicySummary"]["Id"],
         resource_arn=describe_resource_policy_response["ResourcePolicy"]["ResourcePolicySummary"]["Arn"],

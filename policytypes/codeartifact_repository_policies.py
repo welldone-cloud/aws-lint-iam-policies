@@ -1,5 +1,8 @@
+SOURCE_SERVICE = "codeartifact"
+
+
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
-    codeartifact_client = boto_session.client("codeartifact", config=boto_config, region_name=region)
+    codeartifact_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
     list_repositories_paginator = codeartifact_client.get_paginator("list_repositories")
 
     # Iterate all repositories
@@ -18,6 +21,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,
+                source_service=SOURCE_SERVICE,
                 resource_type="AWS::CodeArtifact::Repository",
                 resource_name=repository["name"],
                 resource_arn=repository["arn"],

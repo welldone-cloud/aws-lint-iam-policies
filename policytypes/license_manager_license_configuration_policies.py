@@ -1,8 +1,11 @@
 import json
 
 
+SOURCE_SERVICE = "ram"
+
+
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
-    ram_client = boto_session.client("ram", config=boto_config, region_name=region)
+    ram_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
     resources_paginator = ram_client.get_paginator("list_resources")
 
     # Iterate resources via RAM
@@ -27,6 +30,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                             account_id=account_id,
                             region=region,
                             boto_session=boto_session,
+                            source_service=SOURCE_SERVICE,
                             resource_type="AWS::LicenseManager::LicenseConfiguration",
                             resource_name=resource["arn"].split(":")[-1],
                             resource_arn=resource["arn"],

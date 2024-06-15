@@ -1,5 +1,8 @@
+SOURCE_SERVICE = "s3"
+
+
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
-    s3_client = boto_session.client("s3", config=boto_config, region_name=region)
+    s3_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
     directory_buckets_paginator = s3_client.get_paginator("list_directory_buckets")
 
     # Iterate all directory buckets
@@ -18,6 +21,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,
+                source_service=SOURCE_SERVICE,
                 resource_type="AWS::S3Express::DirectoryBucket",
                 resource_name=bucket_name,
                 resource_arn="arn:aws:s3express:{}:{}:bucket/{}".format(region, account_id, bucket_name),

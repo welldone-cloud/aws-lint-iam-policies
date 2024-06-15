@@ -1,5 +1,8 @@
+SOURCE_SERVICE = "ssm-incidents"
+
+
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
-    ssm_client = boto_session.client("ssm-incidents", config=boto_config, region_name=region)
+    ssm_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
     response_plans_paginator = ssm_client.get_paginator("list_response_plans")
 
     # Iterate all response plans
@@ -13,6 +16,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                         account_id=account_id,
                         region=region,
                         boto_session=boto_session,
+                        source_service=SOURCE_SERVICE,
                         resource_type="AWS::SSMIncidents::ResponsePlan",
                         resource_name="{}:{}".format(response_plan["name"], resource_policy["policyId"]),
                         resource_arn=response_plan["arn"],

@@ -1,5 +1,8 @@
+SOURCE_SERVICE = "efs"
+
+
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
-    efs_client = boto_session.client("efs", config=boto_config, region_name=region)
+    efs_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
     file_systems_paginator = efs_client.get_paginator("describe_file_systems")
 
     # Iterate all S3 object Lambda access points
@@ -18,6 +21,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,
+                source_service=SOURCE_SERVICE,
                 resource_type="AWS::EFS::FileSystem",
                 resource_name=file_system["FileSystemId"],
                 resource_arn=file_system["FileSystemArn"],

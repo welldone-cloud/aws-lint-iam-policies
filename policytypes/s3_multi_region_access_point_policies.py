@@ -1,5 +1,8 @@
+SOURCE_SERVICE = "s3control"
+
+
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
-    s3_client = boto_session.client("s3control", config=boto_config, region_name=region)
+    s3_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
 
     # Iterate all multi-region access points (there is unfortunately no paginator available for this at the moment)
     call_params = {"AccountId": account_id}
@@ -20,6 +23,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,
+                source_service=SOURCE_SERVICE,
                 resource_type="AWS::S3::MultiRegionAccessPoint",
                 resource_name=access_point["Name"],
                 resource_arn="arn:aws:s3::{}:accesspoint/{}".format(account_id, access_point["Alias"]),

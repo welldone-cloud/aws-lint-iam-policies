@@ -1,5 +1,8 @@
+SOURCE_SERVICE = "securityhub"
+
+
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
-    security_hub_client = boto_session.client("securityhub", config=boto_config, region_name=region)
+    security_hub_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
 
     # Collect all product subscriptions
     product_subscriptions = []
@@ -31,6 +34,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                     account_id=account_id,
                     region=region,
                     boto_session=boto_session,
+                    source_service=SOURCE_SERVICE,
                     resource_type="AWS::SecurityHub::ProductSubscription",
                     resource_name="{}/{}".format(product["CompanyName"], product["ProductName"]),
                     resource_arn=product["ProductArn"],

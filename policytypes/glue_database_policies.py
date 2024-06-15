@@ -1,5 +1,8 @@
+SOURCE_SERVICE = "glue"
+
+
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
-    glue_client = boto_session.client("glue", config=boto_config, region_name=region)
+    glue_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
     databases_paginator = glue_client.get_paginator("get_databases")
 
     # Iterate all databases
@@ -18,6 +21,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,
+                source_service=SOURCE_SERVICE,
                 resource_type="AWS::Glue::Database",
                 resource_name=database["Name"],
                 resource_arn=database_arn,

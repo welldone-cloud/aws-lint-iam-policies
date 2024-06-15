@@ -1,5 +1,8 @@
+SOURCE_SERVICE = "sns"
+
+
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
-    sns_client = boto_session.client("sns", config=boto_config, region_name=region)
+    sns_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
     topics_paginator = sns_client.get_paginator("list_topics")
 
     # Iterate all SNS topics
@@ -12,6 +15,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,
+                source_service=SOURCE_SERVICE,
                 resource_type="AWS::SNS::Topic",
                 resource_name=topic["TopicArn"].split(":")[-1],
                 resource_arn=topic["TopicArn"],

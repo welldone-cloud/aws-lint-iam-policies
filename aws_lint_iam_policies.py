@@ -25,7 +25,11 @@ AWS_REGION_NAME_PATTERN = re.compile(r"^([a-z]+-){2,}\d+$")
 
 AWS_ROLE_NAME_PATTERN = re.compile(r"^[\w+=,.@-]{1,64}$")
 
-BOTO_CLIENT_CONFIG = botocore.config.Config(retries={"total_max_attempts": 5, "mode": "standard"})
+BOTO_CLIENT_CONFIG = botocore.config.Config(
+    connect_timeout=10,
+    read_timeout=10,
+    retries={"total_max_attempts": 5, "mode": "standard"},
+)
 
 ERROR_MESSAGE_INVALID_PARAM_COMBINATION = "Invalid combination of parameters"
 
@@ -196,6 +200,7 @@ def analyze_policy(
     account_id,
     region,
     boto_session,
+    source_service,
     resource_type,
     resource_name,
     resource_arn,
@@ -210,7 +215,9 @@ def analyze_policy(
     while True:
         dump_file_name = "".join(
             char if char in VALID_FILE_NAME_CHARACTERS else "_"
-            for char in "{}_{}_{}_{}_{}.json".format(account_id, region, resource_type, resource_name, index)
+            for char in "{}_{}_{}_{}_{}_{}.json".format(
+                account_id, region, source_service, resource_type, resource_name, index
+            )
         )
         dump_file_name = re.sub("_+", "_", dump_file_name)
         dump_file_path = os.path.join(policy_dump_directory, dump_file_name)
@@ -241,6 +248,7 @@ def analyze_policy(
             result_summary = {
                 "account_id": account_id,
                 "region": region,
+                "source_service": source_service,
                 "resource_type": resource_type,
                 "resource_name": resource_name,
                 "resource_arn": resource_arn,
@@ -320,7 +328,7 @@ def analyze_account(account_id, boto_session):
 
             try:
                 future.result()
-            except botocore.exceptions.EndpointConnectionError:
+            except (botocore.exceptions.EndpointConnectionError, botocore.exceptions.ConnectTimeoutError):
                 # Ignore errors when an AWS service is not available in a certain region
                 pass
             except botocore.exceptions.ClientError as ex:

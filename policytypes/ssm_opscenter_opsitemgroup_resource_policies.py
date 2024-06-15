@@ -2,8 +2,11 @@
 OPS_ITEM_GROUP_ARN_FORMAT = "arn:aws:ssm:{}:{}:opsitemgroup/default"
 
 
+SOURCE_SERVICE = "ssm"
+
+
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
-    ssm_client = boto_session.client("ssm", config=boto_config, region_name=region)
+    ssm_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
     ops_item_group_arn = OPS_ITEM_GROUP_ARN_FORMAT.format(region, account_id)
 
     # Iterate resource policies of the OpsItemGroup resource
@@ -16,6 +19,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                     account_id=account_id,
                     region=region,
                     boto_session=boto_session,
+                    source_service=SOURCE_SERVICE,
                     resource_type="AWS::SSM::OpsItemGroup",
                     resource_name="default",
                     resource_arn=ops_item_group_arn,

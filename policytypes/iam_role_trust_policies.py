@@ -3,9 +3,11 @@ import json
 
 SERVICE_LINKED_ROLE_PATH_PREFIX = "/aws-service-role/"
 
+SOURCE_SERVICE = "iam"
+
 
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
-    iam_client = boto_session.client("iam", config=boto_config, region_name=region)
+    iam_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
     roles_paginator = iam_client.get_paginator("list_roles")
 
     # Iterate all IAM roles
@@ -19,6 +21,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,
+                source_service=SOURCE_SERVICE,
                 resource_type="AWS::IAM::AssumeRolePolicyDocument",
                 resource_name=role["RoleName"],
                 resource_arn=role["Arn"],

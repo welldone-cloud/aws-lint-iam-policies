@@ -1,5 +1,8 @@
+SOURCE_SERVICE = "s3control"
+
+
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
-    s3_client = boto_session.client("s3control", config=boto_config, region_name=region)
+    s3_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
     access_points_paginator = s3_client.get_paginator("list_access_points_for_object_lambda")
 
     # Iterate all S3 object Lambda access points
@@ -18,6 +21,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,
+                source_service=SOURCE_SERVICE,
                 resource_type="AWS::S3ObjectLambda::AccessPoint",
                 resource_name=access_point["Name"],
                 resource_arn=access_point["ObjectLambdaAccessPointArn"],

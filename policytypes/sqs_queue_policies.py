@@ -1,5 +1,8 @@
+SOURCE_SERVICE = "sqs"
+
+
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
-    sqs_client = boto_session.client("sqs", config=boto_config, region_name=region)
+    sqs_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
     queues_paginator = sqs_client.get_paginator("list_queues")
 
     # Iterate all SQS queues
@@ -18,6 +21,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,
+                source_service=SOURCE_SERVICE,
                 resource_type="AWS::SQS::Queue",
                 resource_name=get_queue_attributes_response["Attributes"]["QueueArn"].split(":")[-1],
                 resource_arn=get_queue_attributes_response["Attributes"]["QueueArn"],
