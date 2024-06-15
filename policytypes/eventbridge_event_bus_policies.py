@@ -14,7 +14,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,
-                resource_type="AWS::Events::EventBusPolicy",
+                resource_type="AWS::Events::EventBus",
                 resource_name=event_bus["Name"],
                 resource_arn=event_bus["Arn"],
                 policy_document=event_bus["Policy"],

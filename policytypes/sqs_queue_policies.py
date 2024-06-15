@@ -18,7 +18,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,
-                resource_type="AWS::SQS::QueuePolicy",
+                resource_type="AWS::SQS::Queue",
                 resource_name=get_queue_attributes_response["Attributes"]["QueueArn"].split(":")[-1],
                 resource_arn=get_queue_attributes_response["Attributes"]["QueueArn"],
                 policy_document=get_queue_attributes_response["Attributes"]["Policy"],

@@ -26,7 +26,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                             account_id=account_id,
                             region=region,
                             boto_session=boto_session,
-                            resource_type="AWS::EC2::CapacityReservation (via RAM)",
+                            resource_type="AWS::EC2::CapacityReservation",
                             resource_name=resource["arn"].split("/")[-1],
                             resource_arn=resource["arn"],
                             policy_document=policy,

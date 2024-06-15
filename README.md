@@ -75,8 +75,8 @@ The following IAM policy types are analyzed:
 
 * ACM private CA policies
 * API Gateway REST API policies
-* App Mesh mesh policies (via RAM)
-* AppSync GraphQL API policies (via RAM)
+* App Mesh mesh policies
+* AppSync GraphQL API policies
 * Backup vault policies
 * CloudTrail channel policies
 * CloudWatch Logs delivery destination policies
@@ -86,16 +86,16 @@ The following IAM policy types are analyzed:
 * CodeArtifact repository policies
 * CodeBuild build project policies
 * CodeBuild report group policies
-* DataZone domain policies (via RAM)
+* DataZone domain policies
 * DynamoDB stream policies
 * DynamoDB table policies
-* EC2 capacity reservation policies (via RAM)
-* EC2 dedicated host policies (via RAM)
+* EC2 capacity reservation policies
+* EC2 dedicated host policies
 * EC2 Image Builder component policies
 * EC2 Image Builder container recipe policies
 * EC2 Image Builder image policies
 * EC2 Image Builder image recipe policies
-* EC2 placement group policies (via RAM)
+* EC2 placement group policies
 * ECR private registry policies
 * ECR private repository policies
 * ECR public repository policies
@@ -103,7 +103,7 @@ The following IAM policy types are analyzed:
 * Elemental MediaStore container policies
 * EventBridge event bus policies
 * EventBridge schema registry policies
-* FSx volume policies (via RAM)
+* FSx volume policies
 * Glacier vault lock policies
 * Glacier vault resource policies
 * Glue data catalog policies
@@ -123,13 +123,13 @@ The following IAM policy types are analyzed:
 * Lambda layer policies
 * Lex bot alias policies
 * Lex bot policies
-* License Manager license configuration policies (via RAM)
+* License Manager license configuration policies
 * Marketplace Catalog entity policies
 * Migration Hub Refactor Spaces environment policies
 * OpenSearch domain policies
 * Organizations delegation policies
 * Organizations service control policies
-* RDS Aurora cluster policies (via RAM)
+* RDS Aurora cluster policies
 * Redshift serverless snapshot policies
 * Rekognition custom labels project policies
 * S3 access point policies

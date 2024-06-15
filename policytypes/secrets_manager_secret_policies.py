@@ -16,7 +16,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,
-                resource_type="AWS::SecretsManager::ResourcePolicy",
+                resource_type="AWS::SecretsManager::Secret",
                 resource_name=secret["Name"],
                 resource_arn=secret["ARN"],
                 policy_document=get_resource_policy_response["ResourcePolicy"],

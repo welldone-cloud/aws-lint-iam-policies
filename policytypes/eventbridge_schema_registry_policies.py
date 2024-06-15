@@ -18,7 +18,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,
-                resource_type="AWS::EventSchemas::RegistryPolicy",
+                resource_type="AWS::EventSchemas::Registry",
                 resource_name=schema_registry["RegistryName"],
                 resource_arn=schema_registry["RegistryArn"],
                 policy_document=get_resource_policy_response["Policy"],

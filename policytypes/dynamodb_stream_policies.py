@@ -27,7 +27,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,
-                resource_type="AWS::DynamoDB::TableStream",
+                resource_type="AWS::DynamoDB::Stream",
                 resource_name=describe_table_response["Table"]["LatestStreamArn"].split("/", maxsplit=1)[1],
                 resource_arn=describe_table_response["Table"]["LatestStreamArn"],
                 policy_document=get_resource_policy_response["Policy"],

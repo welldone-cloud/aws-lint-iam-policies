@@ -21,7 +21,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                         account_id=account_id,
                         region=region,
                         boto_session=boto_session,
-                        resource_type="AWS::IAM::GroupPolicy",
+                        resource_type="AWS::IAM::Group",
                         resource_name="{}:{}".format(group["GroupName"], policy_name),
                         resource_arn=group["Arn"],
                         policy_document=json.dumps(get_group_policy_response["PolicyDocument"]),

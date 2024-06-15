@@ -25,7 +25,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                         account_id=account_id,
                         region=region,
                         boto_session=boto_session,
-                        resource_type="AWS::Lambda::Permission",
+                        resource_type="AWS::Lambda::Function",
                         resource_name="{}:v{}".format(lambda_function["FunctionName"], function_version["Version"]),
                         resource_arn=function_version["FunctionArn"],
                         policy_document=get_policy_response["Policy"],

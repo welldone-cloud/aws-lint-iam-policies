@@ -28,7 +28,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                         account_id=account_id,
                         region=region,
                         boto_session=boto_session,
-                        resource_type="AWS::IAM::RolePolicy",
+                        resource_type="AWS::IAM::Role",
                         resource_name="{}:{}".format(role["RoleName"], policy_name),
                         resource_arn=role["Arn"],
                         policy_document=json.dumps(get_role_policy_response["PolicyDocument"]),

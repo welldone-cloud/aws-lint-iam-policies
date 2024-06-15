@@ -16,7 +16,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                     account_id=account_id,
                     region=region,
                     boto_session=boto_session,
-                    resource_type="AWS::SSM::ResourcePolicy",
+                    resource_type="AWS::SSM::OpsItemGroup",
                     resource_name="default",
                     resource_arn=ops_item_group_arn,
                     policy_document=policy["Policy"],

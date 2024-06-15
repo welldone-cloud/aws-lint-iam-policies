@@ -16,7 +16,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,
-                resource_type="AWS::Glacier::VaultLockPolicy",
+                resource_type="AWS::S3::GlacierVaultLock",
                 resource_name=vault["VaultName"],
                 resource_arn=vault["VaultARN"],
                 policy_document=get_vault_lock_response["Policy"],

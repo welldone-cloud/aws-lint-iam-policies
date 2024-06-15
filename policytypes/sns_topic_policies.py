@@ -12,7 +12,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 account_id=account_id,
                 region=region,
                 boto_session=boto_session,
-                resource_type="AWS::SNS::TopicPolicy",
+                resource_type="AWS::SNS::Topic",
                 resource_name=topic["TopicArn"].split(":")[-1],
                 resource_arn=topic["TopicArn"],
                 policy_document=get_topic_attributes_response["Attributes"]["Policy"],

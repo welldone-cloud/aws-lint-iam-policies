@@ -26,7 +26,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                             account_id=account_id,
                             region=region,
                             boto_session=boto_session,
-                            resource_type="AWS::RDS::DBCluster (via RAM)",
+                            resource_type="AWS::RDS::DBCluster",
                             resource_name=resource["arn"].split(":")[-1],
                             resource_arn=resource["arn"],
                             policy_document=policy,

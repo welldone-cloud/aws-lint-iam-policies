@@ -29,7 +29,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
             account_id=account_id,
             region=region,
             boto_session=boto_session,
-            resource_type="AWS::S3::BucketPolicy",
+            resource_type="AWS::S3::Bucket",
             resource_name=bucket_name,
             resource_arn="arn:aws:s3:::{}".format(bucket_name),
             policy_document=bucket_policy,
