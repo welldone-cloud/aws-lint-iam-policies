@@ -5,6 +5,7 @@
             "Sid": "AllowLintingPolicies",
             "Effect": "Allow",
             "Action": [
+                "access-analyzer:CheckNoPublicAccess",
                 "access-analyzer:ValidatePolicy",
                 "acm-pca:GetPolicy",
                 "acm-pca:ListCertificateAuthorities",

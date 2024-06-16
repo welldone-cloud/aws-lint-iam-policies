@@ -11,6 +11,7 @@
             "Sid": "AllowListingMemberAccounts",
             "Effect": "Allow",
             "Action": [
+                "organizations:DescribeOrganization",
                 "organizations:ListAccounts",
                 "organizations:ListParents"
             ],
@@ -20,6 +21,7 @@
             "Sid": "AllowLintingPolicies",
             "Effect": "Allow",
             "Action": [
+                "access-analyzer:CheckNoPublicAccess",
                 "access-analyzer:ValidatePolicy",
                 "acm-pca:GetPolicy",
                 "acm-pca:ListCertificateAuthorities",
@@ -108,7 +110,6 @@
                 "logs:GetDeliveryDestinationPolicy",
                 "mediastore:GetContainerPolicy",
                 "mediastore:ListContainers",
-                "organizations:DescribeOrganization",
                 "organizations:DescribePolicy",
                 "organizations:DescribeResourcePolicy",
                 "organizations:ListPolicies",

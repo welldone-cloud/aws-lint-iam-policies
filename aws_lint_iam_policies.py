@@ -26,8 +26,8 @@ AWS_REGION_NAME_PATTERN = re.compile(r"^([a-z]+-){2,}\d+$")
 AWS_ROLE_NAME_PATTERN = re.compile(r"^[\w+=,.@-]{1,64}$")
 
 BOTO_CLIENT_CONFIG = botocore.config.Config(
-    connect_timeout=10,
-    read_timeout=10,
+    connect_timeout=5,
+    read_timeout=5,
     retries={"total_max_attempts": 5, "mode": "standard"},
 )
 
@@ -118,12 +118,34 @@ POLICY_TYPES_AND_REGIONS = {
 
 ACCESS_ANALYZER_SUPPORTED_TYPES_VALIDATE_POLICY = (
     # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/accessanalyzer/client/validate_policy.html
-    "AWS::S3::Bucket",
+    "AWS::DynamoDB::Table",
+    "AWS::IAM::AssumeRolePolicyDocument",
     "AWS::S3::AccessPoint",
+    "AWS::S3::Bucket",
     "AWS::S3::MultiRegionAccessPoint",
     "AWS::S3ObjectLambda::AccessPoint",
-    "AWS::IAM::AssumeRolePolicyDocument",
+)
+
+ACCESS_ANALYZER_SUPPORTED_TYPES_CHECK_NO_PUBLIC_ACCESS = (
+    # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/accessanalyzer/client/check_no_public_access.html
+    "AWS::DynamoDB::Stream",
     "AWS::DynamoDB::Table",
+    "AWS::EFS::FileSystem",
+    "AWS::IAM::AssumeRolePolicyDocument",
+    "AWS::Kinesis::Stream",
+    "AWS::Kinesis::StreamConsumer",
+    "AWS::KMS::Key",
+    "AWS::Lambda::Function",
+    "AWS::OpenSearchService::Domain",
+    "AWS::S3::AccessPoint",
+    "AWS::S3::Bucket",
+    "AWS::S3::Glacier",
+    "AWS::S3Express::DirectoryBucket",
+    "AWS::S3Outposts::AccessPoint",
+    "AWS::S3Outposts::Bucket",
+    "AWS::SecretsManager::Secret",
+    "AWS::SNS::Topic",
+    "AWS::SQS::Queue",
 )
 
 
@@ -206,6 +228,24 @@ def log_error(msg):
     print(msg)
 
 
+def add_to_result_collection(result):
+    # Add to results_grouped_by_account_id
+    try:
+        result_collection["results_grouped_by_account_id"][account_id].append(result)
+    except KeyError:
+        result_collection["results_grouped_by_account_id"][account_id] = [result]
+
+    # Add to results_grouped_by_finding_category
+    finding_type = result["finding_type"]
+    finding_issue_code = result["finding_issue_code"]
+    try:
+        result_collection["results_grouped_by_finding_category"][finding_type][finding_issue_code].append(result)
+    except KeyError:
+        if finding_type not in result_collection["results_grouped_by_finding_category"]:
+            result_collection["results_grouped_by_finding_category"][finding_type] = {}
+        result_collection["results_grouped_by_finding_category"][finding_type][finding_issue_code] = [result]
+
+
 def analyze_policy(
     account_id,
     region,
@@ -236,7 +276,7 @@ def analyze_policy(
     with open(dump_file_path, "w") as dump_file:
         json.dump(json.loads(policy_document), dump_file, indent=2)
 
-    # Send policy through Access Analyzer validation
+    # Send policy through Access Analyzer's validate_policy
     access_analyzer_client = get_access_analyzer_client(boto_session, region)
     findings_paginator = access_analyzer_client.get_paginator("validate_policy")
     call_parameters = {
@@ -246,47 +286,56 @@ def analyze_policy(
     }
     if resource_type in ACCESS_ANALYZER_SUPPORTED_TYPES_VALIDATE_POLICY:
         call_parameters["validatePolicyResourceType"] = resource_type
-
-    # Add any Access Analyzer findings to the result collection
     for findings_page in findings_paginator.paginate(**call_parameters):
         for finding in findings_page["findings"]:
-            # Skip if this finding issue code should not be reported
             if finding["issueCode"] in ignore_finding_issue_codes:
                 continue
+            add_to_result_collection(
+                {
+                    "account_id": account_id,
+                    "region": region,
+                    "source_service": source_service,
+                    "resource_type": resource_type,
+                    "resource_name": resource_name,
+                    "resource_arn": resource_arn,
+                    "finding_type": finding["findingType"],
+                    "finding_issue_code": finding["issueCode"],
+                    "finding_description": finding["findingDetails"],
+                    "finding_link": finding["learnMoreLink"],
+                    "policy_dump_file_name": dump_file_name,
+                }
+            )
 
-            result_summary = {
-                "account_id": account_id,
-                "region": region,
-                "source_service": source_service,
-                "resource_type": resource_type,
-                "resource_name": resource_name,
-                "resource_arn": resource_arn,
-                "finding_type": finding["findingType"],
-                "finding_issue_code": finding["issueCode"],
-                "finding_description": finding["findingDetails"],
-                "finding_link": finding["learnMoreLink"],
-                "policy_dump_file_name": dump_file_name,
-            }
-
-            # Add to results_grouped_by_account_id
-            try:
-                result_collection["results_grouped_by_account_id"][account_id].append(result_summary)
-            except KeyError:
-                result_collection["results_grouped_by_account_id"][account_id] = [result_summary]
-
-            # Add to results_grouped_by_finding_category
-            finding_type = finding["findingType"]
-            finding_issue_code = finding["issueCode"]
-            try:
-                result_collection["results_grouped_by_finding_category"][finding_type][finding_issue_code].append(
-                    result_summary
+    # Send policy through Access Analyzer's check_no_public_access
+    if (
+        resource_type in ACCESS_ANALYZER_SUPPORTED_TYPES_CHECK_NO_PUBLIC_ACCESS
+        and "PUBLIC_ACCESS" not in ignore_finding_issue_codes
+    ):
+        try:
+            check_no_public_access_response = access_analyzer_client.check_no_public_access(
+                policyDocument=policy_document, resourceType=resource_type
+            )
+        except access_analyzer_client.exceptions.from_code("InvalidParameterException"):
+            # There are valid IAM policies that lead to an error with check_no_public_access, such as policies that
+            # consist of only Deny statements. Ignore these errors here.
+            pass
+        else:
+            if check_no_public_access_response["result"] == "FAIL":
+                add_to_result_collection(
+                    {
+                        "account_id": account_id,
+                        "region": region,
+                        "source_service": source_service,
+                        "resource_type": resource_type,
+                        "resource_name": resource_name,
+                        "resource_arn": resource_arn,
+                        "finding_type": "SECURITY_WARNING",
+                        "finding_issue_code": "PUBLIC_ACCESS",
+                        "finding_description": check_no_public_access_response["message"],
+                        "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-custom-policy-checks.html",
+                        "policy_dump_file_name": dump_file_name,
+                    }
                 )
-            except KeyError:
-                if finding_type not in result_collection["results_grouped_by_finding_category"]:
-                    result_collection["results_grouped_by_finding_category"][finding_type] = {}
-                result_collection["results_grouped_by_finding_category"][finding_type][finding_issue_code] = [
-                    result_summary
-                ]
 
 
 def analyze_account(account_id, boto_session):

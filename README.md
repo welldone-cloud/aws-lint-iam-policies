@@ -1,13 +1,15 @@
 # aws-lint-iam-policies
 
-Runs IAM policy linting checks against either a single AWS account or all accounts of an AWS Organization. Dumps all supported identity-based and resource-based policies to a local directory and reports on those that violate security best practices or contain errors. See the accompanying blog post 
+Runs IAM policy linting and security checks against either a single AWS account or all accounts of an AWS Organization. Dumps all supported identity-based and resource-based policies to a local directory and reports on those that violate security best practices or contain errors. See the accompanying blog post 
 [here](https://medium.com/@michael.kirchner/linting-aws-iam-policies-e76b95859c93).
 
-The actual linting is performed by the [AWS IAM Access Analyzer policy validation feature](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-policy-validation.html), which is mostly known for showing recommendations when manually editing IAM policies on the AWS Console UI:
+The script makes use of two mechanisms:
 
+1. AWS IAM Access Analyzer policy validation, which is mostly known for showing recommendations when manually editing IAM policies on the AWS Console UI:
 ![](./doc/access_analyzer_console.png)
+The checks are created and maintained by AWS and are described closer [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html).
 
-The linting checks are created and maintained by AWS and are described closer [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html).
+2. AWS IAM Access Analyzer checks for public access, which test whether resource-based policies grant unrestricted public access (e.g., to S3 buckets, SQS queues, etc.). They are described closer [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-custom-policy-checks.html).
 
 
 
@@ -18,9 +20,9 @@ variables](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvar
 profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html) in the optional `--profile` 
 argument.
 
-* If your are running the checks against a single AWS account (`--scope ACCOUNT`), you require at least [these permissions](doc/permissions_scope_account.json). 
+* If your are running the script against a single AWS account (`--scope ACCOUNT`), you require at least [these permissions](doc/permissions_scope_account.json). 
 
-* If you are running the checks against all accounts of an AWS Organization (`--scope ORGANIZATION`), you must use credentials that belong to the Organizations management account and have at least [these permissions](doc/permissions_scope_organization.json). The Organizations member accounts need to have an IAM role configured that can be assumed from the Organizations management account. In many cases, there is the default `OrganizationAccountAccessRole` available. If you are instead using custom roles within the Organizations member accounts, they require at least [these permissions](doc/permissions_scope_account.json). 
+* If you are running the script against all accounts of an AWS Organization (`--scope ORGANIZATION`), you must use credentials that belong to the Organizations management account and have at least [these permissions](doc/permissions_scope_organization.json). The Organizations member accounts need to have an IAM role configured that can be assumed from the Organizations management account. In many cases, there is the default `OrganizationAccountAccessRole` available. If you are instead using custom roles within the Organizations member accounts, they require at least [these permissions](doc/permissions_scope_account.json). 
 
 By default, all supported policy types and all regions are analyzed in the targeted AWS account(s). See the list of supported arguments below, in case you want to reduce coverage.
 
@@ -152,7 +154,7 @@ The following IAM policy types are analyzed:
 
 ## Example result file
 
-Linting results are written to a JSON file. Findings are grouped once by account ID and once by finding category. This means that one specific finding is present twice in the result file.
+Results are written to a JSON file. Findings are grouped once by account ID and once by finding category. This means that one specific finding is present twice in the result file.
 
 ```json
 {
