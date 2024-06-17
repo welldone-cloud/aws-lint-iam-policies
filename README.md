@@ -127,6 +127,7 @@ The following IAM policy types are analyzed:
 * License Manager license configuration policies
 * Marketplace Catalog entity policies
 * Migration Hub Refactor Spaces environment policies
+* Network Firewall firewall policies
 * OpenSearch domain policies
 * Organizations delegation policies
 * Organizations service control policies

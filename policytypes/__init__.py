@@ -53,6 +53,7 @@ __all__ = [
     "license_manager_license_configuration_policies",
     "marketplace_catalog_entity_policies",
     "migration_hub_refactor_spaces_environment_policies",
+    "network_firewall_firewall_policies",
     "opensearch_domain_policies",
     "organizations_delegation_policies",
     "organizations_service_control_policies",

@@ -93,6 +93,7 @@ POLICY_TYPES_AND_REGIONS = {
     license_manager_license_configuration_policies: REGION.ALL,
     marketplace_catalog_entity_policies: REGION.US_EAST_1,
     migration_hub_refactor_spaces_environment_policies: REGION.ALL,
+    network_firewall_firewall_policies: REGION.ALL,
     opensearch_domain_policies: REGION.ALL,
     organizations_delegation_policies: REGION.US_EAST_1,
     organizations_service_control_policies: REGION.US_EAST_1,

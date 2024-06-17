@@ -110,6 +110,8 @@
                 "logs:GetDeliveryDestinationPolicy",
                 "mediastore:GetContainerPolicy",
                 "mediastore:ListContainers",
+                "network-firewall:DescribeResourcePolicy",
+                "network-firewall:ListFirewallPolicies",
                 "organizations:DescribePolicy",
                 "organizations:DescribeResourcePolicy",
                 "organizations:ListPolicies",
