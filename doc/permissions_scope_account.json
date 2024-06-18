@@ -96,6 +96,7 @@
                 "mediastore:ListContainers",
                 "network-firewall:DescribeResourcePolicy",
                 "network-firewall:ListFirewallPolicies",
+                "network-firewall:ListRuleGroups",
                 "organizations:DescribeOrganization",
                 "organizations:DescribePolicy",
                 "organizations:DescribeResourcePolicy",

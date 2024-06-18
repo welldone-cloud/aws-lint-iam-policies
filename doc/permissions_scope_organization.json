@@ -112,6 +112,7 @@
                 "mediastore:ListContainers",
                 "network-firewall:DescribeResourcePolicy",
                 "network-firewall:ListFirewallPolicies",
+                "network-firewall:ListRuleGroups",
                 "organizations:DescribePolicy",
                 "organizations:DescribeResourcePolicy",
                 "organizations:ListPolicies",
