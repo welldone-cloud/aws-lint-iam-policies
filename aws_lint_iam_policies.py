@@ -106,6 +106,8 @@ POLICY_TYPES_AND_REGIONS = {
     s3_directory_bucket_policies: REGION.ALL,
     s3_multi_region_access_point_policies: REGION.US_WEST_2,
     s3_object_lambda_access_point_policies: REGION.ALL,
+    s3_on_outposts_access_point_policies: REGION.ALL,
+    s3_on_outposts_bucket_policies: REGION.ALL,
     secrets_manager_secret_policies: REGION.ALL,
     security_hub_product_subscription_policies: REGION.ALL,
     ses_authorization_policies: REGION.ALL,
