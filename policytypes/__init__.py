@@ -61,6 +61,7 @@ __all__ = [
     "rds_aurora_cluster_policies",
     "redshift_serverless_snapshot_policies",
     "rekognition_custom_labels_project_policies",
+    "resource_groups_group_policies",
     "s3_access_point_policies",
     "s3_bucket_policies",
     "s3_directory_bucket_policies",

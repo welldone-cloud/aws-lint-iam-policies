@@ -125,6 +125,7 @@
                 "refactor-spaces:ListEnvironments",
                 "rekognition:DescribeProjects",
                 "rekognition:ListProjectPolicies",
+                "resource-groups:GetGroupPolicy",
                 "s3:GetAccessPointPolicy",
                 "s3:GetAccessPointPolicyForObjectLambda",
                 "s3:GetBucketLocation",

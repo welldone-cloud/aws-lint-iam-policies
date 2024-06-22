@@ -135,6 +135,7 @@ The following IAM policy types are analyzed:
 * RDS Aurora cluster policies
 * Redshift serverless snapshot policies
 * Rekognition custom labels project policies
+* Resource Groups group policies
 * S3 access point policies
 * S3 bucket policies
 * S3 directory bucket policies
