@@ -103,6 +103,7 @@ POLICY_TYPES_AND_REGIONS = {
     rekognition_custom_labels_project_policies: REGION.ALL,
     resource_groups_group_policies: REGION.ALL,
     route53_resolver_firewall_rule_group_policies: REGION.ALL,
+    route53_resolver_resolver_query_log_config_policies: REGION.ALL,
     route53_resolver_resolver_rule_policies: REGION.ALL,
     s3_access_point_policies: REGION.ALL,
     s3_bucket_policies: REGION.ALL,

@@ -63,6 +63,7 @@ __all__ = [
     "rekognition_custom_labels_project_policies",
     "resource_groups_group_policies",
     "route53_resolver_firewall_rule_group_policies",
+    "route53_resolver_resolver_query_log_config_policies",
     "route53_resolver_resolver_rule_policies",
     "s3_access_point_policies",
     "s3_bucket_policies",
