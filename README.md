@@ -137,6 +137,7 @@ The following IAM policy types are analyzed:
 * Rekognition custom labels project policies
 * Resource Groups group policies
 * Route53 Resolver firewall rule group policies
+* Route53 Resolver resolver rule policies
 * S3 access point policies
 * S3 bucket policies
 * S3 directory bucket policies
