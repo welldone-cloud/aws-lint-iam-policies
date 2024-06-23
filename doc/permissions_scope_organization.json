@@ -126,6 +126,8 @@
                 "rekognition:DescribeProjects",
                 "rekognition:ListProjectPolicies",
                 "resource-groups:GetGroupPolicy",
+                "route53resolver:GetFirewallRuleGroupPolicy",
+                "route53resolver:ListFirewallRuleGroups",
                 "s3:GetAccessPointPolicy",
                 "s3:GetAccessPointPolicyForObjectLambda",
                 "s3:GetBucketLocation",

@@ -62,6 +62,7 @@ __all__ = [
     "redshift_serverless_snapshot_policies",
     "rekognition_custom_labels_project_policies",
     "resource_groups_group_policies",
+    "route53_resolver_firewall_rule_group_policies",
     "s3_access_point_policies",
     "s3_bucket_policies",
     "s3_directory_bucket_policies",
