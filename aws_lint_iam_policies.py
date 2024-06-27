@@ -105,6 +105,7 @@ POLICY_TYPES_AND_REGIONS = {
     route53_resolver_firewall_rule_group_policies: REGION.ALL,
     route53_resolver_resolver_query_log_config_policies: REGION.ALL,
     route53_resolver_resolver_rule_policies: REGION.ALL,
+    s3_access_grants_instance_policies: REGION.ALL,
     s3_access_point_policies: REGION.ALL,
     s3_bucket_policies: REGION.ALL,
     s3_directory_bucket_policies: REGION.ALL,

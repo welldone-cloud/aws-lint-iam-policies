@@ -139,6 +139,7 @@ The following IAM policy types are analyzed:
 * Route53 Resolver firewall rule group policies
 * Route53 Resolver resolver rule policies
 * Route53 Resolver resolver query log config policies
+* S3 access grants instance policies
 * S3 access point policies
 * S3 bucket policies
 * S3 directory bucket policies

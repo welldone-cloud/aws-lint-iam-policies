@@ -65,6 +65,7 @@ __all__ = [
     "route53_resolver_firewall_rule_group_policies",
     "route53_resolver_resolver_query_log_config_policies",
     "route53_resolver_resolver_rule_policies",
+    "s3_access_grants_instance_policies",
     "s3_access_point_policies",
     "s3_bucket_policies",
     "s3_directory_bucket_policies",

@@ -132,6 +132,8 @@
                 "route53resolver:ListFirewallRuleGroups",
                 "route53resolver:ListResolverQueryLogConfigs",
                 "route53resolver:ListResolverRules",
+                "s3:GetAccessGrantsInstance",
+                "s3:GetAccessGrantsInstanceResourcePolicy",
                 "s3:GetAccessPointPolicy",
                 "s3:GetAccessPointPolicyForObjectLambda",
                 "s3:GetBucketLocation",
