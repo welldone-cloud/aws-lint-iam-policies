@@ -145,6 +145,7 @@
                 "s3:ListMultiRegionAccessPoints",
                 "s3express:GetBucketPolicy",
                 "s3express:ListAllMyDirectoryBuckets",
+                "sagemaker:GetResourcePolicy",
                 "schemas:GetResourcePolicy",
                 "schemas:ListRegistries",
                 "secretsmanager:GetResourcePolicy",

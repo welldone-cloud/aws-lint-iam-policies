@@ -71,6 +71,7 @@ __all__ = [
     "s3_directory_bucket_policies",
     "s3_multi_region_access_point_policies",
     "s3_object_lambda_access_point_policies",
+    "sagemaker_feature_group_catalog_policies",
     "secrets_manager_secret_policies",
     "security_hub_product_subscription_policies",
     "ses_authorization_policies",

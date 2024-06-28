@@ -111,6 +111,7 @@ POLICY_TYPES_AND_REGIONS = {
     s3_directory_bucket_policies: REGION.ALL,
     s3_multi_region_access_point_policies: REGION.US_WEST_2,
     s3_object_lambda_access_point_policies: REGION.ALL,
+    sagemaker_feature_group_catalog_policies: REGION.ALL,
     secrets_manager_secret_policies: REGION.ALL,
     security_hub_product_subscription_policies: REGION.ALL,
     ses_authorization_policies: REGION.ALL,
@@ -123,7 +124,7 @@ POLICY_TYPES_AND_REGIONS = {
     vpc_endpoint_policies: REGION.ALL,
 }
 
-ACCESS_ANALYZER_SUPPORTED_TYPES_VALIDATE_POLICY = (
+ACCESS_ANALYZER_TYPE_SPECS_VALIDATE_POLICY = (
     # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/accessanalyzer/client/validate_policy.html
     "AWS::DynamoDB::Table",
     "AWS::IAM::AssumeRolePolicyDocument",
@@ -133,7 +134,7 @@ ACCESS_ANALYZER_SUPPORTED_TYPES_VALIDATE_POLICY = (
     "AWS::S3ObjectLambda::AccessPoint",
 )
 
-ACCESS_ANALYZER_SUPPORTED_TYPES_CHECK_NO_PUBLIC_ACCESS = (
+ACCESS_ANALYZER_TYPE_SPECS_CHECK_NO_PUBLIC_ACCESS = (
     # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/accessanalyzer/client/check_no_public_access.html
     "AWS::DynamoDB::Stream",
     "AWS::DynamoDB::Table",
@@ -291,7 +292,7 @@ def analyze_policy(
         "policyType": policy_type,
         "policyDocument": policy_document,
     }
-    if resource_type in ACCESS_ANALYZER_SUPPORTED_TYPES_VALIDATE_POLICY:
+    if resource_type in ACCESS_ANALYZER_TYPE_SPECS_VALIDATE_POLICY:
         call_parameters["validatePolicyResourceType"] = resource_type
     for findings_page in findings_paginator.paginate(**call_parameters):
         for finding in findings_page["findings"]:
@@ -315,7 +316,7 @@ def analyze_policy(
 
     # Send policy through Access Analyzer's check_no_public_access
     if (
-        resource_type in ACCESS_ANALYZER_SUPPORTED_TYPES_CHECK_NO_PUBLIC_ACCESS
+        resource_type in ACCESS_ANALYZER_TYPE_SPECS_CHECK_NO_PUBLIC_ACCESS
         and "PUBLIC_ACCESS" not in ignore_finding_issue_codes
     ):
         try:

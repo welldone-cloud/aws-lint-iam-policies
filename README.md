@@ -145,6 +145,7 @@ The following IAM policy types are analyzed:
 * S3 directory bucket policies
 * S3 multi-region access point policies
 * S3 object Lambda access point policies
+* SageMaker feature group catalog policies
 * Secrets manager secret policies
 * Security Hub product subscription policies
 * SES authorization policies
