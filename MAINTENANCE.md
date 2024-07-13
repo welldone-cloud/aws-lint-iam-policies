@@ -1,4 +1,4 @@
-## Finding resources that support resource-based policies
+## Adding policy type implementations for resources that support resource-based policies
 - <https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-services-that-work-with-iam.html#all_svcs>
 - <https://docs.aws.amazon.com/ram/latest/userguide/shareable.html>
 

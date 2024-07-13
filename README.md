@@ -65,6 +65,10 @@ python aws_lint_iam_policies.py --scope ORGANIZATION --member-accounts-role Orga
     do not target the specified comma-separated list of Organizations OU IDs
 --include-ous INCLUDE_OUS
     only target the specified comma-separated list of Organizations OU IDs
+--exclude-finding-issue-codes EXCLUDE_FINDING_ISSUE_CODES
+    do not report the specified comma-separated list of finding issue codes
+--include-finding-issue-codes INCLUDE_FINDING_ISSUE_CODES
+    only report the specified comma-separated list of finding issue codes
 --profile PROFILE
     named AWS profile to use
 ```
@@ -167,11 +171,11 @@ Results are written to a JSON file. Findings are grouped once by account ID and 
 {
   "_metadata": {
     "invocation": "aws_lint_iam_policies.py --scope ACCOUNT",
+    "account_id": "123456789012",
     "principal": "arn:aws:iam::123456789012:user/user1",
-    "run_timestamp": "20230729093927",
     "scope": "ACCOUNT",
-    "errors": [],
-    "account_id": "123456789012"
+    "run_timestamp": "20230729093927",
+    "errors": []
   },
   "results_grouped_by_account_id": {
     "123456789012": [
@@ -182,11 +186,11 @@ Results are written to a JSON file. Findings are grouped once by account ID and 
         "resource_type": "AWS::IAM::UserPolicy",
         "resource_name": "user1:inlinepolicy",
         "resource_arn": "arn:aws:iam::123456789012:user/user1",
+        "policy_dump_file_name": "123456789012_us-east-1_AWS_IAM_UserPolicy_user1_inlinepolicy_0.json",
         "finding_type": "SECURITY_WARNING",
         "finding_issue_code": "PASS_ROLE_WITH_STAR_IN_RESOURCE",
         "finding_description": "Using the iam:PassRole action with wildcards (*) in the resource can be overly permissive because it allows iam:PassRole permissions on multiple resources. We recommend that you specify resource ARNs or add the iam:PassedToService condition key to your statement.",
-        "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-security-warning-pass-role-with-star-in-resource",
-        "policy_dump_file_name": "123456789012_us-east-1_AWS_IAM_UserPolicy_user1_inlinepolicy_0.json"
+        "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-security-warning-pass-role-with-star-in-resource"
       },
       {
         "account_id": "123456789012",
@@ -195,11 +199,11 @@ Results are written to a JSON file. Findings are grouped once by account ID and 
         "resource_type": "AWS::SQS::QueuePolicy",
         "resource_name": "queue1",
         "resource_arn": "arn:aws:sqs:eu-central-1:123456789012:queue1",
+        "policy_dump_file_name": "123456789012_eu-central-1_AWS_SQS_QueuePolicy_queue1_0.json",
         "finding_type": "WARNING",
         "finding_issue_code": "MISSING_VERSION",
         "finding_description": "We recommend that you specify the Version element to help you with debugging permission issues.",
-        "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-general-warning-missing-version",
-        "policy_dump_file_name": "123456789012_eu-central-1_AWS_SQS_QueuePolicy_queue1_0.json"
+        "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-general-warning-missing-version"
       }
     ]
   },
@@ -213,11 +217,11 @@ Results are written to a JSON file. Findings are grouped once by account ID and 
           "resource_type": "AWS::IAM::UserPolicy",
           "resource_name": "user1:inlinepolicy",
           "resource_arn": "arn:aws:iam::123456789012:user/user1",
+          "policy_dump_file_name": "123456789012_us-east-1_AWS_IAM_UserPolicy_user1_inlinepolicy_0.json",
           "finding_type": "SECURITY_WARNING",
           "finding_issue_code": "PASS_ROLE_WITH_STAR_IN_RESOURCE",
           "finding_description": "Using the iam:PassRole action with wildcards (*) in the resource can be overly permissive because it allows iam:PassRole permissions on multiple resources. We recommend that you specify resource ARNs or add the iam:PassedToService condition key to your statement.",
-          "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-security-warning-pass-role-with-star-in-resource",
-          "policy_dump_file_name": "123456789012_us-east-1_AWS_IAM_UserPolicy_user1_inlinepolicy_0.json"
+          "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-security-warning-pass-role-with-star-in-resource"
         }
       ]
     },
@@ -230,11 +234,11 @@ Results are written to a JSON file. Findings are grouped once by account ID and 
           "resource_type": "AWS::SQS::QueuePolicy",
           "resource_name": "queue1",
           "resource_arn": "arn:aws:sqs:eu-central-1:123456789012:queue1",
+          "policy_dump_file_name": "123456789012_eu-central-1_AWS_SQS_QueuePolicy_queue1_0.json",
           "finding_type": "WARNING",
           "finding_issue_code": "MISSING_VERSION",
           "finding_description": "We recommend that you specify the Version element to help you with debugging permission issues.",
-          "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-general-warning-missing-version",
-          "policy_dump_file_name": "123456789012_eu-central-1_AWS_SQS_QueuePolicy_queue1_0.json"
+          "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-general-warning-missing-version"
         }
       ]
     }

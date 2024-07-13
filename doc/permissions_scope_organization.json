@@ -8,10 +8,12 @@
             "Resource": "arn:aws:iam::*:role/OrganizationAccountAccessRole"
         },
         {
-            "Sid": "AllowListingMemberAccounts",
+            "Sid": "AllowReadingOrganizationsDetails",
             "Effect": "Allow",
             "Action": [
+                "organizations:DescribeAccount",
                 "organizations:DescribeOrganization",
+                "organizations:DescribeOrganizationalUnit",
                 "organizations:ListAccounts",
                 "organizations:ListParents"
             ],

@@ -4,472 +4,106 @@ import argparse
 import boto3
 import botocore.config
 import botocore.exceptions
-import cachetools
-import concurrent.futures
-import datetime
-import json
 import os
+import pathlib
 import pkg_resources
 import re
-import string
 import sys
-import traceback
 
-from enum import Enum
-from policytypes import *
+from modules.account_analyzer import AccountAnalyzer
+from modules.organization_analyzer import OrganizationAnalyzer
+from modules.policy_analyzer import PolicyAnalyzer
+from modules.result_collector import ResultCollector
 
 
-AWS_ACCOUNT_ID_PATTERN = re.compile(r"^\d{12,}$")
+AWS_DEFAULT_REGION = "us-east-1"
 
-AWS_REGION_NAME_PATTERN = re.compile(r"^([a-z]+-){2,}\d+$")
-
-AWS_ROLE_NAME_PATTERN = re.compile(r"^[\w+=,.@-]{1,64}$")
-
-BOTO_CLIENT_CONFIG = botocore.config.Config(
+BOTO_CONFIG = botocore.config.Config(
     connect_timeout=5,
     read_timeout=5,
     retries={"total_max_attempts": 5, "mode": "standard"},
 )
 
-ERROR_MESSAGE_INVALID_PARAM_COMBINATION = "Invalid combination of parameters"
+ERROR_MESSAGE_INVALID_PARAMETER = "Invalid parameter for provided scope"
 
-REGION = Enum("REGION", [("ALL", "all"), ("US_EAST_1", "us-east-1"), ("US_WEST_2", "us-west-2")])
+PATTERN_AWS_ACCOUNT_ID = re.compile(r"^\d{12,}$")
 
-SCOPE = Enum("SCOPE", ["ACCOUNT", "ORGANIZATION", "NONE"])
+PATTERN_AWS_ORGANIZATIONAL_UNIT = re.compile(r"^ou-[a-z0-9]{4,32}-[a-z0-9]{8,32}$")
 
-VALID_FILE_NAME_CHARACTERS = string.ascii_letters + string.digits + "_+=,.@-"
+PATTERN_AWS_REGION_NAME = re.compile(r"^([a-z]+-){2,}\d+$")
 
-POLICY_TYPES_AND_REGIONS = {
-    acm_private_ca_policies: REGION.ALL,
-    api_gateway_rest_api_policies: REGION.ALL,
-    app_mesh_mesh_policies: REGION.ALL,
-    appsync_graphql_api_policies: REGION.ALL,
-    backup_vault_policies: REGION.ALL,
-    cloudtrail_channel_policies: REGION.ALL,
-    cloudwatch_logs_delivery_destination_policies: REGION.ALL,
-    cloudwatch_logs_destination_policies: REGION.ALL,
-    cloudwatch_logs_resource_policies: REGION.ALL,
-    codeartifact_domain_policies: REGION.ALL,
-    codeartifact_repository_policies: REGION.ALL,
-    codebuild_build_project_policies: REGION.ALL,
-    codebuild_report_group_policies: REGION.ALL,
-    datazone_domain_policies: REGION.ALL,
-    dynamodb_stream_policies: REGION.ALL,
-    dynamodb_table_policies: REGION.ALL,
-    ec2_capacity_reservation_policies: REGION.ALL,
-    ec2_dedicated_host_policies: REGION.ALL,
-    ec2_image_builder_component_policies: REGION.ALL,
-    ec2_placement_group_policies: REGION.ALL,
-    ec2_image_builder_container_recipe_policies: REGION.ALL,
-    ec2_image_builder_image_policies: REGION.ALL,
-    ec2_image_builder_image_recipe_policies: REGION.ALL,
-    ecr_private_registry_policies: REGION.ALL,
-    ecr_private_repository_policies: REGION.ALL,
-    ecr_public_repository_policies: REGION.US_EAST_1,
-    efs_file_system_policies: REGION.ALL,
-    elemental_mediastore_container_policies: REGION.ALL,
-    eventbridge_event_bus_policies: REGION.ALL,
-    eventbridge_schema_registry_policies: REGION.ALL,
-    fsx_volume_policies: REGION.ALL,
-    glacier_vault_lock_policies: REGION.ALL,
-    glacier_vault_resource_policies: REGION.ALL,
-    glue_data_catalog_policies: REGION.ALL,
-    glue_database_policies: REGION.ALL,
-    glue_table_policies: REGION.ALL,
-    iam_group_inline_policies: REGION.US_EAST_1,
-    iam_identity_center_permission_set_inline_policies: REGION.ALL,
-    iam_managed_policies: REGION.US_EAST_1,
-    iam_role_inline_policies: REGION.US_EAST_1,
-    iam_role_trust_policies: REGION.US_EAST_1,
-    iam_user_inline_policies: REGION.US_EAST_1,
-    iot_core_policies: REGION.ALL,
-    kinesis_data_stream_consumer_policies: REGION.ALL,
-    kinesis_data_stream_policies: REGION.ALL,
-    kms_key_policies: REGION.ALL,
-    lambda_function_policies: REGION.ALL,
-    lambda_layer_policies: REGION.ALL,
-    lex_bot_alias_policies: REGION.ALL,
-    lex_bot_policies: REGION.ALL,
-    license_manager_license_configuration_policies: REGION.ALL,
-    marketplace_catalog_entity_policies: REGION.US_EAST_1,
-    migration_hub_refactor_spaces_environment_policies: REGION.ALL,
-    network_firewall_firewall_policies: REGION.ALL,
-    network_firewall_rule_group_policies: REGION.ALL,
-    opensearch_domain_policies: REGION.ALL,
-    organizations_delegation_policies: REGION.US_EAST_1,
-    organizations_service_control_policies: REGION.US_EAST_1,
-    rds_aurora_cluster_policies: REGION.ALL,
-    redshift_serverless_snapshot_policies: REGION.ALL,
-    rekognition_custom_labels_project_policies: REGION.ALL,
-    resource_groups_group_policies: REGION.ALL,
-    route53_resolver_firewall_rule_group_policies: REGION.ALL,
-    route53_resolver_resolver_query_log_config_policies: REGION.ALL,
-    route53_resolver_resolver_rule_policies: REGION.ALL,
-    s3_access_grants_instance_policies: REGION.ALL,
-    s3_access_point_policies: REGION.ALL,
-    s3_bucket_policies: REGION.ALL,
-    s3_directory_bucket_policies: REGION.ALL,
-    s3_multi_region_access_point_policies: REGION.US_WEST_2,
-    s3_object_lambda_access_point_policies: REGION.ALL,
-    sagemaker_feature_group_catalog_policies: REGION.ALL,
-    secrets_manager_secret_policies: REGION.ALL,
-    security_hub_product_subscription_policies: REGION.ALL,
-    ses_authorization_policies: REGION.ALL,
-    sns_topic_policies: REGION.ALL,
-    sqs_queue_policies: REGION.ALL,
-    ssm_incident_manager_contact_policies: REGION.ALL,
-    ssm_incident_manager_response_plan_policies: REGION.ALL,
-    ssm_opscenter_opsitemgroup_resource_policies: REGION.ALL,
-    ssm_parameter_store_parameter_policies: REGION.ALL,
-    vpc_endpoint_policies: REGION.ALL,
-}
+PATTERN_AWS_ROLE_NAME = re.compile(r"^[\w+=,.@-]{1,64}$")
 
-ACCESS_ANALYZER_TYPE_SPECS_VALIDATE_POLICY = (
-    # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/accessanalyzer/client/validate_policy.html
-    "AWS::DynamoDB::Table",
-    "AWS::IAM::AssumeRolePolicyDocument",
-    "AWS::S3::AccessPoint",
-    "AWS::S3::Bucket",
-    "AWS::S3::MultiRegionAccessPoint",
-    "AWS::S3ObjectLambda::AccessPoint",
-)
+PATTERN_FINDING_ISSUE_CODE = re.compile(r"^[A-Z0-9_]+$")
 
-ACCESS_ANALYZER_TYPE_SPECS_CHECK_NO_PUBLIC_ACCESS = (
-    # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/accessanalyzer/client/check_no_public_access.html
-    "AWS::DynamoDB::Stream",
-    "AWS::DynamoDB::Table",
-    "AWS::EFS::FileSystem",
-    "AWS::IAM::AssumeRolePolicyDocument",
-    "AWS::Kinesis::Stream",
-    "AWS::Kinesis::StreamConsumer",
-    "AWS::KMS::Key",
-    "AWS::Lambda::Function",
-    "AWS::OpenSearchService::Domain",
-    "AWS::S3::AccessPoint",
-    "AWS::S3::Bucket",
-    "AWS::S3::Glacier",
-    "AWS::S3Express::DirectoryBucket",
-    "AWS::S3Outposts::AccessPoint",
-    "AWS::S3Outposts::Bucket",
-    "AWS::SecretsManager::Secret",
-    "AWS::SNS::Topic",
-    "AWS::SQS::Queue",
-)
+SCOPE_ACCOUNT = "ACCOUNT"
 
-
-@cachetools.cached(cache=cachetools.LRUCache(maxsize=64))
-def get_access_analyzer_client(boto_session, region):
-    return boto_session.client("accessanalyzer", config=BOTO_CLIENT_CONFIG, region_name=region)
-
-
-@cachetools.cached(cache=dict())
-def get_organizations_parents(organizations_client, child_id):
-    all_parents = []
-    parent = organizations_client.list_parents(ChildId=child_id)["Parents"][0]
-    all_parents.append(parent["Id"])
-    if parent["Type"] != "ROOT":
-        all_parents.extend(get_organizations_parents(organizations_client, parent["Id"]))
-    return all_parents
+SCOPE_ORGANIZATION = "ORGANIZATION"
 
 
 def get_scope():
     for pair in [(sys.argv[i], sys.argv[i + 1]) for i in range(0, len(sys.argv) - 1)]:
-        if pair == ("--scope", SCOPE.ACCOUNT.name):
-            return SCOPE.ACCOUNT
-        elif pair == ("--scope", SCOPE.ORGANIZATION.name):
-            return SCOPE.ORGANIZATION
-    return SCOPE.NONE
-
-
-def get_policy_type_names():
-    return sorted([policy_type.__name__.split(".")[1] for policy_type in POLICY_TYPES_AND_REGIONS])
+        if pair == ("--scope", SCOPE_ACCOUNT):
+            return SCOPE_ACCOUNT
+        elif pair == ("--scope", SCOPE_ORGANIZATION):
+            return SCOPE_ORGANIZATION
+    return None
 
 
 def parse_member_accounts_role(val):
-    if val and get_scope() != SCOPE.ORGANIZATION:
-        raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAM_COMBINATION)
-    elif not val and get_scope() == SCOPE.ORGANIZATION:
-        raise argparse.ArgumentTypeError("Parameter required when using scope {}".format(SCOPE.ORGANIZATION.name))
-    if val and not AWS_ROLE_NAME_PATTERN.match(val):
+    if val and get_scope() != SCOPE_ORGANIZATION:
+        raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAMETER)
+    elif not val and get_scope() == SCOPE_ORGANIZATION:
+        raise argparse.ArgumentTypeError("Parameter required when using scope {}".format(SCOPE_ORGANIZATION))
+    if val and not PATTERN_AWS_ROLE_NAME.match(val):
         raise argparse.ArgumentTypeError("Invalid IAM role name")
     return val
 
 
 def parse_policy_types(val):
-    if get_scope() not in (SCOPE.ORGANIZATION, SCOPE.ACCOUNT):
-        raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAM_COMBINATION)
+    if get_scope() not in (SCOPE_ACCOUNT, SCOPE_ORGANIZATION):
+        raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAMETER)
+    supported_policy_types = PolicyAnalyzer.get_supported_policy_type_names()
     for policy_type_name in val.split(","):
-        if policy_type_name not in get_policy_type_names():
+        if policy_type_name not in supported_policy_types:
             raise argparse.ArgumentTypeError("Unrecognized policy type name: {}".format(policy_type_name))
     return val.split(",")
 
 
 def parse_regions(val):
-    if get_scope() not in (SCOPE.ORGANIZATION, SCOPE.ACCOUNT):
-        raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAM_COMBINATION)
+    if get_scope() not in (SCOPE_ACCOUNT, SCOPE_ORGANIZATION):
+        raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAMETER)
     for region in val.split(","):
-        if not AWS_REGION_NAME_PATTERN.match(region):
+        if not PATTERN_AWS_REGION_NAME.match(region):
             raise argparse.ArgumentTypeError("Invalid region name format: {}".format(region))
     return val.split(",")
 
 
 def parse_accounts(val):
-    if get_scope() != SCOPE.ORGANIZATION:
-        raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAM_COMBINATION)
+    if get_scope() != SCOPE_ORGANIZATION:
+        raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAMETER)
     for account in val.split(","):
-        if not AWS_ACCOUNT_ID_PATTERN.match(account):
+        if not PATTERN_AWS_ACCOUNT_ID.match(account):
             raise argparse.ArgumentTypeError("Invalid account ID format: {}".format(account))
     return val.split(",")
 
 
 def parse_ous(val):
-    if get_scope() != SCOPE.ORGANIZATION:
-        raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAM_COMBINATION)
+    if get_scope() != SCOPE_ORGANIZATION:
+        raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAMETER)
     for ou in val.split(","):
-        if not ou.startswith("ou-"):
+        if not PATTERN_AWS_ORGANIZATIONAL_UNIT.match(ou):
             raise argparse.ArgumentTypeError("Invalid OU ID format: {}".format(ou))
     return val.split(",")
 
 
-def log_error(msg):
-    result_collection["_metadata"]["errors"].append(msg.strip())
-    print(msg)
-
-
-def add_to_result_collection(result):
-    # Add to results_grouped_by_account_id
-    try:
-        result_collection["results_grouped_by_account_id"][account_id].append(result)
-    except KeyError:
-        result_collection["results_grouped_by_account_id"][account_id] = [result]
-
-    # Add to results_grouped_by_finding_category
-    finding_type = result["finding_type"]
-    finding_issue_code = result["finding_issue_code"]
-    try:
-        result_collection["results_grouped_by_finding_category"][finding_type][finding_issue_code].append(result)
-    except KeyError:
-        if finding_type not in result_collection["results_grouped_by_finding_category"]:
-            result_collection["results_grouped_by_finding_category"][finding_type] = {}
-        result_collection["results_grouped_by_finding_category"][finding_type][finding_issue_code] = [result]
-
-
-def analyze_policy(
-    account_id,
-    region,
-    boto_session,
-    source_service,
-    resource_type,
-    resource_name,
-    resource_arn,
-    policy_document,
-    policy_type,
-    ignore_finding_issue_codes=[],
-):
-    # Create a policy dump file. Some AWS resources can have multiple policies attached or can use the same name,
-    # while using different IDs in their ARN. An index is thus put at the end of the file name to handle collisions.
-    index = 0
-    while True:
-        dump_file_name = "".join(
-            char if char in VALID_FILE_NAME_CHARACTERS else "_"
-            for char in "{}_{}_{}_{}_{}_{}.json".format(
-                account_id, region, source_service, resource_type, resource_name, index
-            )
-        )
-        dump_file_name = re.sub("_+", "_", dump_file_name)
-        dump_file_path = os.path.join(policy_dump_directory, dump_file_name)
-        if not os.path.isfile(dump_file_path):
-            break
-        index += 1
-    with open(dump_file_path, "w") as dump_file:
-        json.dump(json.loads(policy_document), dump_file, indent=2)
-
-    # Send policy through Access Analyzer's validate_policy
-    access_analyzer_client = get_access_analyzer_client(boto_session, region)
-    findings_paginator = access_analyzer_client.get_paginator("validate_policy")
-    call_parameters = {
-        "locale": "EN",
-        "policyType": policy_type,
-        "policyDocument": policy_document,
-    }
-    if resource_type in ACCESS_ANALYZER_TYPE_SPECS_VALIDATE_POLICY:
-        call_parameters["validatePolicyResourceType"] = resource_type
-    for findings_page in findings_paginator.paginate(**call_parameters):
-        for finding in findings_page["findings"]:
-            if finding["issueCode"] in ignore_finding_issue_codes:
-                continue
-            add_to_result_collection(
-                {
-                    "account_id": account_id,
-                    "region": region,
-                    "source_service": source_service,
-                    "resource_type": resource_type,
-                    "resource_name": resource_name,
-                    "resource_arn": resource_arn,
-                    "finding_type": finding["findingType"],
-                    "finding_issue_code": finding["issueCode"],
-                    "finding_description": finding["findingDetails"],
-                    "finding_link": finding["learnMoreLink"],
-                    "policy_dump_file_name": dump_file_name,
-                }
-            )
-
-    # Send policy through Access Analyzer's check_no_public_access
-    if (
-        resource_type in ACCESS_ANALYZER_TYPE_SPECS_CHECK_NO_PUBLIC_ACCESS
-        and "PUBLIC_ACCESS" not in ignore_finding_issue_codes
-    ):
-        try:
-            check_no_public_access_response = access_analyzer_client.check_no_public_access(
-                policyDocument=policy_document, resourceType=resource_type
-            )
-        except access_analyzer_client.exceptions.from_code("InvalidParameterException"):
-            # There are valid IAM policies that lead to an error with check_no_public_access, such as policies that
-            # consist of only Deny statements. Ignore these errors here.
-            pass
-        else:
-            if check_no_public_access_response["result"] == "FAIL":
-                add_to_result_collection(
-                    {
-                        "account_id": account_id,
-                        "region": region,
-                        "source_service": source_service,
-                        "resource_type": resource_type,
-                        "resource_name": resource_name,
-                        "resource_arn": resource_arn,
-                        "finding_type": "SECURITY_WARNING",
-                        "finding_issue_code": "PUBLIC_ACCESS",
-                        "finding_description": check_no_public_access_response["message"],
-                        "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-custom-policy-checks.html",
-                        "policy_dump_file_name": dump_file_name,
-                    }
-                )
-
-
-def analyze_account(account_id, boto_session):
-    # Get all regions enabled in the account
-    ec2_client = boto_session.client("ec2", config=BOTO_CLIENT_CONFIG, region_name=REGION.US_EAST_1.value)
-    try:
-        describe_regions_response = ec2_client.describe_regions(AllRegions=False)
-    except botocore.exceptions.ClientError:
-        log_error("Error for account ID {}: cannot fetch enabled regions".format(account_id))
-        return
-    enabled_regions = sorted([region["RegionName"] for region in describe_regions_response["Regions"]])
-
-    # Iterate all supported policy types and enabled regions and trigger analysis for applicable combinations that
-    # are also allowed by include and exclude arguments
-    print("Analyzing account ID {}".format(account_id))
-    futures = {}
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        for policy_type in POLICY_TYPES_AND_REGIONS:
-            policy_type_name = policy_type.__name__.split(".")[1]
-            if policy_type_name in args.exclude_policy_types:
-                continue
-            if args.include_policy_types and policy_type_name not in args.include_policy_types:
-                continue
-
-            for region in enabled_regions:
-                if POLICY_TYPES_AND_REGIONS[policy_type].value not in (REGION.ALL.value, region):
-                    continue
-                if region in args.exclude_regions:
-                    continue
-                if args.include_regions and region not in args.include_regions:
-                    continue
-                future_params = {
-                    "account_id": account_id,
-                    "region": region,
-                    "boto_session": boto_session,
-                    "boto_config": BOTO_CLIENT_CONFIG,
-                    "policy_analysis_function": analyze_policy,
-                }
-                future = executor.submit(policy_type.analyze, **future_params)
-                future_params["policy_type_name"] = policy_type_name
-                futures[future] = future_params
-
-        # Show status and process any errors that occurred
-        futures_completed = 0
-        for future in concurrent.futures.as_completed(futures.keys()):
-            futures_completed += 1
-            print("{}%".format(int(futures_completed * 100 / len(futures))), end="\r")
-
-            try:
-                future.result()
-            except (botocore.exceptions.EndpointConnectionError, botocore.exceptions.ConnectTimeoutError):
-                # Ignore errors when an AWS service is not available in a certain region
-                pass
-            except botocore.exceptions.ClientError as ex:
-                # Log expected errors such as a lack of permissions, regions/services denied by SCPs, etc.
-                log_error(
-                    "Error for account ID {}, region {}, policy type {}: {} ({})".format(
-                        account_id,
-                        futures[future]["region"],
-                        futures[future]["policy_type_name"],
-                        ex.response["Error"]["Code"],
-                        ex.response["Error"]["Message"],
-                    )
-                )
-            except Exception as ex:
-                # Log all remaining and unexpected errors and print stack trace details
-                msg = "Uncaught exception for account ID {}, region {}, policy type {}: {}. "
-                msg += "Please report this as an issue along with the stack trace information."
-                log_error(
-                    msg.format(
-                        account_id,
-                        futures[future]["region"],
-                        futures[future]["policy_type_name"],
-                        ex.__class__.__name__,
-                    )
-                )
-                print(traceback.format_exc())
-
-
-def analyze_organization(boto_session):
-    # Iterate all accounts of the Organization
-    accounts_paginator = organizations_client.get_paginator("list_accounts")
-    for accounts_page in accounts_paginator.paginate():
-        for account in accounts_page["Accounts"]:
-            account_id = account["Id"]
-
-            # Skip accounts that should not be targeted because of include or exclude arguments
-            if account_id in args.exclude_accounts:
-                continue
-            if args.include_accounts and account_id not in args.include_accounts:
-                continue
-            if args.exclude_ous and any(
-                ou in args.exclude_ous for ou in get_organizations_parents(organizations_client, account_id)
-            ):
-                continue
-            if args.include_ous and all(
-                ou not in args.include_ous for ou in get_organizations_parents(organizations_client, account_id)
-            ):
-                continue
-
-            # Skip accounts that are not active
-            if account["Status"] != "ACTIVE":
-                log_error("Error for account ID {}: account status is not active".format(account_id))
-                continue
-
-            # Assume a role in the target account for analysis, except for when we are currently analyzing the
-            # management account itself
-            if account_id == organization_management_account_id:
-                analyze_account(account_id, boto_session)
-            else:
-                try:
-                    assume_role_response = sts_client.assume_role(
-                        RoleArn="arn:aws:iam::{}:role/{}".format(account_id, args.member_accounts_role),
-                        RoleSessionName="aws-lint-iam-policies",
-                    )
-                except botocore.exceptions.ClientError:
-                    log_error(
-                        "Error for account ID {}: cannot assume specified member accounts role".format(account_id)
-                    )
-                    continue
-                account_session = boto3.Session(
-                    aws_access_key_id=assume_role_response["Credentials"]["AccessKeyId"],
-                    aws_secret_access_key=assume_role_response["Credentials"]["SecretAccessKey"],
-                    aws_session_token=assume_role_response["Credentials"]["SessionToken"],
-                )
-                analyze_account(account_id, account_session)
+def parse_issue_codes(val):
+    if get_scope() not in (SCOPE_ACCOUNT, SCOPE_ORGANIZATION):
+        raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAMETER)
+    for issue_code in val.split(","):
+        if not PATTERN_FINDING_ISSUE_CODE.match(issue_code):
+            raise argparse.ArgumentTypeError("Invalid issue code format: {}".format(issue_code))
+    return val.split(",")
 
 
 if __name__ == "__main__":
@@ -477,7 +111,7 @@ if __name__ == "__main__":
     if sys.version_info[0] < 3:
         print("Python version 3 required")
         sys.exit(1)
-    with open("requirements.txt", "r") as requirements_file:
+    with open(os.path.join(pathlib.Path(__file__).parent, "requirements.txt"), "r") as requirements_file:
         try:
             for package in requirements_file.read().splitlines():
                 pkg_resources.require(package)
@@ -495,7 +129,7 @@ if __name__ == "__main__":
     )
     mutually_exclusive_args.add_argument(
         "--scope",
-        choices=[SCOPE.ACCOUNT.name, SCOPE.ORGANIZATION.name],
+        choices=[SCOPE_ACCOUNT, SCOPE_ORGANIZATION],
         help="target either an individual account or all accounts of an AWS Organization",
     )
     parser.add_argument(
@@ -553,6 +187,18 @@ if __name__ == "__main__":
         help="only target the specified comma-separated list of Organizations OU IDs",
     )
     parser.add_argument(
+        "--exclude-finding-issue-codes",
+        default=[],
+        type=parse_issue_codes,
+        help="do not report the specified comma-separated list of finding issue codes",
+    )
+    parser.add_argument(
+        "--include-finding-issue-codes",
+        default=[],
+        type=parse_issue_codes,
+        help="only report the specified comma-separated list of finding issue codes",
+    )
+    parser.add_argument(
         "--profile",
         help="named AWS profile to use",
     )
@@ -561,98 +207,119 @@ if __name__ == "__main__":
 
     # List policy types and exit, if configured
     if args.list_policy_types:
-        for policy_type_name in get_policy_type_names():
+        for policy_type_name in PolicyAnalyzer.get_supported_policy_type_names():
             print(policy_type_name)
         sys.exit(0)
 
-    # Test for valid credentials
+    # Validate provided credentials and get account details
     try:
-        boto_session = boto3.Session(profile_name=args.profile)
+        boto_session = boto3.Session(profile_name=args.profile, region_name=AWS_DEFAULT_REGION)
     except botocore.exceptions.ProfileNotFound as ex:
         print("Error: {}".format(ex))
         sys.exit(1)
     sts_client = boto_session.client(
         "sts",
-        config=BOTO_CLIENT_CONFIG,
-        region_name=REGION.US_EAST_1.value,
-        endpoint_url="https://sts.{}.amazonaws.com".format(REGION.US_EAST_1.value),
+        config=BOTO_CONFIG,
+        endpoint_url="https://sts.{}.amazonaws.com".format(boto_session.region_name),
     )
     try:
         get_caller_identity_response = sts_client.get_caller_identity()
-        account_id = get_caller_identity_response["Account"]
     except:
         print("No or invalid AWS credentials configured")
         sys.exit(1)
+    account_id = get_caller_identity_response["Account"]
+    principal = get_caller_identity_response["Arn"]
 
-    # Prepare result collection JSON structure
-    run_timestamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%d%H%M%S")
-    result_collection = {
-        "_metadata": {
-            "invocation": " ".join(sys.argv),
-            "principal": get_caller_identity_response["Arn"],
-            "run_timestamp": run_timestamp,
-            "scope": args.scope.name,
-            "errors": [],
-        },
-        "results_grouped_by_account_id": {},
-        "results_grouped_by_finding_category": {},
-    }
+    # Validate regions provided as arguments
+    provided_regions = set(args.exclude_regions + args.include_regions)
+    if provided_regions:
+        ec2_client = boto_session.client("ec2", config=BOTO_CONFIG)
+        try:
+            describe_regions_response = ec2_client.describe_regions(AllRegions=True)
+        except botocore.exceptions.ClientError:
+            print("Cannot read available AWS regions")
+            sys.exit(1)
+        available_regions = {region["RegionName"] for region in describe_regions_response["Regions"]}
+        for region in provided_regions:
+            if region not in available_regions:
+                print("Unrecognized region: {}".format(region))
+                sys.exit(1)
 
-    # Prepare results directory
-    results_directory = os.path.join(os.path.relpath(os.path.dirname(__file__) or "."), "results")
-    try:
-        os.mkdir(results_directory)
-    except FileExistsError:
-        pass
-    policy_dump_directory = os.path.join(results_directory, "policy_dump_{}".format(run_timestamp))
-    os.mkdir(policy_dump_directory)
+    # Prepare result collection
+    result_collector = ResultCollector(
+        account_id, principal, args.scope, args.exclude_finding_issue_codes, args.include_finding_issue_codes
+    )
 
     # Handle ACCOUNT scope
-    if args.scope == SCOPE.ACCOUNT:
-        result_collection["_metadata"]["account_id"] = account_id
-        analyze_account(account_id, boto_session)
+    if args.scope == SCOPE_ACCOUNT:
+        account_analyzer = AccountAnalyzer(
+            account_id,
+            boto_session,
+            BOTO_CONFIG,
+            result_collector,
+            args.exclude_policy_types,
+            args.include_policy_types,
+            args.exclude_regions,
+            args.include_regions,
+        )
+        account_analyzer.analyze_account()
 
     # Handle ORGANIZATION scope
-    elif args.scope == SCOPE.ORGANIZATION:
-        organizations_client = boto_session.client(
-            "organizations", config=BOTO_CLIENT_CONFIG, region_name=REGION.US_EAST_1.value
-        )
+    elif args.scope == SCOPE_ORGANIZATION:
+        organizations_client = boto_session.client("organizations", config=BOTO_CONFIG)
         try:
-            # Collect information about the Organization
-            describe_organization_response = organizations_client.describe_organization()
-            organization_id = describe_organization_response["Organization"]["Id"]
-            organization_management_account_id = describe_organization_response["Organization"]["MasterAccountId"]
-            result_collection["_metadata"]["organization_id"] = organization_id
-            result_collection["_metadata"]["organization_management_account_id"] = organization_management_account_id
-
             # Confirm we are running with credentials of the management account
-            if organization_management_account_id != account_id:
+            try:
+                describe_organization_response = organizations_client.describe_organization()
+            except organizations_client.exceptions.AWSOrganizationsNotInUseException:
+                print("AWS Organizations is not configured for this account")
+                sys.exit(1)
+            if account_id != describe_organization_response["Organization"]["MasterAccountId"]:
                 print(
                     "Need to run with credentials of the Organizations management account when using scope {}".format(
-                        SCOPE.ORGANIZATION.name
+                        SCOPE_ORGANIZATION
                     )
                 )
                 sys.exit(1)
 
-            print(
-                "Analyzing organization ID {} under management account ID {}".format(
-                    organization_id,
-                    organization_management_account_id,
-                )
+            # Validate accounts provided as arguments
+            provided_accounts = set(args.exclude_accounts + args.include_accounts)
+            for account in provided_accounts:
+                try:
+                    organizations_client.describe_account(AccountId=account)
+                except organizations_client.exceptions.AccountNotFoundException:
+                    print("Unrecognized account in Organization: {}".format(account))
+                    sys.exit(1)
+
+            # Validate OUs provided as arguments
+            provided_ous = set(args.exclude_ous + args.include_ous)
+            for ou in provided_ous:
+                try:
+                    organizations_client.describe_organizational_unit(OrganizationalUnitId=ou)
+                except organizations_client.exceptions.OrganizationalUnitNotFoundException:
+                    print("Unrecognized OU in Organization: {}".format(ou))
+                    sys.exit(1)
+
+            organization_analyzer = OrganizationAnalyzer(
+                describe_organization_response,
+                args.member_accounts_role,
+                boto_session,
+                BOTO_CONFIG,
+                result_collector,
+                args.exclude_policy_types,
+                args.include_policy_types,
+                args.exclude_regions,
+                args.include_regions,
+                args.exclude_accounts,
+                args.include_accounts,
+                args.exclude_ous,
+                args.include_ous,
             )
-            analyze_organization(boto_session)
+            organization_analyzer.analyze_organization()
 
         except organizations_client.exceptions.AccessDeniedException:
             print("Insufficient permissions to communicate with the AWS Organizations service")
             sys.exit(1)
-        except organizations_client.exceptions.AWSOrganizationsNotInUseException:
-            print("AWS Organizations is not configured for this account")
-            sys.exit(1)
 
-    # Write result file
-    result_file = os.path.join(results_directory, "policy_linting_results_{}.json".format(run_timestamp))
-    with open(result_file, "w") as out_file:
-        json.dump(result_collection, out_file, indent=2)
-
-    print("Result file written to {}".format(result_file))
-    print("Policy dump written to {}".format(policy_dump_directory))
+    result_collector.write_result_collection_file()
+    print("Done. Results and policy dump written to results directory.")
