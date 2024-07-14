@@ -16,6 +16,10 @@ VALID_FILE_NAME_CHARACTERS = string.ascii_letters + string.digits + "_+=,.@-"
 
 class ResultCollector:
 
+    @staticmethod
+    def _get_results_directory_path():
+        return os.path.join(pathlib.Path(__file__).parent.parent, RESULTS_DIRECTORY_NAME)
+
     def __init__(self, account_id, principal, scope, exclude_finding_issue_codes, include_finding_issue_codes):
         self._run_timestamp = datetime.datetime.now(datetime.timezone.utc).strftime(TIMESTAMP_FORMAT)
         self._exclude_finding_issue_codes = exclude_finding_issue_codes
@@ -39,10 +43,9 @@ class ResultCollector:
             "results_grouped_by_finding_category": {},
         }
 
-        # Create results directory
-        self._results_directory = os.path.join(pathlib.Path(__file__).parent.parent, RESULTS_DIRECTORY_NAME)
+        # Ensure results directory exists
         try:
-            os.mkdir(self._results_directory)
+            os.mkdir(ResultCollector._get_results_directory_path())
         except FileExistsError:
             pass
 
@@ -54,7 +57,9 @@ class ResultCollector:
         self._result_collection["_metadata"]["stats"]["number_of_policies_analyzed"] += 1
 
         # Ensure the policy dump directory exists
-        policy_dump_directory = os.path.join(self._results_directory, "policy_dump_{}".format(self._run_timestamp))
+        policy_dump_directory = os.path.join(
+            ResultCollector._get_results_directory_path(), "policy_dump_{}".format(self._run_timestamp)
+        )
         try:
             os.mkdir(policy_dump_directory)
         except FileExistsError:
@@ -123,7 +128,7 @@ class ResultCollector:
 
     def write_result_collection_file(self):
         result_collection_file = os.path.join(
-            self._results_directory, "policy_linting_results_{}.json".format(self._run_timestamp)
+            ResultCollector._get_results_directory_path(), "policy_linting_results_{}.json".format(self._run_timestamp)
         )
         with open(result_collection_file, "w") as out_file:
             json.dump(self._result_collection, out_file, indent=2)

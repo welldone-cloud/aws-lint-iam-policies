@@ -8,7 +8,7 @@
             "Resource": "arn:aws:iam::*:role/OrganizationAccountAccessRole"
         },
         {
-            "Sid": "AllowReadingAccountDetails",
+            "Sid": "AllowReadingIAMAndOrganizationsDetails",
             "Effect": "Allow",
             "Action": [
                 "iam:GetPolicy",

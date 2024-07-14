@@ -12,6 +12,58 @@ AWS_IAM_POLICY_ARN_READ_ONLY_ACCESS = "arn:aws:iam::aws:policy/ReadOnlyAccess"
 
 
 class OrganizationAnalyzer:
+
+    @staticmethod
+    def _create_session_policy(iam_client):
+        # Get the actions that the AWS ReadOnlyAccess managed IAM policy currently allows
+        get_policy_response = iam_client.get_policy(PolicyArn=AWS_IAM_POLICY_ARN_READ_ONLY_ACCESS)
+        get_policy_version_response = iam_client.get_policy_version(
+            PolicyArn=AWS_IAM_POLICY_ARN_READ_ONLY_ACCESS, VersionId=get_policy_response["Policy"]["DefaultVersionId"]
+        )
+        actions_allowed_by_aws_read_only = OrganizationAnalyzer._get_actions_allowed_by_iam_policy(
+            get_policy_version_response["PolicyVersion"]["Document"]
+        )
+
+        # Get the actions that the script currently requires for account analysis
+        policy_file_path = os.path.join(pathlib.Path(__file__).parent.parent, "permissions", "scope_account.json")
+        with open(policy_file_path) as policy_file:
+            actions_required_by_script = OrganizationAnalyzer._get_actions_allowed_by_iam_policy(
+                json.load(policy_file)
+            )
+
+        # Determine the delta of actions that the AWS ReadOnlyAccess managed IAM policy currently does not allow
+        actions_for_session_policy = []
+        for action_required in actions_required_by_script:
+            add_action = True
+            for action_allowed in actions_allowed_by_aws_read_only:
+                if action_required.split(":")[0].lower() == action_allowed.split(":")[0].lower():
+                    if fnmatch.fnmatch(action_required, action_allowed):
+                        add_action = False
+                        break
+            if add_action:
+                actions_for_session_policy.append(action_required)
+
+        # Construct session policy
+        return json.dumps(
+            {
+                "Version": "2012-10-17",
+                "Statement": [{"Effect": "Allow", "Action": actions_for_session_policy, "Resource": "*"}],
+            },
+            separators=(",", ":"),
+        )
+
+    @staticmethod
+    def _get_actions_allowed_by_iam_policy(policy):
+        actions_allowed = []
+        for statement in policy["Statement"]:
+            if statement["Effect"] != "Allow":
+                continue
+            if isinstance(statement["Action"], list):
+                actions_allowed.extend(statement["Action"])
+            else:
+                actions_allowed.append(statement["Action"])
+        return actions_allowed
+
     def __init__(
         self,
         organization_description,
@@ -44,53 +96,6 @@ class OrganizationAnalyzer:
         self._include_ous = include_ous
         self._organizations_parents = {}
 
-    def _create_session_policy(self, iam_client):
-        # Get the actions that the AWS ReadOnlyAccess managed IAM policy currently allows
-        get_policy_response = iam_client.get_policy(PolicyArn=AWS_IAM_POLICY_ARN_READ_ONLY_ACCESS)
-        get_policy_version_response = iam_client.get_policy_version(
-            PolicyArn=AWS_IAM_POLICY_ARN_READ_ONLY_ACCESS, VersionId=get_policy_response["Policy"]["DefaultVersionId"]
-        )
-        actions_allowed_by_aws_read_only = self._get_actions_allowed_by_iam_policy(
-            get_policy_version_response["PolicyVersion"]["Document"]
-        )
-
-        # Get the actions that the script currently requires for account analysis
-        policy_file_path = os.path.join(pathlib.Path(__file__).parent.parent, "permissions", "scope_account.json")
-        with open(policy_file_path) as policy_file:
-            actions_required_by_script = self._get_actions_allowed_by_iam_policy(json.load(policy_file))
-
-        # Determine the delta of actions that the AWS ReadOnlyAccess managed IAM policy currently does not allow
-        actions_for_session_policy = []
-        for action_required in actions_required_by_script:
-            add_action = True
-            for action_allowed in actions_allowed_by_aws_read_only:
-                if action_required.split(":")[0].lower() == action_allowed.split(":")[0].lower():
-                    if fnmatch.fnmatch(action_required, action_allowed):
-                        add_action = False
-                        break
-            if add_action:
-                actions_for_session_policy.append(action_required)
-
-        # Construct session policy
-        return json.dumps(
-            {
-                "Version": "2012-10-17",
-                "Statement": [{"Effect": "Allow", "Action": actions_for_session_policy, "Resource": "*"}],
-            },
-            separators=(",", ":"),
-        )
-
-    def _get_actions_allowed_by_iam_policy(self, policy):
-        actions_allowed = []
-        for statement in policy["Statement"]:
-            if statement["Effect"] != "Allow":
-                continue
-            if isinstance(statement["Action"], list):
-                actions_allowed.extend(statement["Action"])
-            else:
-                actions_allowed.append(statement["Action"])
-        return actions_allowed
-
     def _get_organizations_parents(self, organizations_client, child_id):
         try:
             return self._organizations_parents[child_id]
@@ -109,7 +114,7 @@ class OrganizationAnalyzer:
         # assuming the provided IAM role in Organizations member accounts.
         iam_client = self._boto_session.client("iam", config=self._boto_config)
         try:
-            session_policy = self._create_session_policy(iam_client)
+            session_policy = OrganizationAnalyzer._create_session_policy(iam_client)
         except botocore.exceptions.ClientError:
             print("Insufficient permissions to communicate with the AWS IAM service")
             return
