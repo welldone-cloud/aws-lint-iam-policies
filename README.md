@@ -1,6 +1,6 @@
 # aws-lint-iam-policies
 
-Runs IAM policy linting and security checks against either a single AWS account or all accounts of an AWS Organization. Dumps all supported identity-based and resource-based policies to a local directory and reports on those that violate security best practices or contain errors. See the accompanying blog post 
+Runs IAM policy linting and security checks against either a single AWS account or a set of member accounts of an AWS Organization. Dumps all supported identity-based and resource-based policies to a local directory and reports on those that violate security best practices or contain errors. See the accompanying blog post 
 [here](https://medium.com/@michael.kirchner/linting-aws-iam-policies-e76b95859c93).
 
 The script makes use of two mechanisms:
@@ -19,9 +19,9 @@ variables](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvar
 profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html) in the optional `--profile` 
 argument.
 
-* If your are running the script against a single AWS account (`--scope ACCOUNT`), you require at least [these permissions](doc/permissions_scope_account.json). 
+* If your are running the script against a single AWS account (`--scope ACCOUNT`), you require at least [these permissions](permissions/scope_account.json). 
 
-* If you are running the script against all accounts of an AWS Organization (`--scope ORGANIZATION`), you must use credentials that belong to the Organizations management account and have at least [these permissions](doc/permissions_scope_organization.json). The Organizations member accounts need to have an IAM role configured that can be assumed from the Organizations management account. In many cases, there is the default `OrganizationAccountAccessRole` available. If you are instead using custom roles within the Organizations member accounts, they require at least [these permissions](doc/permissions_scope_account.json). 
+* If you are running the script against a set of member accounts of an AWS Organization (`--scope ORGANIZATION`), you must use credentials that belong to the Organizations management account and have at least [these permissions](permissions/scope_organization.json). The Organizations member accounts need to have an IAM role configured that can be assumed from the Organizations management account. In many cases, there is the default `OrganizationAccountAccessRole` available. When assuming the role, the script will automatically drop its permissions to read-only access. If you are using a custom role instead of `OrganizationAccountAccessRole`, it requires at least [these permissions](permissions/scope_account.json). 
 
 By default, all supported policy types and all regions are analyzed in the targeted AWS account(s). See the list of supported arguments below, in case you want to reduce coverage.
 

@@ -1,7 +1,14 @@
 import boto3
 import botocore.exceptions
+import fnmatch
+import json
+import os
+import pathlib
 
 from modules.account_analyzer import AccountAnalyzer
+
+
+AWS_IAM_POLICY_ARN_READ_ONLY_ACCESS = "arn:aws:iam::aws:policy/ReadOnlyAccess"
 
 
 class OrganizationAnalyzer:
@@ -37,6 +44,53 @@ class OrganizationAnalyzer:
         self._include_ous = include_ous
         self._organizations_parents = {}
 
+    def _create_session_policy(self, iam_client):
+        # Get the actions that the AWS ReadOnlyAccess managed IAM policy currently allows
+        get_policy_response = iam_client.get_policy(PolicyArn=AWS_IAM_POLICY_ARN_READ_ONLY_ACCESS)
+        get_policy_version_response = iam_client.get_policy_version(
+            PolicyArn=AWS_IAM_POLICY_ARN_READ_ONLY_ACCESS, VersionId=get_policy_response["Policy"]["DefaultVersionId"]
+        )
+        actions_allowed_by_aws_read_only = self._get_actions_allowed_by_iam_policy(
+            get_policy_version_response["PolicyVersion"]["Document"]
+        )
+
+        # Get the actions that the script currently requires for account analysis
+        policy_file_path = os.path.join(pathlib.Path(__file__).parent.parent, "permissions", "scope_account.json")
+        with open(policy_file_path) as policy_file:
+            actions_required_by_script = self._get_actions_allowed_by_iam_policy(json.load(policy_file))
+
+        # Determine the delta of actions that the AWS ReadOnlyAccess managed IAM policy currently does not allow
+        actions_for_session_policy = []
+        for action_required in actions_required_by_script:
+            add_action = True
+            for action_allowed in actions_allowed_by_aws_read_only:
+                if action_required.split(":")[0].lower() == action_allowed.split(":")[0].lower():
+                    if fnmatch.fnmatch(action_required, action_allowed):
+                        add_action = False
+                        break
+            if add_action:
+                actions_for_session_policy.append(action_required)
+
+        # Construct session policy
+        return json.dumps(
+            {
+                "Version": "2012-10-17",
+                "Statement": [{"Effect": "Allow", "Action": actions_for_session_policy, "Resource": "*"}],
+            },
+            separators=(",", ":"),
+        )
+
+    def _get_actions_allowed_by_iam_policy(self, policy):
+        actions_allowed = []
+        for statement in policy["Statement"]:
+            if statement["Effect"] != "Allow":
+                continue
+            if isinstance(statement["Action"], list):
+                actions_allowed.extend(statement["Action"])
+            else:
+                actions_allowed.append(statement["Action"])
+        return actions_allowed
+
     def _get_organizations_parents(self, organizations_client, child_id):
         try:
             return self._organizations_parents[child_id]
@@ -50,6 +104,17 @@ class OrganizationAnalyzer:
             return all_parents
 
     def analyze_organization(self):
+        # As the AWS ReadOnlyAccess managed IAM policy often lags behind, we need to determine the set of IAM
+        # permissions that is needed in addition to ReadOnlyAccess. This set is provided as a session policy when
+        # assuming the provided IAM role in Organizations member accounts.
+        iam_client = self._boto_session.client("iam", config=self._boto_config)
+        try:
+            session_policy = self._create_session_policy(iam_client)
+        except botocore.exceptions.ClientError:
+            print("Insufficient permissions to communicate with the AWS IAM service")
+            return
+
+        # Iterate all accounts of the Organization
         print(
             "Analyzing organization ID {} under management account ID {}".format(
                 self._organization_id, self._management_account_id
@@ -61,8 +126,6 @@ class OrganizationAnalyzer:
             config=self._boto_config,
             endpoint_url="https://sts.{}.amazonaws.com".format(self._boto_session.region_name),
         )
-
-        # Iterate all accounts of the Organization
         accounts_paginator = organizations_client.get_paginator("list_accounts")
         for accounts_page in accounts_paginator.paginate():
             for account in accounts_page["Accounts"]:
@@ -96,6 +159,8 @@ class OrganizationAnalyzer:
                         assume_role_response = sts_client.assume_role(
                             RoleArn="arn:aws:iam::{}:role/{}".format(account_id, self._member_accounts_role),
                             RoleSessionName="aws-lint-iam-policies",
+                            PolicyArns=[{"arn": AWS_IAM_POLICY_ARN_READ_ONLY_ACCESS}],
+                            Policy=session_policy,
                         )
                     except botocore.exceptions.ClientError:
                         self._result_collector.submit_error(

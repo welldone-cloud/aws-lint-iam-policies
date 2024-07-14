@@ -37,7 +37,7 @@ class AccountAnalyzer:
             describe_regions_response = ec2_client.describe_regions(AllRegions=False)
         except botocore.exceptions.ClientError:
             self._result_collector.submit_error(
-                "Error for account ID {}: cannot read enabled regions".format(self._account_id)
+                "Error for account ID {}: cannot read enabled regions, skipping account".format(self._account_id)
             )
             return
         enabled_regions = sorted([region["RegionName"] for region in describe_regions_response["Regions"]])
