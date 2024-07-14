@@ -77,8 +77,8 @@ class PolicyAnalyzer:
             "resource_arn": resource_arn,
         }
 
-        # Write policy dump file
-        policy_descriptor["policy_dump_file_name"] = self._result_collector.write_policy_dump_file(
+        # Submit policy to result collector
+        policy_descriptor["policy_dump_file_name"] = self._result_collector.submit_policy(
             policy_descriptor, policy_document
         )
 

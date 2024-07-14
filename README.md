@@ -177,6 +177,10 @@ Results are written to a JSON file. Findings are grouped once by account ID and 
     "principal": "arn:aws:iam::123456789012:user/user1",
     "scope": "ACCOUNT",
     "run_timestamp": "20230729093927",
+    "stats": {
+      "number_of_policies_analyzed": 61,
+      "number_of_results_captured": 2
+    },
     "errors": []
   },
   "results_grouped_by_account_id": {
