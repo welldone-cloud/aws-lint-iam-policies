@@ -1,6 +1,3 @@
-import os
-import pkgutil
-
 import modules.policy_types
 
 
@@ -41,8 +38,7 @@ class PolicyAnalyzer:
 
     @staticmethod
     def get_supported_policy_type_names():
-        policy_types_path = os.path.dirname(modules.policy_types.__file__)
-        return sorted([name for _, name, _ in pkgutil.iter_modules([policy_types_path])])
+        return modules.policy_types.__all__
 
     def __init__(self, boto_session, boto_config, result_collector):
         self._boto_session = boto_session
