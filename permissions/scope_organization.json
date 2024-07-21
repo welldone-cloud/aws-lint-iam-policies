@@ -175,6 +175,8 @@
                 "ssm-incidents:ListResponsePlans",
                 "sso:DescribePermissionSet",
                 "sso:GetInlinePolicyForPermissionSet",
+                "sso:ListApplicationAuthenticationMethods",
+                "sso:ListApplications",
                 "sso:ListInstances",
                 "sso:ListPermissionSets"
             ],

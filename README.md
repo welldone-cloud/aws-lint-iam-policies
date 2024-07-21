@@ -114,6 +114,7 @@ The following IAM policy types are analyzed:
 * Glue data catalog policies
 * Glue database policies
 * Glue table policies
+* IAM Identity Center application policies
 * IAM Identity Center permission set inline policies
 * IAM group inline policies
 * IAM managed policies
