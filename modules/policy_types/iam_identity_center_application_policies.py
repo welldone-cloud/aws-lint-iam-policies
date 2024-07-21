@@ -24,6 +24,10 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
             for applications_page in applications_paginator.paginate(InstanceArn=instance["InstanceArn"]):
                 for application in applications_page["Applications"]:
 
+                    # Skip if application is not associated with the account analyzed
+                    if "ApplicationAccount" in application and application["ApplicationAccount"] != account_id:
+                        continue
+
                     # Iterate all application authentication methods
                     try:
                         authentication_methods_paginator = sso_client.get_paginator(
