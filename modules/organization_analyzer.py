@@ -10,11 +10,13 @@ from modules.account_analyzer import AccountAnalyzer
 
 AWS_IAM_POLICY_ARN_READ_ONLY_ACCESS = "arn:aws:iam::aws:policy/ReadOnlyAccess"
 
+FILE_PATH_REQUIRED_IAM_PERMISSIONS = os.path.join("permissions", "scope_account.json")
+
 
 class OrganizationAnalyzer:
 
     @staticmethod
-    def _create_session_policy(iam_client):
+    def _create_inline_session_policy(iam_client):
         # Get the actions that the AWS ReadOnlyAccess managed IAM policy currently allows
         get_policy_response = iam_client.get_policy(PolicyArn=AWS_IAM_POLICY_ARN_READ_ONLY_ACCESS)
         get_policy_version_response = iam_client.get_policy_version(
@@ -25,14 +27,15 @@ class OrganizationAnalyzer:
         )
 
         # Get the actions that the script currently requires for account analysis
-        policy_file_path = os.path.join(pathlib.Path(__file__).parent.parent, "permissions", "scope_account.json")
+        policy_file_path = os.path.join(pathlib.Path(__file__).parent.parent, FILE_PATH_REQUIRED_IAM_PERMISSIONS)
         with open(policy_file_path) as policy_file:
             actions_required_by_script = OrganizationAnalyzer._get_actions_allowed_by_iam_policy(
                 json.load(policy_file)
             )
 
-        # Determine the delta of actions that the AWS ReadOnlyAccess managed IAM policy currently does not allow
-        actions_for_session_policy = []
+        # Determine the actions that the AWS ReadOnlyAccess managed IAM policy currently does not allow but the script
+        # currently requires
+        actions_for_inline_session_policy = []
         for action_required in actions_required_by_script:
             add_action = True
             for action_allowed in actions_allowed_by_aws_read_only:
@@ -41,13 +44,13 @@ class OrganizationAnalyzer:
                         add_action = False
                         break
             if add_action:
-                actions_for_session_policy.append(action_required)
+                actions_for_inline_session_policy.append(action_required)
 
-        # Construct session policy
+        # Construct inline session policy
         return json.dumps(
             {
                 "Version": "2012-10-17",
-                "Statement": [{"Effect": "Allow", "Action": actions_for_session_policy, "Resource": "*"}],
+                "Statement": [{"Effect": "Allow", "Action": actions_for_inline_session_policy, "Resource": "*"}],
             },
             separators=(",", ":"),
         )
@@ -109,12 +112,14 @@ class OrganizationAnalyzer:
             return all_parents
 
     def analyze_organization(self):
-        # As the AWS ReadOnlyAccess managed IAM policy often lags behind, we need to determine the set of IAM
-        # permissions that is needed in addition to ReadOnlyAccess. This set is provided as a session policy when
-        # assuming the provided IAM role in Organizations member accounts.
+        # We only require read-only access to Organizations member accounts, even if users provide a role that has
+        # more permissions. When assuming the roles, we drop permissions to read-only access by using session
+        # policies. As the AWS ReadOnlyAccess managed IAM policy often lags behind with new feature releases, we need
+        # to determine the set of IAM permissions that is needed in addition to ReadOnlyAccess. This set is provided
+        # as an inline session policy, while ReadOnlyAccess is provided as a managed session policy.
         iam_client = self._boto_session.client("iam", config=self._boto_config)
         try:
-            session_policy = OrganizationAnalyzer._create_session_policy(iam_client)
+            inline_session_policy = OrganizationAnalyzer._create_inline_session_policy(iam_client)
         except botocore.exceptions.ClientError:
             print("Insufficient permissions to communicate with the AWS IAM service")
             return
@@ -165,7 +170,7 @@ class OrganizationAnalyzer:
                             RoleArn="arn:aws:iam::{}:role/{}".format(account_id, self._member_accounts_role),
                             RoleSessionName="aws-lint-iam-policies",
                             PolicyArns=[{"arn": AWS_IAM_POLICY_ARN_READ_ONLY_ACCESS}],
-                            Policy=session_policy,
+                            Policy=inline_session_policy,
                         )
                     except botocore.exceptions.ClientError:
                         self._result_collector.submit_error(
