@@ -110,6 +110,7 @@
                 "refactor-spaces:ListEnvironments",
                 "rekognition:DescribeProjects",
                 "rekognition:ListProjectPolicies",
+                "resource-explorer-2:GetResourcePolicy",
                 "resource-groups:GetGroupPolicy",
                 "route53resolver:GetFirewallRuleGroupPolicy",
                 "route53resolver:GetResolverQueryLogConfigPolicy",

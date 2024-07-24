@@ -140,6 +140,7 @@ The following IAM policy types are analyzed:
 * RDS Aurora cluster policies
 * Redshift serverless snapshot policies
 * Rekognition custom labels project policies
+* Resource Explorer view policies
 * Resource Groups group policies
 * Route53 Resolver firewall rule group policies
 * Route53 Resolver resolver rule policies
