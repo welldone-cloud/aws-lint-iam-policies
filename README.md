@@ -154,6 +154,7 @@ The following IAM policy types are analyzed:
 * S3 on Outposts access point policies
 * S3 on Outposts bucket policies
 * SageMaker feature group catalog policies
+* SageMaker feature group policies
 * Secrets manager secret policies
 * Security Hub product subscription policies
 * SES authorization policies
