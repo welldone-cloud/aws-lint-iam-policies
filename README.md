@@ -156,6 +156,7 @@ The following IAM policy types are analyzed:
 * SageMaker feature group catalog policies
 * SageMaker feature group policies
 * SageMaker hub policies
+* SageMaker lineage group policies
 * Secrets manager secret policies
 * Security Hub product subscription policies
 * SES authorization policies
