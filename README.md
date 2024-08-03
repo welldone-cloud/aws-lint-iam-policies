@@ -172,6 +172,7 @@ The following IAM policy types are analyzed:
 * SSM Parameter Store parameter policies
 * VPC endpoint policies
 * VPC IPAM pool policies
+* VPC IPAM resource discovery policies
 
 
 
