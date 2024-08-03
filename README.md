@@ -95,6 +95,7 @@ The following IAM policy types are analyzed:
 * DynamoDB stream policies
 * DynamoDB table policies
 * EC2 capacity reservation policies
+* EC2 CoIP pool policies
 * EC2 dedicated host policies
 * EC2 Image Builder component policies
 * EC2 Image Builder container recipe policies
