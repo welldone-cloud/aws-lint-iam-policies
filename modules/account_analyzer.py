@@ -30,8 +30,29 @@ class AccountAnalyzer:
         self._exclude_regions = exclude_regions
         self._include_regions = include_regions
 
+    def _get_ram_resource_types_used_in_region(self, region, ram_resource_types_per_region):
+        ram_resource_types_per_region[region] = set()
+        ram_client = self._boto_session.client("ram", config=self._boto_config, region_name=region)
+        resources_paginator = ram_client.get_paginator("list_resources")
+        try:
+            for resource_page in resources_paginator.paginate(
+                resourceOwner="SELF",
+                resourceRegionScope="REGIONAL",
+            ):
+                for resource in resource_page["resources"]:
+                    ram_resource_types_per_region[region].add(resource["type"])
+        except botocore.exceptions.ClientError as ex:
+            self._result_collector.submit_error(
+                "Error for account ID {}, region {}: Cannot communicate with AWS RAM service: {} ({})".format(
+                    self._account_id,
+                    region,
+                    ex.response["Error"]["Code"],
+                    ex.response["Error"]["Message"],
+                )
+            )
+
     def analyze_account(self):
-        # Get all regions enabled in the account
+        # Get all regions enabled in the account and determine the actual target regions
         ec2_client = self._boto_session.client("ec2", config=self._boto_config)
         try:
             describe_regions_response = ec2_client.describe_regions(AllRegions=False)
@@ -40,11 +61,24 @@ class AccountAnalyzer:
                 "Error for account ID {}: cannot read enabled regions, skipping account".format(self._account_id)
             )
             return
-        enabled_regions = sorted([region["RegionName"] for region in describe_regions_response["Regions"]])
+        target_regions = []
+        for region in sorted([region["RegionName"] for region in describe_regions_response["Regions"]]):
+            if region in self._exclude_regions:
+                continue
+            if self._include_regions and region not in self._include_regions:
+                continue
+            target_regions.append(region)
 
-        # Iterate all policy types and enabled regions and trigger analysis for applicable combinations that are
-        # also allowed by include and exclude arguments
+        # Iterate resources shared via RAM for each region and collect their RAM resource types. This allows to later
+        # skip policy type implementations that use RAM, if there are anyhow no such resources in a certain region.
         print("Analyzing account ID {}".format(self._account_id))
+        ram_resource_types_per_region = {}
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            for region in target_regions:
+                executor.submit(self._get_ram_resource_types_used_in_region, region, ram_resource_types_per_region)
+
+        # Iterate all policy types and target regions and trigger analysis for applicable combinations that are
+        # also allowed by include and exclude arguments
         policy_analyzer = PolicyAnalyzer(self._boto_session, self._boto_config, self._result_collector)
         futures = {}
         with concurrent.futures.ThreadPoolExecutor() as executor:
@@ -55,13 +89,14 @@ class AccountAnalyzer:
                     continue
 
                 policy_type_implementation = getattr(modules.policy_types, policy_type_name)
-                for region in enabled_regions:
+                for region in target_regions:
                     if policy_type_implementation.RUN_IN_REGION not in ("ALL", region):
                         continue
-                    if region in self._exclude_regions:
-                        continue
-                    if self._include_regions and region not in self._include_regions:
-                        continue
+                    if policy_type_implementation.SOURCE_SERVICE == "ram":
+                        if policy_type_implementation.RAM_RESOURCE_TYPE not in ram_resource_types_per_region[region]:
+                            continue
+
+                    # Submit future
                     future_params = {
                         "account_id": self._account_id,
                         "region": region,

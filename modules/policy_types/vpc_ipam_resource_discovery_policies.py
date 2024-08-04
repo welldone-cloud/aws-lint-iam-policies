@@ -5,6 +5,8 @@ RUN_IN_REGION = "ALL"
 
 SOURCE_SERVICE = "ram"
 
+RAM_RESOURCE_TYPE = "ec2:IpamResourceDiscovery"
+
 
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     ram_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
@@ -13,7 +15,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
     # Iterate resources via RAM
     try:
         for resource_page in resources_paginator.paginate(
-            resourceType="ec2:IpamResourceDiscovery",
+            resourceType=RAM_RESOURCE_TYPE,
             resourceOwner="SELF",
             resourceRegionScope="REGIONAL",
         ):
