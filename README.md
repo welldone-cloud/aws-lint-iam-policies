@@ -173,6 +173,7 @@ The following IAM policy types are analyzed:
 * VPC endpoint policies
 * VPC IPAM pool policies
 * VPC IPAM resource discovery policies
+* VPC prefix list policies
 
 
 
@@ -190,7 +191,7 @@ Results are written to a JSON file. Findings are grouped once by account ID and 
     "run_timestamp": "20230729093927",
     "stats": {
       "number_of_policies_analyzed": 61,
-      "number_of_results_captured": 2
+      "number_of_results_collected": 2
     },
     "errors": []
   },

@@ -35,7 +35,7 @@ class ResultCollector:
                 "run_timestamp": self._run_timestamp,
                 "stats": {
                     "number_of_policies_analyzed": 0,
-                    "number_of_results_captured": 0,
+                    "number_of_results_collected": 0,
                 },
                 "errors": [],
             },
@@ -108,7 +108,7 @@ class ResultCollector:
         result = {**policy_descriptor, **finding_descriptor}
         account_id = policy_descriptor["account_id"]
         finding_type = finding_descriptor["finding_type"]
-        self._result_collection["_metadata"]["stats"]["number_of_results_captured"] += 1
+        self._result_collection["_metadata"]["stats"]["number_of_results_collected"] += 1
 
         # Add to results_grouped_by_account_id
         try:
