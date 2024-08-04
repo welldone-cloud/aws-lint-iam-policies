@@ -176,6 +176,7 @@ The following IAM policy types are analyzed:
 * VPC prefix list policies
 * VPC subnet policies
 * VPC Traffic Mirroring target policies
+* VPC Transit Gateway policies
 
 
 
