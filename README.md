@@ -170,6 +170,7 @@ The following IAM policy types are analyzed:
 * SSM Incident Manager response plan policies
 * SSM OpsCenter OpsItemGroup resource policies
 * SSM Parameter Store parameter policies
+* Verified Access group policies
 * VPC endpoint policies
 * VPC IPAM pool policies
 * VPC IPAM resource discovery policies
