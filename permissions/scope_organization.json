@@ -116,6 +116,7 @@
                 "network-firewall:DescribeResourcePolicy",
                 "network-firewall:ListFirewallPolicies",
                 "network-firewall:ListRuleGroups",
+                "networkmanager:GetResourcePolicy",
                 "organizations:DescribePolicy",
                 "organizations:DescribeResourcePolicy",
                 "organizations:ListPolicies",

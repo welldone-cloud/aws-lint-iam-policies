@@ -35,10 +35,7 @@ class AccountAnalyzer:
         ram_client = self._boto_session.client("ram", config=self._boto_config, region_name=region)
         resources_paginator = ram_client.get_paginator("list_resources")
         try:
-            for resource_page in resources_paginator.paginate(
-                resourceOwner="SELF",
-                resourceRegionScope="REGIONAL",
-            ):
+            for resource_page in resources_paginator.paginate(resourceOwner="SELF"):
                 for resource in resource_page["resources"]:
                     ram_resource_types_per_region[region].add(resource["type"])
         except botocore.exceptions.ClientError as ex:

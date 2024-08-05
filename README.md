@@ -83,6 +83,7 @@ The following IAM policy types are analyzed:
 * App Mesh mesh policies
 * AppSync GraphQL API policies
 * Backup vault policies
+* Cloud WAN core network policies
 * CloudTrail channel policies
 * CloudWatch Logs delivery destination policies
 * CloudWatch Logs destination policies

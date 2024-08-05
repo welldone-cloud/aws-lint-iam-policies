@@ -18,11 +18,7 @@ def analyze(
     resources_paginator = ram_client.get_paginator("list_resources")
 
     # Iterate resources via RAM
-    for resource_page in resources_paginator.paginate(
-        resourceType=ram_resource_type,
-        resourceOwner="SELF",
-        resourceRegionScope="REGIONAL",
-    ):
+    for resource_page in resources_paginator.paginate(resourceType=ram_resource_type, resourceOwner="SELF"):
         for resource in resource_page["resources"]:
 
             # Iterate attached policies
