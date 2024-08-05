@@ -140,6 +140,7 @@ The following IAM policy types are analyzed:
 * OpenSearch domain policies
 * Organizations delegation policies
 * Organizations service control policies
+* Outposts outpost policies
 * RDS Aurora cluster policies
 * Redshift serverless snapshot policies
 * Rekognition custom labels project policies
