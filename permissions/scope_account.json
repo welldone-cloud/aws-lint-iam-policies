@@ -165,7 +165,8 @@
                 "sso:ListApplicationAuthenticationMethods",
                 "sso:ListApplications",
                 "sso:ListInstances",
-                "sso:ListPermissionSets"
+                "sso:ListPermissionSets",
+                "vpc-lattice:GetResourcePolicy"
             ],
             "Resource": "*"
         },

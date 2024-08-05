@@ -174,6 +174,7 @@ The following IAM policy types are analyzed:
 * VPC endpoint policies
 * VPC IPAM pool policies
 * VPC IPAM resource discovery policies
+* VPC Lattice service policies
 * VPC prefix list policies
 * VPC subnet policies
 * VPC Traffic Mirroring target policies
