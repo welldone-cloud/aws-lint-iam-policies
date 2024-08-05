@@ -140,6 +140,7 @@ The following IAM policy types are analyzed:
 * OpenSearch domain policies
 * Organizations delegation policies
 * Organizations service control policies
+* Outposts local gateway route table policies
 * Outposts outpost policies
 * Outposts site policies
 * RDS Aurora cluster policies
