@@ -15,6 +15,7 @@
                 "aws-marketplace:ListEntities",
                 "backup:GetBackupVaultAccessPolicy",
                 "backup:ListBackupVaults",
+                "cloudhsm:GetResourcePolicy",
                 "cloudtrail:GetResourcePolicy",
                 "cloudtrail:ListChannels",
                 "codeartifact:GetDomainPermissionsPolicy",
