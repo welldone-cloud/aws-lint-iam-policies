@@ -7,7 +7,7 @@ SOURCE_SERVICE = "ram"
 
 RAM_RESOURCE_TYPE = "ec2:IpamResourceDiscovery"
 
-CFN_RESOURCE_TYPE = "AAWS::EC2::IPAMResourceDiscovery"
+CFN_RESOURCE_TYPE = "AWS::EC2::IPAMResourceDiscovery"
 
 ARN_TO_NAME_SPLIT_CHAR = "/"
 
