@@ -181,6 +181,7 @@ The following IAM policy types are analyzed:
 * VPC IPAM pool policies
 * VPC IPAM resource discovery policies
 * VPC Lattice service auth policies
+* VPC Lattice service network auth policies
 * VPC Lattice service network policies
 * VPC Lattice service policies
 * VPC prefix list policies
