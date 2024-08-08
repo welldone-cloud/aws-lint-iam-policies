@@ -187,7 +187,9 @@
                 "sso:ListApplications",
                 "sso:ListInstances",
                 "sso:ListPermissionSets",
-                "vpc-lattice:GetResourcePolicy"
+                "vpc-lattice:GetAuthPolicy",
+                "vpc-lattice:GetResourcePolicy",
+                "vpc-lattice:ListServices"
             ],
             "Resource": "*"
         },
