@@ -8,24 +8,30 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
     directory_buckets_paginator = s3_client.get_paginator("list_directory_buckets")
 
     # Iterate all directory buckets
-    for directory_buckets_page in directory_buckets_paginator.paginate():
-        for bucket in directory_buckets_page["Buckets"]:
-            bucket_name = bucket["Name"]
+    try:
+        for directory_buckets_page in directory_buckets_paginator.paginate():
+            for bucket in directory_buckets_page["Buckets"]:
+                bucket_name = bucket["Name"]
 
-            # Fetch bucket policy and skip those that do not have a bucket policy
-            try:
-                get_bucket_policy_response = s3_client.get_bucket_policy(Bucket=bucket_name)
-                bucket_policy = get_bucket_policy_response["Policy"]
-            except s3_client.exceptions.from_code("NoSuchBucketPolicy"):
-                continue
+                # Fetch bucket policy and skip those that do not have a bucket policy
+                try:
+                    get_bucket_policy_response = s3_client.get_bucket_policy(Bucket=bucket_name)
+                    bucket_policy = get_bucket_policy_response["Policy"]
+                except s3_client.exceptions.from_code("NoSuchBucketPolicy"):
+                    continue
 
-            policy_analysis_function(
-                account_id=account_id,
-                region=region,
-                source_service=SOURCE_SERVICE,
-                resource_type="AWS::S3Express::DirectoryBucket",
-                resource_name=bucket_name,
-                resource_arn="arn:aws:s3express:{}:{}:bucket/{}".format(region, account_id, bucket_name),
-                policy_document=bucket_policy,
-                policy_type="RESOURCE_POLICY",
-            )
+                policy_analysis_function(
+                    account_id=account_id,
+                    region=region,
+                    source_service=SOURCE_SERVICE,
+                    resource_type="AWS::S3Express::DirectoryBucket",
+                    resource_name=bucket_name,
+                    resource_arn="arn:aws:s3express:{}:{}:bucket/{}".format(region, account_id, bucket_name),
+                    policy_document=bucket_policy,
+                    policy_type="RESOURCE_POLICY",
+                )
+
+    except s3_client.exceptions.from_code("AccessDeniedException"):
+        # Some regions that don't support directory buckets unfortunately yield AccessDenied errors, making the
+        # situation indistinguishable from an actual lack of permissions.
+        pass
