@@ -1,14 +1,16 @@
 # aws-lint-iam-policies
 
-Runs IAM policy linting and security checks against either a single AWS account or a set of member accounts of an AWS Organization. Dumps all supported identity-based and resource-based policies to a local directory and reports on those that violate security best practices or contain errors. See the accompanying blog post 
+Runs IAM policy linting and security checks against either a single AWS account or a set of member accounts of an AWS Organization. Dumps all supported identity-based and resource-based policies to a local directory and reports on those that may violate security best practices or contain errors. See the accompanying blog post 
 [here](https://medium.com/@michael.kirchner/linting-aws-iam-policies-e76b95859c93).
 
-The script makes use of two mechanisms:
+The script makes use of three mechanisms:
 
 1. AWS IAM Access Analyzer policy validation, which is mostly known for showing recommendations when manually editing IAM policies on the AWS Console UI. The checks are created and maintained by AWS and are described closer [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html).
 ![](./doc/access_analyzer_console.png)
 
-2. AWS IAM Access Analyzer checks for public access, which test whether resource-based policies grant unrestricted public access (e.g., to S3 buckets, SQS queues, etc.). They are described closer [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-custom-policy-checks.html).
+2. AWS IAM Access Analyzer checks for public access, which test whether resource-based policies grant unrestricted public access (e.g., to S3 buckets, SQS queues, etc.). This is closer described [here](https://docs.aws.amazon.com/access-analyzer/latest/APIReference/API_CheckNoPublicAccess.html).
+
+3. Custom policy checks that report on trust relationships to other AWS accounts and to identity providers. Please note that these are only basic checks. They neither make use of automated reasoning nor evaluate the meaning of policy conditions.
 
 
 
@@ -194,7 +196,7 @@ The following IAM policy types are analyzed:
 
 ## Example result file
 
-Results are written to a JSON file. Findings are grouped once by account ID and once by finding category. This means that one specific finding is present twice in the result file.
+Results are written to a JSON file. Findings are grouped by finding type and finding issue code.
 
 ```json
 {
@@ -206,41 +208,11 @@ Results are written to a JSON file. Findings are grouped once by account ID and 
     "run_timestamp": "20230729093927",
     "stats": {
       "number_of_policies_analyzed": 61,
-      "number_of_results_collected": 2
+      "number_of_results_collected": 3
     },
     "errors": []
   },
-  "results_grouped_by_account_id": {
-    "123456789012": [
-      {
-        "account_id": "123456789012",
-        "region": "us-east-1",
-        "source_service": "iam",
-        "resource_type": "AWS::IAM::UserPolicy",
-        "resource_name": "user1:inlinepolicy",
-        "resource_arn": "arn:aws:iam::123456789012:user/user1",
-        "policy_dump_file_name": "123456789012_us-east-1_AWS_IAM_UserPolicy_user1_inlinepolicy_0.json",
-        "finding_type": "SECURITY_WARNING",
-        "finding_issue_code": "PASS_ROLE_WITH_STAR_IN_RESOURCE",
-        "finding_description": "Using the iam:PassRole action with wildcards (*) in the resource can be overly permissive because it allows iam:PassRole permissions on multiple resources. We recommend that you specify resource ARNs or add the iam:PassedToService condition key to your statement.",
-        "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-security-warning-pass-role-with-star-in-resource"
-      },
-      {
-        "account_id": "123456789012",
-        "region": "eu-central-1",
-        "source_service": "sqs",
-        "resource_type": "AWS::SQS::QueuePolicy",
-        "resource_name": "queue1",
-        "resource_arn": "arn:aws:sqs:eu-central-1:123456789012:queue1",
-        "policy_dump_file_name": "123456789012_eu-central-1_AWS_SQS_QueuePolicy_queue1_0.json",
-        "finding_type": "WARNING",
-        "finding_issue_code": "MISSING_VERSION",
-        "finding_description": "We recommend that you specify the Version element to help you with debugging permission issues.",
-        "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-general-warning-missing-version"
-      }
-    ]
-  },
-  "results_grouped_by_finding_category": {
+  "results": {
     "SECURITY_WARNING": {
       "PASS_ROLE_WITH_STAR_IN_RESOURCE": [
         {
@@ -250,11 +222,26 @@ Results are written to a JSON file. Findings are grouped once by account ID and 
           "resource_type": "AWS::IAM::UserPolicy",
           "resource_name": "user1:inlinepolicy",
           "resource_arn": "arn:aws:iam::123456789012:user/user1",
-          "policy_dump_file_name": "123456789012_us-east-1_AWS_IAM_UserPolicy_user1_inlinepolicy_0.json",
+          "policy_dump_file_name": "123456789012_us-east-1_iam_AWS_IAM_UserPolicy_user1_inlinepolicy_0.json",
           "finding_type": "SECURITY_WARNING",
           "finding_issue_code": "PASS_ROLE_WITH_STAR_IN_RESOURCE",
           "finding_description": "Using the iam:PassRole action with wildcards (*) in the resource can be overly permissive because it allows iam:PassRole permissions on multiple resources. We recommend that you specify resource ARNs or add the iam:PassedToService condition key to your statement.",
           "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-security-warning-pass-role-with-star-in-resource"
+        }
+      ],
+      "TRUSTED_WILDCARD_PRINCIPAL": [
+        {
+          "account_id": "123456789012",
+          "region": "eu-central-1",
+          "source_service": "s3",
+          "resource_type": "AWS::S3::Bucket",
+          "resource_name": "bucket1",
+          "resource_arn": "arn:aws:s3:::bucket1",
+          "policy_dump_file_name": "123456789012_eu-central-1_s3_AWS_S3_Bucket_bucket1_0.json",
+          "finding_type": "SECURITY_WARNING",
+          "finding_issue_code": "TRUSTED_WILDCARD_PRINCIPAL",
+          "finding_description": "The policy trusts the wildcard principal ('*'). A review is recommended to determine whether this is the desired setup.",
+          "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html"
         }
       ]
     },
@@ -267,7 +254,7 @@ Results are written to a JSON file. Findings are grouped once by account ID and 
           "resource_type": "AWS::SQS::QueuePolicy",
           "resource_name": "queue1",
           "resource_arn": "arn:aws:sqs:eu-central-1:123456789012:queue1",
-          "policy_dump_file_name": "123456789012_eu-central-1_AWS_SQS_QueuePolicy_queue1_0.json",
+          "policy_dump_file_name": "123456789012_eu-central-1_sqs_AWS_SQS_QueuePolicy_queue1_0.json",
           "finding_type": "WARNING",
           "finding_issue_code": "MISSING_VERSION",
           "finding_description": "We recommend that you specify the Version element to help you with debugging permission issues.",

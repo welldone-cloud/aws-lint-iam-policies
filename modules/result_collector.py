@@ -39,8 +39,7 @@ class ResultCollector:
                 },
                 "errors": [],
             },
-            "results_grouped_by_account_id": {},
-            "results_grouped_by_finding_category": {},
+            "results": {},
         }
 
         # Ensure results directory exists
@@ -106,25 +105,16 @@ class ResultCollector:
             return
 
         result = {**policy_descriptor, **finding_descriptor}
-        account_id = policy_descriptor["account_id"]
         finding_type = finding_descriptor["finding_type"]
         self._result_collection["_metadata"]["stats"]["number_of_results_collected"] += 1
 
-        # Add to results_grouped_by_account_id
+        # Add to results
         try:
-            self._result_collection["results_grouped_by_account_id"][account_id].append(result)
+            self._result_collection["results"][finding_type][finding_issue_code].append(result)
         except KeyError:
-            self._result_collection["results_grouped_by_account_id"][account_id] = [result]
-
-        # Add to results_grouped_by_finding_category
-        try:
-            self._result_collection["results_grouped_by_finding_category"][finding_type][finding_issue_code].append(
-                result
-            )
-        except KeyError:
-            if finding_type not in self._result_collection["results_grouped_by_finding_category"]:
-                self._result_collection["results_grouped_by_finding_category"][finding_type] = {}
-            self._result_collection["results_grouped_by_finding_category"][finding_type][finding_issue_code] = [result]
+            if finding_type not in self._result_collection["results"]:
+                self._result_collection["results"][finding_type] = {}
+            self._result_collection["results"][finding_type][finding_issue_code] = [result]
 
     def write_result_collection_file(self):
         result_collection_file = os.path.join(

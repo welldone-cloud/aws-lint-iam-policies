@@ -1,3 +1,6 @@
+import json
+import re
+
 import modules.policy_types
 
 
@@ -33,8 +36,115 @@ ACCESS_ANALYZER_PARAMETERS_CHECK_NO_PUBLIC_ACCESS = (
     "AWS::SQS::Queue",
 )
 
+AWS_ACCOUNT_ID_PATTERN = re.compile(r"^\d{12,}$")
+
+AWS_IAM_STS_ARN_PATTERN = re.compile(r"^arn:aws:(iam|sts)::\d{12,}:[^\s]*$")
+
+CUSTOM_POLICY_CHECKS_DETAILS = {
+    "TRUSTED_IDENTITY_PROVIDER": {
+        "description": "The policy trusts identity providers to verify caller identities. A review is recommended to determine whether this is the desired setup. Trusted identity providers: {}",
+        "link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers.html",
+    },
+    "TRUSTED_OUTSIDE_PRINCIPAL": {
+        "description": "The policy trusts principals outside the analyzed AWS account. A review is recommended to determine whether this is the desired setup. Trusted principals: {}",
+        "link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html",
+    },
+    "TRUSTED_OUTSIDE_PRINCIPAL_WITH_CONDITIONS": {
+        "description": "The policy trusts principals outside the analyzed AWS account, restricted by conditions. A review is recommended to determine whether this is the desired setup. Trusted principals: {}",
+        "link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html",
+    },
+    "TRUSTED_WILDCARD_PRINCIPAL": {
+        "description": "The policy trusts the wildcard principal ('*'). A review is recommended to determine whether this is the desired setup.",
+        "link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html",
+    },
+    "TRUSTED_WILDCARD_PRINCIPAL_WITH_CONDITIONS": {
+        "description": "The policy trusts the wildcard principal ('*'), restricted by conditions. A review is recommended to determine whether this is the desired setup.",
+        "link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html",
+    },
+}
+
 
 class PolicyAnalyzer:
+
+    @staticmethod
+    def _get_custom_policy_check_results(policy, account_id):
+        results = {
+            "TRUSTED_IDENTITY_PROVIDER": set(),
+            "TRUSTED_OUTSIDE_PRINCIPAL": set(),
+            "TRUSTED_OUTSIDE_PRINCIPAL_WITH_CONDITIONS": set(),
+            "TRUSTED_WILDCARD_PRINCIPAL": set(),
+            "TRUSTED_WILDCARD_PRINCIPAL_WITH_CONDITIONS": set(),
+        }
+        policy = json.loads(policy)
+
+        # Make sure the "Statement" block is represented as a list, even if it only consists of a single item
+        if "Statement" in policy:
+            if isinstance(policy["Statement"], list):
+                statements = policy["Statement"]
+            else:
+                statements = [policy["Statement"]]
+
+            # Iterate all statements
+            for statement in statements:
+                # Skip if the statement is not represented by a dict
+                if not isinstance(statement, dict):
+                    continue
+
+                # Skip if there is no "Principal" element in the statement. "NotPrincipal" elements are not analyzed, because
+                # Access Analyzer already reports on their usage.
+                if "Principal" not in statement:
+                    continue
+
+                # Skip if there is no "Effect" element or if it not set to "Allow"
+                if "Effect" not in statement or statement["Effect"] != "Allow":
+                    continue
+
+                # Determine if the statement has non-empty conditions set
+                statement_has_conditions = False
+                if "Condition" in statement and statement["Condition"]:
+                    statement_has_conditions = True
+
+                # Handle case: "Principal": "*"
+                if isinstance(statement["Principal"], str) and statement["Principal"] == "*":
+                    if statement_has_conditions:
+                        results["TRUSTED_WILDCARD_PRINCIPAL_WITH_CONDITIONS"].add("*")
+                    else:
+                        results["TRUSTED_WILDCARD_PRINCIPAL"].add("*")
+
+                # Handle case: "Principal": {key: values, [...]}
+                elif isinstance(statement["Principal"], dict):
+                    for key, values in statement["Principal"].items():
+                        # Make sure the values are represented as a list, even if there is only a single item
+                        if not isinstance(values, list):
+                            values = [values]
+
+                        for value in values:
+                            # Handle wildcards
+                            if key == "AWS" and value == "*":
+                                if statement_has_conditions:
+                                    results["TRUSTED_WILDCARD_PRINCIPAL_WITH_CONDITIONS"].add("*")
+                                else:
+                                    results["TRUSTED_WILDCARD_PRINCIPAL"].add("*")
+
+                            # Handle account numbers
+                            elif key == "AWS" and AWS_ACCOUNT_ID_PATTERN.match(value) and value != account_id:
+                                if statement_has_conditions:
+                                    results["TRUSTED_OUTSIDE_PRINCIPAL_WITH_CONDITIONS"].add(value)
+                                else:
+                                    results["TRUSTED_OUTSIDE_PRINCIPAL"].add(value)
+
+                            # Handle principal ARNs
+                            elif key == "AWS" and AWS_IAM_STS_ARN_PATTERN.match(value):
+                                if value.split(":")[4] != account_id:
+                                    if statement_has_conditions:
+                                        results["TRUSTED_OUTSIDE_PRINCIPAL_WITH_CONDITIONS"].add(value)
+                                    else:
+                                        results["TRUSTED_OUTSIDE_PRINCIPAL"].add(value)
+
+                            # Handle identity providers
+                            elif key == "Federated":
+                                results["TRUSTED_IDENTITY_PROVIDER"].add(value)
+        return results
 
     @staticmethod
     def get_supported_policy_type_names():
@@ -120,8 +230,27 @@ class PolicyAnalyzer:
                         "finding_type": "SECURITY_WARNING",
                         "finding_issue_code": "PUBLIC_ACCESS",
                         "finding_description": check_no_public_access_response["message"],
-                        "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-custom-policy-checks.html",
+                        "finding_link": "https://docs.aws.amazon.com/access-analyzer/latest/APIReference/API_CheckNoPublicAccess.html",
                     }
                     self._result_collector.submit_result(
                         policy_descriptor, finding_descriptor, disabled_finding_issue_codes
                     )
+
+        # Send policy through custom policy checks
+        if policy_type == "RESOURCE_POLICY":
+            custom_policy_check_results = PolicyAnalyzer._get_custom_policy_check_results(policy_document, account_id)
+            for finding_issue_code, principals in custom_policy_check_results.items():
+                if not principals:
+                    continue
+
+                finding_descriptor = {
+                    "finding_type": "SECURITY_WARNING",
+                    "finding_issue_code": finding_issue_code,
+                    "finding_description": CUSTOM_POLICY_CHECKS_DETAILS[finding_issue_code]["description"].format(
+                        sorted(principals)
+                    ),
+                    "finding_link": CUSTOM_POLICY_CHECKS_DETAILS[finding_issue_code]["link"],
+                }
+                self._result_collector.submit_result(
+                    policy_descriptor, finding_descriptor, disabled_finding_issue_codes
+                )
