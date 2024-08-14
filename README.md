@@ -85,6 +85,7 @@ The following IAM policy types are analyzed:
 * App Mesh mesh policies
 * AppSync GraphQL API policies
 * Backup vault policies
+* Bedrock custom model policies
 * Cloud WAN core network policies
 * CloudHSM backup policies
 * CloudTrail channel policies
