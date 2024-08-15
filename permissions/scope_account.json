@@ -117,6 +117,7 @@
                 "resource-explorer-2:GetResourcePolicy",
                 "resource-groups:GetGroupPolicy",
                 "route53-recovery-control-config:GetResourcePolicy",
+                "route53profiles:GetProfilePolicy",
                 "route53resolver:GetFirewallRuleGroupPolicy",
                 "route53resolver:GetResolverQueryLogConfigPolicy",
                 "route53resolver:GetResolverRulePolicy",

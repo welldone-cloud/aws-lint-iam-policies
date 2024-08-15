@@ -152,6 +152,7 @@ The following IAM policy types are analyzed:
 * Resource Explorer view policies
 * Resource Groups group policies
 * Route53 Application Recovery Controller cluster policies
+* Route53 Profiles profile policies
 * Route53 Resolver firewall rule group policies
 * Route53 Resolver resolver rule policies
 * Route53 Resolver resolver query log config policies
