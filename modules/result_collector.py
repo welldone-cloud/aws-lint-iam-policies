@@ -3,11 +3,16 @@ import json
 import os
 import pathlib
 import re
+import shutil
 import string
 import sys
 
 
 RESULTS_DIRECTORY_NAME = "results"
+
+RESULT_FILE_NAME = "results_{}.json"
+
+POLICY_DUMP_DIRECTORY_NAME = "policy_dump_{}"
 
 TIMESTAMP_FORMAT = "%Y%m%d%H%M%S"
 
@@ -16,23 +21,44 @@ VALID_FILE_NAME_CHARACTERS = string.ascii_letters + string.digits + "_+=,.@-"
 
 class ResultCollector:
 
-    @staticmethod
-    def _get_results_directory_path():
-        return os.path.join(pathlib.Path(__file__).parent.parent, RESULTS_DIRECTORY_NAME)
-
-    def __init__(self, account_id, principal, scope, exclude_finding_issue_codes, include_finding_issue_codes):
-        self._run_timestamp = datetime.datetime.now(datetime.timezone.utc).strftime(TIMESTAMP_FORMAT)
+    def __init__(
+        self, account_id, principal, scope, exclude_finding_issue_codes, include_finding_issue_codes, result_name
+    ):
         self._exclude_finding_issue_codes = exclude_finding_issue_codes
         self._include_finding_issue_codes = include_finding_issue_codes
+        run_timestamp = datetime.datetime.now(datetime.timezone.utc).strftime(TIMESTAMP_FORMAT)
+        result_name = result_name if result_name else run_timestamp
 
-        # Prepare result collection JSON structure
+        # Ensure the results directory exists
+        results_directory = os.path.join(pathlib.Path(__file__).parent.parent, RESULTS_DIRECTORY_NAME)
+        try:
+            os.mkdir(results_directory)
+        except FileExistsError:
+            pass
+
+        # If a result file with the same name already exists, remove it
+        self._result_file = os.path.join(results_directory, RESULT_FILE_NAME.format(result_name))
+        try:
+            os.remove(self._result_file)
+        except FileNotFoundError:
+            pass
+
+        # Create the policy dump directory or replace it, if it already exists
+        self._policy_dump_directory = os.path.join(results_directory, POLICY_DUMP_DIRECTORY_NAME.format(result_name))
+        try:
+            os.mkdir(self._policy_dump_directory)
+        except FileExistsError:
+            shutil.rmtree(self._policy_dump_directory)
+            os.mkdir(self._policy_dump_directory)
+
+        # Prepare the result collection JSON structure
         self._result_collection = {
             "_metadata": {
                 "invocation": " ".join(sys.argv),
                 "accountid": account_id,
                 "principal": principal,
                 "scope": scope,
-                "run_timestamp": self._run_timestamp,
+                "run_timestamp": run_timestamp,
                 "stats": {
                     "number_of_policies_analyzed": 0,
                     "number_of_results_collected": 0,
@@ -42,27 +68,12 @@ class ResultCollector:
             "results": {},
         }
 
-        # Ensure results directory exists
-        try:
-            os.mkdir(ResultCollector._get_results_directory_path())
-        except FileExistsError:
-            pass
-
     def submit_error(self, msg):
         print(msg)
         self._result_collection["_metadata"]["errors"].append(msg.strip())
 
     def submit_policy(self, policy_descriptor, policy_document):
         self._result_collection["_metadata"]["stats"]["number_of_policies_analyzed"] += 1
-
-        # Ensure the policy dump directory exists
-        policy_dump_directory = os.path.join(
-            ResultCollector._get_results_directory_path(), "policy_dump_{}".format(self._run_timestamp)
-        )
-        try:
-            os.mkdir(policy_dump_directory)
-        except FileExistsError:
-            pass
 
         # Some AWS resources can have multiple policies attached or are allowed to have the same name, while using
         # different IDs. An index is thus put at the end of the file name to handle collisions.
@@ -81,14 +92,14 @@ class ResultCollector:
                 "_",
                 "".join(char if char in VALID_FILE_NAME_CHARACTERS else "_" for char in policy_dump_file_name),
             )
-            policy_dump_file_path = os.path.join(policy_dump_directory, policy_dump_file_name)
-            if os.path.isfile(policy_dump_file_path):
+            policy_dump_file = os.path.join(self._policy_dump_directory, policy_dump_file_name)
+            if os.path.isfile(policy_dump_file):
                 file_index += 1
                 continue
             break
 
         # Write policy document to file
-        with open(policy_dump_file_path, "w") as out_file:
+        with open(policy_dump_file, "w") as out_file:
             json.dump(json.loads(policy_document), out_file, indent=2)
         return policy_dump_file_name
 
@@ -116,9 +127,6 @@ class ResultCollector:
                 self._result_collection["results"][finding_type] = {}
             self._result_collection["results"][finding_type][finding_issue_code] = [result]
 
-    def write_result_collection_file(self):
-        result_collection_file = os.path.join(
-            ResultCollector._get_results_directory_path(), "policy_linting_results_{}.json".format(self._run_timestamp)
-        )
-        with open(result_collection_file, "w") as out_file:
+    def write_result_file(self):
+        with open(self._result_file, "w") as out_file:
             json.dump(self._result_collection, out_file, indent=2)

@@ -73,6 +73,8 @@ python aws_lint_iam_policies.py --scope ORGANIZATION --member-accounts-role Orga
     only report the specified comma-separated list of finding issue codes
 --profile PROFILE
     named AWS profile to use
+--result-name RESULT_NAME
+    result name to use instead of the run timestamp
 ```
 
 
