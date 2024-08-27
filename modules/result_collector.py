@@ -128,5 +128,18 @@ class ResultCollector:
             self._result_collection["results"][finding_type][finding_issue_code] = [result]
 
     def write_result_file(self):
+        # Sort list of findings within each finding type and finding issue code
+        for finding_type in self._result_collection["results"]:
+            for finding_issue_code in self._result_collection["results"][finding_type]:
+                self._result_collection["results"][finding_type][finding_issue_code].sort(
+                    key=lambda val: (
+                        val["account_id"],
+                        val["region"],
+                        val["source_service"],
+                        val["resource_type"],
+                        val["resource_name"],
+                    )
+                )
+
         with open(self._result_file, "w") as out_file:
             json.dump(self._result_collection, out_file, indent=2)

@@ -95,7 +95,7 @@ class PolicyAnalyzer:
                 if "Principal" not in statement:
                     continue
 
-                # Skip if there is no "Effect" element or if it not set to "Allow"
+                # Skip if there is no "Effect" element or if it is not set to "Allow"
                 if "Effect" not in statement or statement["Effect"] != "Allow":
                     continue
 
