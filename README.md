@@ -175,6 +175,7 @@ The following IAM policy types are analyzed:
 * SageMaker pipeline policies
 * Secrets manager secret policies
 * Security Hub product subscription policies
+* Service Catalog AppRegistry application policies
 * SES authorization policies
 * SNS topic policies
 * SQS queue policies

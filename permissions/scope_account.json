@@ -153,6 +153,7 @@
                 "secretsmanager:ListSecrets",
                 "securityhub:DescribeProducts",
                 "securityhub:ListEnabledProductsForImport",
+                "servicecatalog:GetResourcePolicy",
                 "ses:GetIdentityPolicies",
                 "ses:ListIdentities",
                 "ses:ListIdentityPolicies",
