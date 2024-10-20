@@ -114,6 +114,7 @@ The following IAM policy types are analyzed:
 * ECR public repository policies
 * EFS file system policies
 * Elemental MediaStore container policies
+* End User Messaging opt-out list policies
 * EventBridge event bus policies
 * EventBridge schema registry policies
 * FSx volume policies

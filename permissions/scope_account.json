@@ -157,6 +157,7 @@
                 "ses:GetIdentityPolicies",
                 "ses:ListIdentities",
                 "ses:ListIdentityPolicies",
+                "sms-voice:GetResourcePolicy",
                 "sns:GetTopicAttributes",
                 "sns:ListTopics",
                 "sqs:GetQueueAttributes",
