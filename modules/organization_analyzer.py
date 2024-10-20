@@ -168,7 +168,7 @@ class OrganizationAnalyzer:
                     try:
                         assume_role_response = sts_client.assume_role(
                             RoleArn="arn:aws:iam::{}:role/{}".format(account_id, self._member_accounts_role),
-                            RoleSessionName="aws-lint-iam-policies",
+                            RoleSessionName=self._boto_config.user_agent_appid,
                             PolicyArns=[{"arn": AWS_IAM_POLICY_ARN_READ_ONLY_ACCESS}],
                             Policy=inline_session_policy,
                         )

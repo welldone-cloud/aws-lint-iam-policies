@@ -22,6 +22,7 @@ BOTO_CONFIG = botocore.config.Config(
     connect_timeout=5,
     read_timeout=5,
     retries={"total_max_attempts": 5, "mode": "standard"},
+    user_agent_appid="aws-lint-iam-polices",
 )
 
 ERROR_MESSAGE_INVALID_PARAMETER = "Invalid parameter for provided scope"
