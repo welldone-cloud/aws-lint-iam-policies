@@ -27,20 +27,27 @@ def analyze(
     # Iterate policies for all collected resource ARNs
     for resource_arn in resource_arns:
         policies_paginator = ram_client.get_paginator("get_resource_policies")
-        for policies_page in policies_paginator.paginate(resourceArns=[resource_arn]):
-            for policy in policies_page["policies"]:
+        try:
+            for policies_page in policies_paginator.paginate(resourceArns=[resource_arn]):
+                for policy in policies_page["policies"]:
 
-                # Skip if policy is empty
-                if not json.loads(policy):
-                    continue
+                    # Skip if policy is empty
+                    if not json.loads(policy):
+                        continue
 
-                policy_analysis_function(
-                    account_id=account_id,
-                    region=region,
-                    source_service=SOURCE_SERVICE,
-                    resource_type=cfn_resource_type,
-                    resource_name=resource_arn.split(arn_to_name_split_char)[-1],
-                    resource_arn=resource_arn,
-                    policy_document=policy,
-                    policy_type="RESOURCE_POLICY",
-                )
+                    policy_analysis_function(
+                        account_id=account_id,
+                        region=region,
+                        source_service=SOURCE_SERVICE,
+                        resource_type=cfn_resource_type,
+                        resource_name=resource_arn.split(arn_to_name_split_char)[-1],
+                        resource_arn=resource_arn,
+                        policy_document=policy,
+                        policy_type="RESOURCE_POLICY",
+                    )
+
+        except ram_client.exceptions.from_code("ResourceArnNotFoundException"):
+            # RAM is eventually consistent: a previously shared resource may got deleted in the meanwhile, but still
+            # shows up as being shared in RAM. When trying to read its resource-based policy, the call fails. Ignore
+            # these errors here.
+            pass
