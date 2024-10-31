@@ -116,6 +116,7 @@ The following IAM policy types are analyzed:
 * Elemental MediaStore container policies
 * End User Messaging opt-out list policies
 * End User Messaging phone number policies
+* End User Messaging pool policies
 * End User Messaging sender ID policies
 * EventBridge event bus policies
 * EventBridge schema registry policies
