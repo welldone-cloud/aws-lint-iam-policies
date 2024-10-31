@@ -197,6 +197,7 @@ The following IAM policy types are analyzed:
 * VPC Lattice service network policies
 * VPC Lattice service policies
 * VPC prefix list policies
+* VPC security group policies
 * VPC subnet policies
 * VPC Traffic Mirroring target policies
 * VPC Transit Gateway multicast domain policies
