@@ -16,14 +16,14 @@ The script makes use of three mechanisms:
 
 ## Usage
 
-Make sure you have AWS credentials configured for your targeted environment. This can either be done using [environment 
+Make sure you have AWS credentials configured for your target environment. This can either be done using [environment 
 variables](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html) or by specifying a [named 
 profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html) in the optional `--profile` 
 argument.
 
 * If your are running the script against a single AWS account (`--scope ACCOUNT`), you require at least [these permissions](permissions/scope_account.json). 
 
-* If you are running the script against a set of member accounts of an AWS Organization (`--scope ORGANIZATION`), you must use credentials that belong to the Organizations management account and have at least [these permissions](permissions/scope_organization.json). The Organizations member accounts need to have an IAM role configured that can be assumed from the Organizations management account. In many cases, there is the default `OrganizationAccountAccessRole` available. When assuming the role, the script will automatically drop its permissions to read-only access. If you are using a custom role instead of `OrganizationAccountAccessRole`, it requires at least [these permissions](permissions/scope_account.json). 
+* If you are running the script against a set of member accounts of an AWS Organization (`--scope ORGANIZATION`), you must use credentials that belong to the Organizations management account and have at least [these permissions](permissions/scope_organization.json). The Organizations member accounts need to have an IAM role configured that can be assumed from the Organizations management account. In many cases, there is the default `OrganizationAccountAccessRole` available. When assuming the role you specify, the script will automatically drop its permissions to [only those that are required](permissions/scope_account.json). 
 
 By default, all supported policy types and all regions are analyzed in the targeted AWS account(s). See the list of supported arguments below, in case you want to reduce coverage.
 
@@ -148,6 +148,7 @@ The following IAM policy types are analyzed:
 * Network Firewall rule group policies
 * OpenSearch domain policies
 * Organizations delegation policies
+* Organizations resource control policies
 * Organizations service control policies
 * Outposts local gateway route table policies
 * Outposts outpost policies
