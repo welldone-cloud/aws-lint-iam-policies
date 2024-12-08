@@ -31,7 +31,7 @@ PATTERN_AWS_ACCOUNT_ID = re.compile(r"^\d{12,}$")
 
 PATTERN_AWS_ORGANIZATIONAL_UNIT = re.compile(r"^ou-[a-z0-9]{4,32}-[a-z0-9]{8,32}$")
 
-PATTERN_AWS_REGION_NAME = re.compile(r"^([a-z]+-){2,}\d+$")
+PATTERN_AWS_REGION = re.compile(r"^([a-z]+-){2,}\d+$")
 
 PATTERN_AWS_ROLE_NAME = re.compile(r"^[\w+=,.@-]{1,64}$")
 
@@ -79,8 +79,8 @@ def parse_regions(val):
     if get_scope() not in (SCOPE_ACCOUNT, SCOPE_ORGANIZATION):
         raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAMETER)
     for region in val.split(","):
-        if not PATTERN_AWS_REGION_NAME.match(region):
-            raise argparse.ArgumentTypeError("Invalid region name format: {}".format(region))
+        if not PATTERN_AWS_REGION.match(region):
+            raise argparse.ArgumentTypeError("Invalid region format: {}".format(region))
     return val.split(",")
 
 
@@ -167,13 +167,13 @@ if __name__ == "__main__":
         "--exclude-regions",
         default=[],
         type=parse_regions,
-        help="do not target the specified comma-separated list of region names",
+        help="do not target the specified comma-separated list of regions",
     )
     parser.add_argument(
         "--include-regions",
         default=[],
         type=parse_regions,
-        help="only target the specified comma-separated list of region names",
+        help="only target the specified comma-separated list of regions",
     )
     parser.add_argument(
         "--exclude-accounts",

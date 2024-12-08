@@ -56,9 +56,9 @@ python aws_lint_iam_policies.py --scope ORGANIZATION --member-accounts-role Orga
 --include-policy-types INCLUDE_POLICY_TYPES
     only target the specified comma-separated list of policy types
 --exclude-regions EXCLUDE_REGIONS
-    do not target the specified comma-separated list of region names
+    do not target the specified comma-separated list of regions
 --include-regions INCLUDE_REGIONS
-    only target the specified comma-separated list of region names
+    only target the specified comma-separated list of regions
 --exclude-accounts EXCLUDE_ACCOUNTS
     do not target the specified comma-separated list of account IDs
 --include-accounts INCLUDE_ACCOUNTS
@@ -193,6 +193,7 @@ The following IAM policy types are analyzed:
 * VPC endpoint policies
 * VPC IPAM pool policies
 * VPC IPAM resource discovery policies
+* VPC Lattice resource configuration policies
 * VPC Lattice service auth policies
 * VPC Lattice service network auth policies
 * VPC Lattice service network policies
