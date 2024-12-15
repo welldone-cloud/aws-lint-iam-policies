@@ -2,26 +2,37 @@ RUN_IN_REGION = "ALL"
 
 SOURCE_SERVICE = "ec2"
 
+# VPC endpoint types that currently do not offer policy support: GatewayLoadBalancer, Resource, ServiceNetwork
+VPC_ENDPOINT_TYPES_WITH_POLICY_SUPPORT = ("Interface", "Gateway")
+
 
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     ec2_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
-    endpoints_paginator = ec2_client.get_paginator("describe_vpc_endpoints")
-    services_with_vpc_endpoint_policy_support = set()
 
-    # Iterate all VPC endpoints
-    for endpoints_page in endpoints_paginator.paginate():
-        for endpoint in endpoints_page["VpcEndpoints"]:
+    # Iterate all VPC endpoint types
+    for vpc_endpoint_type in VPC_ENDPOINT_TYPES_WITH_POLICY_SUPPORT:
+        endpoints_paginator = ec2_client.get_paginator("describe_vpc_endpoints")
 
-            # If there are VPC endpoints present, get the set of services that support custom VPC endpoint policies
-            if not services_with_vpc_endpoint_policy_support:
-                vpc_endpoint_services_paginator = ec2_client.get_paginator("describe_vpc_endpoint_services")
-                for vpc_endpoint_services_page in vpc_endpoint_services_paginator.paginate():
-                    for service_detail in vpc_endpoint_services_page["ServiceDetails"]:
-                        if service_detail["VpcEndpointPolicySupported"]:
-                            services_with_vpc_endpoint_policy_support.add(service_detail["ServiceName"])
+        # Iterate all VPC endpoints present
+        for endpoints_page in endpoints_paginator.paginate(
+            Filters=[
+                {"Name": "vpc-endpoint-type", "Values": [vpc_endpoint_type]},
+                {"Name": "vpc-endpoint-state", "Values": ["available", "pendingAcceptance", "pending"]},
+            ]
+        ):
+            for endpoint in endpoints_page["VpcEndpoints"]:
+                # Skip if no policy document is present or the service does not have endpoint policy support
+                if "PolicyDocument" not in endpoint:
+                    continue
+                describe_vpc_endpoint_services_response = ec2_client.describe_vpc_endpoint_services(
+                    ServiceNames=[endpoint["ServiceName"]],
+                    Filters=[
+                        {"Name": "service-type", "Values": [vpc_endpoint_type]},
+                    ],
+                )
+                if not describe_vpc_endpoint_services_response["ServiceDetails"][0]["VpcEndpointPolicySupported"]:
+                    continue
 
-            # Analyze the policy only if the underlying service supports custom VPC endpoint policies
-            if endpoint["ServiceName"] in services_with_vpc_endpoint_policy_support:
                 policy_analysis_function(
                     account_id=account_id,
                     region=region,
