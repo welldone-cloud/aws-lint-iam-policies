@@ -83,6 +83,7 @@ python aws_lint_iam_policies.py --scope ORGANIZATION --member-accounts-role Orga
 The following IAM policy types are analyzed:
 
 * ACM private CA policies
+* API Gateway custom domain name policies
 * API Gateway REST API policies
 * App Mesh mesh policies
 * AppSync GraphQL API policies
