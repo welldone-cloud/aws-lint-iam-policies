@@ -187,6 +187,7 @@
             "Action": "apigateway:GET",
             "Resource": [
                 "arn:aws:apigateway:*:*:/domainnames/*",
+                "arn:aws:apigateway:*::/domainnames",
                 "arn:aws:apigateway:*::/restapis"
             ]
         }

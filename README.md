@@ -84,6 +84,7 @@ The following IAM policy types are analyzed:
 
 * ACM private CA policies
 * API Gateway custom domain name policies
+* API Gateway custom domain name private domain policies
 * API Gateway REST API policies
 * App Mesh mesh policies
 * AppSync GraphQL API policies
