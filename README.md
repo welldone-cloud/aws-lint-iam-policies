@@ -1,7 +1,6 @@
 # aws-lint-iam-policies
 
-Runs IAM policy linting and security checks against either a single AWS account or a set of member accounts of an AWS Organization. Dumps all supported identity-based and resource-based policies to a local directory and reports on those that may violate security best practices or contain errors. See the accompanying blog post 
-[here](https://medium.com/@michael.kirchner/linting-aws-iam-policies-e76b95859c93).
+Runs IAM policy linting and security checks against either a single AWS account or a set of member accounts of an AWS Organization. Dumps all supported identity-based and resource-based policies to a local directory and reports on those that may violate security best practices or contain errors. 
 
 The script makes use of three mechanisms:
 
@@ -21,17 +20,21 @@ variables](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvar
 profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html) in the optional `--profile` 
 argument.
 
-* If your are running the script against a single AWS account (`--scope ACCOUNT`), you require at least [these permissions](permissions/scope_account.json). 
+* If your are running the script against a single AWS account, you require at least [these permissions](permissions/scope_account.json). 
 
-* If you are running the script against a set of member accounts of an AWS Organization (`--scope ORGANIZATION`), you must use credentials that belong to the Organizations management account and have at least [these permissions](permissions/scope_organization.json). The Organizations member accounts need to have an IAM role configured that can be assumed from the Organizations management account. In many cases, there is the default `OrganizationAccountAccessRole` available. When assuming the role you specify, the script will automatically drop its permissions to [only those that are required](permissions/scope_account.json). 
+* If you are running the script against a set of member accounts of an AWS Organization, you must use credentials that belong to the Organizations management account and have at least [these permissions](permissions/scope_organization.json). The member accounts need to have an IAM role configured that can be assumed from the Organizations management account. In many cases, there is the default `OrganizationAccountAccessRole` available. When assuming the role you specify, the script will automatically drop its permissions to only those that are required. 
 
 By default, all supported policy types and all regions are analyzed in the targeted AWS account(s). See the list of supported arguments below, in case you want to reduce coverage.
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
 
 Example invocations:
 
 ```bash
-pip install -r requirements.txt
-
 python aws_lint_iam_policies.py --scope ACCOUNT
 
 python aws_lint_iam_policies.py --scope ACCOUNT --include-policy-types s3_bucket_policies,kms_key_policies
@@ -285,7 +288,7 @@ Results are written to a JSON file. Findings are grouped by finding type and fin
 
 ## Notes
 
-* To speed up execution of the script, run it within an AWS region (e.g., on EC2 or CloudShell) instead of your local machine. Network latency between AWS regions is usually lower than your machine connecting to each region via the Internet.
+* To speed up execution of the script, run it within an AWS region (e.g., on EC2 or CloudShell) instead of your local machine. Network latency between AWS regions is often lower than your machine connecting to each region via the Internet.
 
 * The provided minimum IAM permissions exceed the policy size limit for IAM user inline policies (2048 characters). Consider using managed policies or roles instead, which have higher policy size limits.
 
