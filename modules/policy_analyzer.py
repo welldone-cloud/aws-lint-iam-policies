@@ -67,7 +67,7 @@ CUSTOM_POLICY_CHECKS_DETAILS = {
 class PolicyAnalyzer:
 
     @staticmethod
-    def _get_custom_policy_check_results(policy, account_id):
+    def _get_custom_policy_check_results(policy, account_id, trusted_account_ids):
         results = {
             "TRUSTED_IDENTITY_PROVIDER": set(),
             "TRUSTED_OUTSIDE_PRINCIPAL": set(),
@@ -127,15 +127,17 @@ class PolicyAnalyzer:
                                     results["TRUSTED_WILDCARD_PRINCIPAL"].add("*")
 
                             # Handle account numbers
-                            elif key == "AWS" and AWS_ACCOUNT_ID_PATTERN.match(value) and value != account_id:
-                                if statement_has_conditions:
-                                    results["TRUSTED_OUTSIDE_PRINCIPAL_WITH_CONDITIONS"].add(value)
-                                else:
-                                    results["TRUSTED_OUTSIDE_PRINCIPAL"].add(value)
+                            elif key == "AWS" and AWS_ACCOUNT_ID_PATTERN.match(value):
+                                if value != account_id and value not in trusted_account_ids:
+                                    if statement_has_conditions:
+                                        results["TRUSTED_OUTSIDE_PRINCIPAL_WITH_CONDITIONS"].add(value)
+                                    else:
+                                        results["TRUSTED_OUTSIDE_PRINCIPAL"].add(value)
 
                             # Handle principal ARNs
                             elif key == "AWS" and AWS_IAM_STS_ARN_PATTERN.match(value):
-                                if value.split(":")[4] != account_id:
+                                account_id_in_arn = value.split(":")[4]
+                                if account_id_in_arn != account_id and account_id_in_arn not in trusted_account_ids:
                                     if statement_has_conditions:
                                         results["TRUSTED_OUTSIDE_PRINCIPAL_WITH_CONDITIONS"].add(value)
                                     else:
@@ -150,10 +152,11 @@ class PolicyAnalyzer:
     def get_supported_policy_type_names():
         return modules.policy_types.__all__
 
-    def __init__(self, boto_session, boto_config, result_collector):
+    def __init__(self, boto_session, boto_config, result_collector, trusted_account_ids):
         self._boto_session = boto_session
         self._boto_config = boto_config
         self._result_collector = result_collector
+        self._trusted_account_ids = trusted_account_ids
         self._regional_access_analyzer_clients = {}
 
     def _get_regional_access_analyzer_client(self, region):
@@ -238,7 +241,9 @@ class PolicyAnalyzer:
 
         # Send policy through custom policy checks
         if policy_type == "RESOURCE_POLICY":
-            custom_policy_check_results = PolicyAnalyzer._get_custom_policy_check_results(policy_document, account_id)
+            custom_policy_check_results = PolicyAnalyzer._get_custom_policy_check_results(
+                policy_document, account_id, self._trusted_account_ids
+            )
             for finding_issue_code, principals in custom_policy_check_results.items():
                 if not principals:
                     continue

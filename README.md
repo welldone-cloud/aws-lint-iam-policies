@@ -22,7 +22,7 @@ argument.
 
 * If your are running the script against a single AWS account, you require at least [these permissions](permissions/scope_account.json). 
 
-* If you are running the script against a set of member accounts of an AWS Organization, you must use credentials that belong to the Organizations management account and have at least [these permissions](permissions/scope_organization.json). The member accounts need to have an IAM role configured that can be assumed from the Organizations management account. In many cases, there is the default `OrganizationAccountAccessRole` available. When assuming the role you specify, the script will automatically drop its permissions to only those that are required. 
+* If you are running the script against a set of member accounts of an AWS Organization, you must use credentials that belong to the Organizations management account and have at least [these permissions](permissions/scope_organization.json). The member accounts need to have an IAM role configured that can be assumed from the Organizations management account. In many cases, there is the default `OrganizationAccountAccessRole` available. When the script assumes the role you specify, it will automatically drop its permissions to only those that are required. 
 
 By default, all supported policy types and all regions are analyzed in the targeted AWS account(s). See the list of supported arguments below, in case you want to reduce coverage.
 
@@ -54,6 +54,12 @@ python aws_lint_iam_policies.py --scope ORGANIZATION --member-accounts-role Orga
     target either an individual account or all accounts of an AWS Organization
 --member-accounts-role MEMBER_ACCOUNTS_ROLE
     IAM role name present in member accounts that can be assumed from the Organizations management account
+--profile PROFILE
+    named AWS profile to use
+--result-name RESULT_NAME
+    result name to use instead of the run timestamp
+--trusted-account-ids TRUSTED_ACCOUNT_IDS
+    list of comma-separated account IDs that should not be reported in trusted outside principal findings
 --exclude-policy-types EXCLUDE_POLICY_TYPES
     do not target the specified comma-separated list of policy types
 --include-policy-types INCLUDE_POLICY_TYPES
@@ -74,10 +80,6 @@ python aws_lint_iam_policies.py --scope ORGANIZATION --member-accounts-role Orga
     do not report the specified comma-separated list of finding issue codes
 --include-finding-issue-codes INCLUDE_FINDING_ISSUE_CODES
     only report the specified comma-separated list of finding issue codes
---profile PROFILE
-    named AWS profile to use
---result-name RESULT_NAME
-    result name to use instead of the run timestamp
 ```
 
 

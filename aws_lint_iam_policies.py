@@ -84,9 +84,13 @@ def parse_regions(val):
     return val.split(",")
 
 
-def parse_accounts(val):
+def parse_organizations_accounts(val):
     if get_scope() != SCOPE_ORGANIZATION:
         raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAMETER)
+    return parse_accounts(val)
+
+
+def parse_accounts(val):
     for account in val.split(","):
         if not PATTERN_AWS_ACCOUNT_ID.match(account):
             raise argparse.ArgumentTypeError("Invalid account ID format: {}".format(account))
@@ -152,6 +156,21 @@ if __name__ == "__main__":
         help="IAM role name present in member accounts that can be assumed from the Organizations management account",
     )
     parser.add_argument(
+        "--profile",
+        help="named AWS profile to use",
+    )
+    parser.add_argument(
+        "--result-name",
+        type=parse_result_name,
+        help="result name to use instead of the run timestamp",
+    )
+    parser.add_argument(
+        "--trusted-account-ids",
+        default=[],
+        type=parse_accounts,
+        help="list of comma-separated account IDs that should not be reported in trusted outside principal findings",
+    )
+    parser.add_argument(
         "--exclude-policy-types",
         default=[],
         type=parse_policy_types,
@@ -178,13 +197,13 @@ if __name__ == "__main__":
     parser.add_argument(
         "--exclude-accounts",
         default=[],
-        type=parse_accounts,
+        type=parse_organizations_accounts,
         help="do not target the specified comma-separated list of account IDs",
     )
     parser.add_argument(
         "--include-accounts",
         default=[],
-        type=parse_accounts,
+        type=parse_organizations_accounts,
         help="only target the specified comma-separated list of account IDs",
     )
     parser.add_argument(
@@ -210,15 +229,6 @@ if __name__ == "__main__":
         default=[],
         type=parse_issue_codes,
         help="only report the specified comma-separated list of finding issue codes",
-    )
-    parser.add_argument(
-        "--profile",
-        help="named AWS profile to use",
-    )
-    parser.add_argument(
-        "--result-name",
-        type=parse_result_name,
-        help="result name to use instead of the run timestamp",
     )
     args = parser.parse_args()
     args.scope = get_scope()
@@ -278,6 +288,7 @@ if __name__ == "__main__":
             boto_session,
             BOTO_CONFIG,
             result_collector,
+            args.trusted_account_ids,
             args.exclude_policy_types,
             args.include_policy_types,
             args.exclude_regions,
@@ -336,6 +347,7 @@ if __name__ == "__main__":
                 boto_session,
                 BOTO_CONFIG,
                 result_collector,
+                args.trusted_account_ids,
                 args.exclude_policy_types,
                 args.include_policy_types,
                 args.exclude_regions,
