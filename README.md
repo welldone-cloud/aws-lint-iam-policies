@@ -86,7 +86,7 @@ python aws_lint_iam_policies.py --scope ORGANIZATION --member-accounts-role Orga
 
 ## Example results
 
-Results are written both to a JSON file ([see example](doc/example_results.json)) and an HTML file.
+Results are written both to a JSON file ([see example](doc/example_results.json)) and an HTML file ([see example](https://welldone.cloud/resources/aws-lint-iam-policies/example_results.html)).
 
 
 
