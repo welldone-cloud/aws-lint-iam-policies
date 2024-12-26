@@ -1,6 +1,6 @@
 # aws-lint-iam-policies
 
-Runs IAM policy linting and security checks against either a single AWS account or a set of member accounts of an AWS Organization. Dumps all supported identity-based and resource-based policies to a local directory and reports on those that may violate security best practices or contain errors. 
+Runs IAM policy linting and security checks against either a single AWS account or a set of member accounts of an AWS Organization. Stores all supported identity-based and resource-based policies to a local directory and reports on those that may violate security best practices or contain errors. 
 
 The script makes use of three mechanisms:
 
@@ -20,9 +20,9 @@ variables](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvar
 profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html) in the optional `--profile` 
 argument.
 
-* If your are running the script against a single AWS account, you require at least [these permissions](permissions/scope_account.json). 
+* If your are running the script against a single AWS account, you require at least [these permissions](resources/permissions_scope_account.json). 
 
-* If you are running the script against a set of member accounts of an AWS Organization, you must use credentials that belong to the Organizations management account and have at least [these permissions](permissions/scope_organization.json). The member accounts need to have an IAM role configured that can be assumed from the Organizations management account. In many cases, there is the default `OrganizationAccountAccessRole` available. When the script assumes the role you specify, it will automatically drop its permissions to only those that are required. 
+* If you are running the script against a set of member accounts of an AWS Organization, you must use credentials that belong to the Organizations management account and have at least [these permissions](resources/permissions_scope_organization.json). The member accounts need to have an IAM role configured that can be assumed from the Organizations management account. In many cases, there is the default `OrganizationAccountAccessRole` available. When the script assumes the role you specify, it will automatically drop its permissions to only those that are required. 
 
 By default, all supported policy types and all regions are analyzed in the targeted AWS account(s). See the list of supported arguments below, in case you want to reduce coverage.
 
@@ -81,6 +81,13 @@ python aws_lint_iam_policies.py --scope ORGANIZATION --member-accounts-role Orga
 --include-finding-issue-codes INCLUDE_FINDING_ISSUE_CODES
     only report the specified comma-separated list of finding issue codes
 ```
+
+
+
+## Example results
+
+Results are written both to a JSON file ([see example](doc/example_results.json)) and an HTML file.
+
 
 
 
@@ -214,96 +221,8 @@ The following IAM policy types are analyzed:
 
 
 
-## Example result file
-
-Results are written to a JSON file. Findings are grouped by finding type and finding issue code.
-
-```json
-{
-  "_metadata": {
-    "invocation": "aws_lint_iam_policies.py --scope ACCOUNT",
-    "account_id": "123456789012",
-    "principal": "arn:aws:iam::123456789012:user/user1",
-    "scope": "ACCOUNT",
-    "run_timestamp": "20230729093927",
-    "stats": {
-      "number_of_policies_analyzed": 61,
-      "number_of_results_collected": 3
-    },
-    "errors": []
-  },
-  "results": {
-    "SECURITY_WARNING": {
-      "PASS_ROLE_WITH_STAR_IN_RESOURCE": [
-        {
-          "account_id": "123456789012",
-          "region": "us-east-1",
-          "source_service": "iam",
-          "resource_type": "AWS::IAM::UserPolicy",
-          "resource_name": "user1:inlinepolicy",
-          "resource_arn": "arn:aws:iam::123456789012:user/user1",
-          "policy_dump_file_name": "123456789012_us-east-1_iam_AWS_IAM_UserPolicy_user1_inlinepolicy_0.json",
-          "finding_type": "SECURITY_WARNING",
-          "finding_issue_code": "PASS_ROLE_WITH_STAR_IN_RESOURCE",
-          "finding_description": "Using the iam:PassRole action with wildcards (*) in the resource can be overly permissive because it allows iam:PassRole permissions on multiple resources. We recommend that you specify resource ARNs or add the iam:PassedToService condition key to your statement.",
-          "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-security-warning-pass-role-with-star-in-resource"
-        }
-      ],
-      "TRUSTED_WILDCARD_PRINCIPAL": [
-        {
-          "account_id": "123456789012",
-          "region": "eu-central-1",
-          "source_service": "s3",
-          "resource_type": "AWS::S3::Bucket",
-          "resource_name": "bucket1",
-          "resource_arn": "arn:aws:s3:::bucket1",
-          "policy_dump_file_name": "123456789012_eu-central-1_s3_AWS_S3_Bucket_bucket1_0.json",
-          "finding_type": "SECURITY_WARNING",
-          "finding_issue_code": "TRUSTED_WILDCARD_PRINCIPAL",
-          "finding_description": "The policy trusts the wildcard principal ('*'). A review is recommended to determine whether this is the desired setup.",
-          "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html"
-        }
-      ]
-    },
-    "WARNING": {
-      "MISSING_VERSION": [
-        {
-          "account_id": "123456789012",
-          "region": "eu-central-1",
-          "source_service": "sqs",
-          "resource_type": "AWS::SQS::QueuePolicy",
-          "resource_name": "queue1",
-          "resource_arn": "arn:aws:sqs:eu-central-1:123456789012:queue1",
-          "policy_dump_file_name": "123456789012_eu-central-1_sqs_AWS_SQS_QueuePolicy_queue1_0.json",
-          "finding_type": "WARNING",
-          "finding_issue_code": "MISSING_VERSION",
-          "finding_description": "We recommend that you specify the Version element to help you with debugging permission issues.",
-          "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-general-warning-missing-version"
-        }
-      ]
-    }
-  }
-}
-```
-
-
-
 ## Notes
-
-* To speed up execution of the script, run it within an AWS region (e.g., on EC2 or CloudShell) instead of your local machine. Network latency between AWS regions is often lower than your machine connecting to each region via the Internet.
 
 * The provided minimum IAM permissions exceed the policy size limit for IAM user inline policies (2048 characters). Consider using managed policies or roles instead, which have higher policy size limits.
 
-* Analysis of a policy via AWS IAM Access Analyzer is conducted in the same AWS account and region where the policy is stored. This means that your policy information is not transferred to another region that you are not already using.
-
-* Using a delegated administrator account for AWS Organizations is not supported.
-
 * The script can only lint policies that are using the AWS IAM policy language. It is not capable of linting other policy languages, such as Cedar policies (as used in AWS Verified Access and AWS Verified Permissions, for example).
-
-
-
-## Related projects
-
-If this script does not quite fulfill your needs, consider looking at the following projects that offer similar functionality:
-* https://github.com/duo-labs/parliament
-* https://github.com/sjakthol/aws-access-analyzer-validator

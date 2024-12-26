@@ -10,7 +10,7 @@ from modules.account_analyzer import AccountAnalyzer
 
 AWS_IAM_POLICY_ARN_READ_ONLY_ACCESS = "arn:aws:iam::aws:policy/ReadOnlyAccess"
 
-FILE_PATH_REQUIRED_IAM_PERMISSIONS = os.path.join("permissions", "scope_account.json")
+FILE_PATH_REQUIRED_IAM_PERMISSIONS = os.path.join("resources", "permissions_scope_account.json")
 
 
 class OrganizationAnalyzer:

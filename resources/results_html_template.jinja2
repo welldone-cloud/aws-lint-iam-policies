@@ -1,0 +1,336 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Results, aws-lint-iam-policies</title>
+
+	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+	<script>
+		function toggleVisibility(divId) {
+			const div = document.getElementById(divId);
+			if (div.classList.contains("hidden")) {
+				div.classList.remove("hidden");
+			} else {
+				div.classList.add("hidden");
+			}
+		}
+	</script>
+
+	<link rel="shortcut icon" href="data:image/svg+xml,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 1000 1000' enable-background='new 0 0 1000 1000' xml:space='preserve'%3E%3Cg%3E%3Cpath fill='%23e4af00' d='M836.8,467.2c0.2-5.8,0.3-11.1,0.3-15.3c0-69.8-27.2-135.4-76.5-184.8c-49.4-49.4-115-76.5-184.8-76.5c-54.1,0-107.3,18.4-153.8,53.2c-31.8,23.8-58.5,54.1-77.7,87.7c-21.1-11-44.5-16.7-68.7-16.7c-38.8,0-76.1,18-105,50.7c-19.3,21.8-33,48.3-39.7,75.9c-32.7,12.9-61.9,35.1-83,63.5C23.1,538,10,577.4,10,618.8c0,105.1,85.5,190.6,190.6,190.6v-0.5H819v0.3c94.3,0,171-76.7,171-171C990,550.2,922.4,476.7,836.8,467.2z M825.8,769.4L825.8,769.4l-636.9-0.1c-77.8-6-139.3-71.2-139.3-150.6c0-65.5,41.3-123.6,103.2-144.3c0.2-0.1,0.4-0.2,0.6-0.3c6.1-1.7,10.9-6.8,12-13.4c8.8-52.9,54.7-106.4,110.1-106.4c22.7,0,44.4,6.9,62.9,19.9c1.8,1.7,4,3.1,6.6,4l0,0c9.7,3.6,20.5-0.9,24.8-10.3c37.6-80.9,121.5-137.9,206-137.9c122.3,0,221.7,99.5,221.7,221.7c0,8.3-0.4,21.3-1.2,32.7c-0.7,10.2,6.4,19.2,16.5,20.9l0,0c1.8,0.3,3.5,0.3,5.2,0.2v0.1c72.5,0,132.4,59.9,132.4,132.4C950.4,708.4,895.1,765.9,825.8,769.4z'/%3E%3C/g%3E%3C/svg%3E">
+	
+	<style>
+		.header {
+			background-color: #f6f6f6;
+			border-bottom: 1px solid #e6e6e6;
+			padding: 25px 0;
+		}
+
+		.footer {
+			background-color: #f6f6f6;
+			border-top: 1px solid #e6e6e6;
+			padding: 50px 0;
+		}
+
+		.contents {
+			width: 1100px;
+			margin: 0 auto;
+			padding: 40px 40px;
+		}
+
+		.fullblock {
+			margin-bottom: 50px;
+		}
+
+		.hidden {
+			display: none;
+		}
+
+		.fixedwidth {
+			width: 250px;
+		}
+
+		.wrapped {
+			word-break: break-all;
+		}
+
+		html {
+			scrollbar-gutter: stable;
+		}
+
+		body {
+			background-color: #fff;
+			font-family: 'Verdana';
+			margin: 0;
+		}
+
+		a,
+		a:visited {
+			color: LinkText;
+		}
+
+		h1 {
+			color: #3e3e3e;
+			font-size: 30px;
+			font-weight: normal;
+			margin-top: 0;
+			margin-bottom: 30px;
+			border-bottom: 1px solid;
+		}
+
+		p {
+			color: #585858;
+			font-size: 22px;
+			margin-bottom: 20px;
+			margin-left: 30px;
+		}
+
+		table {
+			color: #585858;
+			border-collapse: collapse;
+			margin-left: 30px;
+			margin-right: 70px;
+			margin-bottom: 60px;
+		}
+
+		table td {
+			vertical-align: top;
+			border: 1px solid;
+			padding: 5px;
+		}
+
+		table td pre {
+			font-size: 16px;
+			white-space: pre-wrap;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="header"></div>
+
+	<div class="contents">
+
+		<div class="fullblock">
+			<h1>aws-lint-iam-policies</h1>
+			<table>
+				<tr>
+					<td class="fixedwidth">invocation</td>
+					<td class="wrapped">{{ invocation }}</td>
+				</tr>
+				<tr>
+					<td class="fixedwidth">account_id</td>
+					<td class="wrapped">{{ account_id }}</td>
+				</tr>
+				<tr>
+					<td class="fixedwidth">principal</td>
+					<td class="wrapped">{{ principal }}</td>
+				</tr>
+				<tr>
+					<td class="fixedwidth">scope</td>
+					<td class="wrapped">{{ scope }}</td>
+				</tr>
+				<tr>
+					<td class="fixedwidth">run_timestamp</td>
+					<td class="wrapped">{{ run_timestamp }}</td>
+				</tr>
+				<tr>
+					<td class="fixedwidth">number_of_policies_analyzed</td>
+					<td class="wrapped">{{ number_of_policies_analyzed }}</td>
+				</tr>
+				<tr>
+					<td class="fixedwidth">number_of_results_collected</td>
+					<td class="wrapped">{{ number_of_results_collected }}</td>
+				</tr>
+				<tr>
+					<td class="fixedwidth">errors</td>
+					<td class="wrapped">
+						{% if errors %}
+							<a href="javascript:toggleVisibility('errors')">Show</a>
+							<div id="errors" class="hidden">
+								<ul>
+									{% for item in errors %}
+										<li>{{ item }}</li>
+									{% endfor %}
+								</ul>
+							</div>
+						{% else %}
+							None
+						{% endif %}
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="fullblock">
+			<h1>Summary, results by finding_issue_code</h1>
+			{{ results_by_finding_issue_code | safe }}
+		</div>
+
+		<div class="fullblock">
+			<h1>Summary, results by resource_type</h1>
+			{{ results_by_resource_type | safe }}
+		</div>
+
+		<div class="fullblock">
+			<h1>Summary, results by account_id</h1>
+			{{ results_by_account_id | safe }}
+		</div>
+
+		<div class="fullblock">
+			<h1>Summary, results by region</h1>
+			{{ results_by_region | safe }}
+		</div>
+
+		<div class="fullblock">
+			<h1>Results by finding_issue_code</h1>
+			{% for finding_issue_code in unique_finding_issue_codes %}
+				<p>
+					{{ finding_issue_code }}<br />
+					<a href="javascript:toggleVisibility('results_by_finding_issue_code_{{ finding_issue_code }}')">Show</a>
+				</p>
+				<div id="results_by_finding_issue_code_{{ finding_issue_code }}" class="hidden">
+					{% for result in results %}
+						{% if finding_issue_code == result["finding_issue_code"] %}
+							<table>
+								<tr>
+									<td class="fixedwidth">account_id</td>
+									<td class="wrapped">{{ result["account_id"] }}</td>
+								</tr>
+								<tr>
+									<td class="fixedwidth">region</td>
+									<td class="wrapped">{{ result["region"] }}</td>
+								</tr>
+								<tr>
+									<td class="fixedwidth">source_service</td>
+									<td class="wrapped">{{ result["source_service"] }}</td>
+								</tr>
+								<tr>
+									<td class="fixedwidth">resource_type</td>
+									<td class="wrapped">{{ result["resource_type"] }}</td>
+								</tr>
+								<tr>
+									<td class="fixedwidth">resource_name</td>
+									<td class="wrapped">{{ result["resource_name"] }}</td>
+								</tr>
+								<tr>
+									<td class="fixedwidth">resource_arn</td>
+									<td class="wrapped">{{ result["resource_arn"] }}</td>
+								</tr>
+								<tr>
+									<td class="fixedwidth">finding_type</td>
+									<td class="wrapped">{{ result["finding_type"] }}</td>
+								</tr>
+								<tr>
+									<td class="fixedwidth">finding_issue_code</td>
+									<td class="wrapped">{{ result["finding_issue_code"] }}</td>
+								</tr>
+								<tr>
+									<td class="fixedwidth">finding_description</td>
+									<td class="wrapped">{{ result["finding_description"] }}</td>
+								</tr>
+								<tr>
+									<td class="fixedwidth">finding_link</td>
+									<td class="wrapped"><a href="{{ result["finding_link"] }}" target="_blank">{{ result["finding_link"] }}</a></td>
+								</tr>
+								<tr>
+									<td class="fixedwidth">policy_file_name</td>
+									<td class="wrapped">{{ result["policy_file_name"] }}</td>
+								</tr>
+								<tr>
+									<td class="fixedwidth">policy</td>
+									<td class="wrapped">
+										<a href="javascript:toggleVisibility('results_by_finding_issue_code_{{ loop.index }}')">Show</a>
+										<div id="results_by_finding_issue_code_{{ loop.index }}" class="hidden">
+											<pre>{{ json_policies[result["policy_file_name"]] | safe }}</pre>
+										</div>
+									</td>
+								</tr>
+							</table>
+						{% endif %}
+					{% endfor %}
+				</div>
+			{% endfor %}
+			<div></div>
+		</div>
+
+		<div class="fullblock">
+			<h1>Results by account_id</h1>
+			{% for account_id in unique_account_ids %}
+				<p>
+					{{ account_id }}<br />
+					<a href="javascript:toggleVisibility('results_by_account_id_{{ account_id }}')">Show</a>
+				</p>
+				<div id="results_by_account_id_{{ account_id }}" class="hidden">
+					{% for result in results %}
+						{% if account_id == result["account_id"] %}
+							<table>
+								<tr>
+									<td class="fixedwidth">account_id</td>
+									<td class="wrapped">{{ result["account_id"] }}</td>
+								</tr>
+								<tr>
+									<td class="fixedwidth">region</td>
+									<td class="wrapped">{{ result["region"] }}</td>
+								</tr>
+								<tr>
+									<td class="fixedwidth">source_service</td>
+									<td class="wrapped">{{ result["source_service"] }}</td>
+								</tr>
+								<tr>
+									<td class="fixedwidth">resource_type</td>
+									<td class="wrapped">{{ result["resource_type"] }}</td>
+								</tr>
+								<tr>
+									<td class="fixedwidth">resource_name</td>
+									<td class="wrapped">{{ result["resource_name"] }}</td>
+								</tr>
+								<tr>
+									<td class="fixedwidth">resource_arn</td>
+									<td class="wrapped">{{ result["resource_arn"] }}</td>
+								</tr>
+								<tr>
+									<td class="fixedwidth">finding_type</td>
+									<td class="wrapped">{{ result["finding_type"] }}</td>
+								</tr>
+								<tr>
+									<td class="fixedwidth">finding_issue_code</td>
+									<td class="wrapped">{{ result["finding_issue_code"] }}</td>
+								</tr>
+								<tr>
+									<td class="fixedwidth">finding_description</td>
+									<td class="wrapped">{{ result["finding_description"] }}</td>
+								</tr>
+								<tr>
+									<td class="fixedwidth">finding_link</td>
+									<td class="wrapped"><a href="{{ result["finding_link"] }}" target="_blank">{{ result["finding_link"] }}</a></td>
+								</tr>
+								<tr>
+									<td class="fixedwidth">policy_file_name</td>
+									<td class="wrapped">{{ result["policy_file_name"] }}</td>
+								</tr>
+								<tr>
+									<td class="fixedwidth">policy</td>
+									<td class="wrapped">
+										<a href="javascript:toggleVisibility('results_by_account_id_{{ loop.index }}')">Show</a>
+										<div id="results_by_account_id_{{ loop.index }}" class="hidden">
+											<pre>{{ json_policies[result["policy_file_name"]] | safe }}</pre>
+										</div>
+									</td>
+								</tr>
+							</table>
+						{% endif %}
+					{% endfor %}
+				</div>
+			{% endfor %}
+			<div></div>
+		</div>
+
+	</div>
+
+	<div class="footer"></div>
+
+</body>
+
+</html>

@@ -189,11 +189,7 @@ class PolicyAnalyzer:
             "resource_name": resource_name,
             "resource_arn": resource_arn,
         }
-
-        # Submit policy to result collector
-        policy_descriptor["policy_dump_file_name"] = self._result_collector.submit_policy(
-            policy_descriptor, policy_document
-        )
+        policy_file_name = self._result_collector.submit_policy(policy_descriptor, policy_document)
 
         # Send policy through Access Analyzer's validate_policy
         access_analyzer_client = self._get_regional_access_analyzer_client(region)
@@ -207,15 +203,15 @@ class PolicyAnalyzer:
             call_parameters["validatePolicyResourceType"] = resource_type
         for findings_page in findings_paginator.paginate(**call_parameters):
             for finding in findings_page["findings"]:
-                finding_descriptor = {
+                result = {
+                    **policy_descriptor,
                     "finding_type": finding["findingType"],
                     "finding_issue_code": finding["issueCode"],
                     "finding_description": finding["findingDetails"],
                     "finding_link": finding["learnMoreLink"],
+                    "policy_file_name": policy_file_name,
                 }
-                self._result_collector.submit_result(
-                    policy_descriptor, finding_descriptor, disabled_finding_issue_codes
-                )
+                self._result_collector.submit_result(result, disabled_finding_issue_codes)
 
         # Send policy through Access Analyzer's check_no_public_access, if supported
         if resource_type in ACCESS_ANALYZER_PARAMETERS_CHECK_NO_PUBLIC_ACCESS:
@@ -229,15 +225,15 @@ class PolicyAnalyzer:
                 pass
             else:
                 if check_no_public_access_response["result"] == "FAIL":
-                    finding_descriptor = {
+                    result = {
+                        **policy_descriptor,
                         "finding_type": "SECURITY_WARNING",
                         "finding_issue_code": "PUBLIC_ACCESS",
                         "finding_description": check_no_public_access_response["message"],
                         "finding_link": "https://docs.aws.amazon.com/access-analyzer/latest/APIReference/API_CheckNoPublicAccess.html",
+                        "policy_file_name": policy_file_name,
                     }
-                    self._result_collector.submit_result(
-                        policy_descriptor, finding_descriptor, disabled_finding_issue_codes
-                    )
+                    self._result_collector.submit_result(result, disabled_finding_issue_codes)
 
         # Send policy through custom policy checks
         if policy_type == "RESOURCE_POLICY":
@@ -248,14 +244,14 @@ class PolicyAnalyzer:
                 if not principals:
                     continue
 
-                finding_descriptor = {
+                result = {
+                    **policy_descriptor,
                     "finding_type": "SECURITY_WARNING",
                     "finding_issue_code": finding_issue_code,
                     "finding_description": CUSTOM_POLICY_CHECKS_DETAILS[finding_issue_code]["description"].format(
                         sorted(principals)
                     ),
                     "finding_link": CUSTOM_POLICY_CHECKS_DETAILS[finding_issue_code]["link"],
+                    "policy_file_name": policy_file_name,
                 }
-                self._result_collector.submit_result(
-                    policy_descriptor, finding_descriptor, disabled_finding_issue_codes
-                )
+                self._result_collector.submit_result(result, disabled_finding_issue_codes)

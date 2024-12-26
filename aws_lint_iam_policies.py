@@ -295,7 +295,7 @@ if __name__ == "__main__":
             args.include_regions,
         )
         account_analyzer.analyze_account()
-        result_collector.write_result_file()
+        result_collector.write_result_files()
 
     # Handle ORGANIZATION scope
     elif args.scope == SCOPE_ORGANIZATION:
@@ -358,10 +358,10 @@ if __name__ == "__main__":
                 args.include_ous,
             )
             organization_analyzer.analyze_organization()
-            result_collector.write_result_file()
+            result_collector.write_result_files()
 
         except organizations_client.exceptions.AccessDeniedException:
             print("Insufficient permissions to communicate with the AWS Organizations service")
             sys.exit(1)
 
-    print("Done. Results and policy dump written to results directory.")
+    print("Done. Results and policies written to results directory.")
