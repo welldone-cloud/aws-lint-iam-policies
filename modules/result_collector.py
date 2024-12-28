@@ -131,10 +131,10 @@ class ResultCollector:
             unique_finding_issue_codes = sorted(results_df["finding_issue_code"].unique())
             unique_account_ids = sorted(results_df["account_id"].unique())
         except KeyError:
-            # This means that the list of results is empty and it does not make sense to create an HTML report
+            # The list of results is empty and so it does not make sense to create an HTML report
             return
 
-        # Figure "results by finding_issue_code"
+        # Create figure "results by finding_issue_code"
         results_by_finding_issue_code_df = (
             results_df.groupby(["finding_type", "finding_issue_code"])
             .size()
@@ -147,7 +147,7 @@ class ResultCollector:
             "count",
         )
 
-        # Figure "results by resource_type"
+        # Create figure "results by resource_type"
         results_by_resource_type_df = (
             results_df["resource_type"]
             .value_counts()
@@ -158,7 +158,7 @@ class ResultCollector:
             results_by_resource_type_df, "resource_type", "count"
         )
 
-        # Figure "results by account_id"
+        # Create figure "results by account_id"
         results_by_account_id_df = (
             results_df["account_id"].value_counts().reset_index().rename(columns={"index": "account_id", 0: "count"})
         )
@@ -168,11 +168,18 @@ class ResultCollector:
             "count",
         )
 
-        # Figure "results by region"
+        # Create figure "results by region"
         results_by_region_df = (
             results_df["region"].value_counts().reset_index().rename(columns={"index": "region", 0: "count"})
         )
         results_by_region = ResultCollector._get_bar_chart_html(results_by_region_df, "region", "count")
+
+        # Prepare JSON policies for embedding into HTML
+        json_policies_html_encoded = {
+            key: html.escape(self._json_policies[key])
+            for key in self._json_policies
+            if key in set(results_df["policy_file_name"])
+        }
 
         # Render HTML template and write output
         with open(RESULTS_FILE_HTML_TEMPLATE_PATH) as template_file:
@@ -201,7 +208,7 @@ class ResultCollector:
                     unique_finding_issue_codes=unique_finding_issue_codes,
                     unique_account_ids=unique_account_ids,
                     results=self._result_collection["results"],
-                    json_policies=self._json_policies,
+                    json_policies=json_policies_html_encoded,
                 )
             )
 
@@ -236,12 +243,12 @@ class ResultCollector:
                 continue
             break
 
-        # Keep a copy of the policy in memory for when writing the HTML result file later
-        self._json_policies[policy_file_name] = html.escape(policy_document)
-
         # Write policy document to file
         with open(policy_file, "w") as out_file:
             out_file.write(policy_document)
+
+        # Keep a copy of the policy document in memory
+        self._json_policies[policy_file_name] = policy_document
 
         return policy_file_name
 
