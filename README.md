@@ -47,6 +47,7 @@ python aws_lint_iam_policies.py --scope ORGANIZATION --member-accounts-role Orga
 
 
 ## Supported arguments
+
 ```
 --list-policy-types
     list all supported policy types and exit
@@ -90,8 +91,8 @@ Results are written both to a JSON file ([see example](doc/example_results.json)
 
 
 
-
 ## Supported policy types
+
 The following IAM policy types are analyzed:
 
 * ACM private CA policies
@@ -185,6 +186,7 @@ The following IAM policy types are analyzed:
 * S3 object Lambda access point policies
 * S3 on Outposts access point policies
 * S3 on Outposts bucket policies
+* S3 table bucket policies
 * SageMaker feature group catalog policies
 * SageMaker feature group policies
 * SageMaker hub policies
@@ -225,4 +227,4 @@ The following IAM policy types are analyzed:
 
 * The provided minimum IAM permissions exceed the policy size limit for IAM user inline policies (2048 characters). Consider using managed policies or roles instead, which have higher policy size limits.
 
-* The script can only lint policies that are using the AWS IAM policy language. It is not capable of linting other policy languages, such as Cedar policies (as used in AWS Verified Access and AWS Verified Permissions, for example).
+* The script can only lint policies that are using the AWS IAM policy language. It is not capable of linting other policy types, such as Cedar policies (as used in AWS Verified Access and AWS Verified Permissions) or declarative policies.

@@ -142,6 +142,8 @@
                 "s3:ListMultiRegionAccessPoints",
                 "s3express:GetBucketPolicy",
                 "s3express:ListAllMyDirectoryBuckets",
+                "s3tables:GetTableBucketPolicy",
+                "s3tables:ListTableBuckets",
                 "sagemaker:GetLineageGroupPolicy",
                 "sagemaker:GetModelPackageGroupPolicy",
                 "sagemaker:GetResourcePolicy",
