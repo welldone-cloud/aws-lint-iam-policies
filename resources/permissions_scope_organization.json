@@ -151,7 +151,6 @@
                 "s3:GetAccessGrantsInstanceResourcePolicy",
                 "s3:GetAccessPointPolicy",
                 "s3:GetAccessPointPolicyForObjectLambda",
-                "s3:GetBucketLocation",
                 "s3:GetBucketPolicy",
                 "s3:GetMultiRegionAccessPointPolicy",
                 "s3:ListAccessPoints",
