@@ -4,9 +4,10 @@ import argparse
 import boto3
 import botocore.config
 import botocore.exceptions
+import importlib.metadata
 import os
+import packaging.version
 import pathlib
-import pkg_resources
 import re
 import sys
 
@@ -125,16 +126,17 @@ def parse_result_name(val):
 
 if __name__ == "__main__":
     # Check runtime environment
-    if sys.version_info[0] < 3:
-        print("Python version 3 required")
+    if sys.version_info < (3, 10):
+        print("Python version 3.10 or higher required")
         sys.exit(1)
     with open(os.path.join(pathlib.Path(__file__).parent, REQUIREMENTS_FILE), "r") as requirements_file:
-        try:
-            for package in requirements_file.read().splitlines():
-                pkg_resources.require(package)
-        except (pkg_resources.ResolutionError, pkg_resources.ExtractionError):
-            print("Unfulfilled requirement: {}".format(package))
-            sys.exit(1)
+        for package_requirement in requirements_file.read().splitlines():
+            package_name, package_version = [val.strip() for val in package_requirement.split(">=")]
+            installed_version = packaging.version.parse(importlib.metadata.version(package_name))
+            expected_version = packaging.version.parse(package_version)
+            if installed_version < expected_version:
+                print("Unfulfilled requirement: {}".format(package_requirement))
+                sys.exit(1)
 
     # Parse arguments
     parser = argparse.ArgumentParser()
