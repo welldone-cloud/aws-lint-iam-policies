@@ -88,12 +88,20 @@ def parse_regions(val):
 def parse_organizations_accounts(val):
     if get_scope() != SCOPE_ORGANIZATION:
         raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAMETER)
-    return parse_accounts(val)
-
-
-def parse_accounts(val):
     for account in val.split(","):
         if not PATTERN_AWS_ACCOUNT_ID.match(account):
+            raise argparse.ArgumentTypeError("Invalid account ID format: {}".format(account))
+    return val.split(",")
+
+
+def parse_trusted_accounts(val):
+    for account in val.split(","):
+        if account == "SAMEORG":
+            if get_scope() != SCOPE_ORGANIZATION:
+                raise argparse.ArgumentTypeError(
+                    "SAMEORG only supported when using scope {}".format(SCOPE_ORGANIZATION)
+                )
+        elif not PATTERN_AWS_ACCOUNT_ID.match(account):
             raise argparse.ArgumentTypeError("Invalid account ID format: {}".format(account))
     return val.split(",")
 
@@ -139,98 +147,99 @@ if __name__ == "__main__":
                 sys.exit(1)
 
     # Parse arguments
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(add_help=False)
+    parser.add_argument("-h", "--help", action="help", help="Show this help message and exit.")
     mutually_exclusive_args = parser.add_mutually_exclusive_group(required=True)
     mutually_exclusive_args.add_argument(
         "--list-policy-types",
         action="store_true",
-        help="list all supported policy types and exit",
+        help="List all supported policy types and exit.",
     )
     mutually_exclusive_args.add_argument(
         "--scope",
         choices=[SCOPE_ACCOUNT, SCOPE_ORGANIZATION],
-        help="target either an individual account or all accounts of an AWS Organization",
+        help="Target either an individual account or all accounts of an Organization.",
     )
     parser.add_argument(
         "--member-accounts-role",
         default="",
         type=parse_member_accounts_role,
-        help="IAM role name present in member accounts that can be assumed from the Organizations management account",
+        help="Assume the specified IAM role name in member accounts of the Organization.",
     )
     parser.add_argument(
         "--profile",
-        help="named AWS profile to use",
+        help="Use the specified AWS named profile.",
     )
     parser.add_argument(
         "--result-name",
         type=parse_result_name,
-        help="result name to use instead of the run timestamp",
+        help="Use the specified result name instead of the run timestamp.",
     )
     parser.add_argument(
-        "--trusted-account-ids",
+        "--trusted-accounts",
         default=[],
-        type=parse_accounts,
-        help="list of comma-separated account IDs that should not be reported in trusted outside principal findings",
+        type=parse_trusted_accounts,
+        help="Do not report the specified comma-separated list of account IDs in trusted outside principal findings. Use 'SAMEORG' to trust all accounts that belong to the Organization.",
     )
     parser.add_argument(
         "--exclude-policy-types",
         default=[],
         type=parse_policy_types,
-        help="do not target the specified comma-separated list of policy types",
+        help="Do not target the specified comma-separated list of policy types.",
     )
     parser.add_argument(
         "--include-policy-types",
         default=[],
         type=parse_policy_types,
-        help="only target the specified comma-separated list of policy types",
+        help="Only target the specified comma-separated list of policy types.",
     )
     parser.add_argument(
         "--exclude-regions",
         default=[],
         type=parse_regions,
-        help="do not target the specified comma-separated list of regions",
+        help="Do not target the specified comma-separated list of regions.",
     )
     parser.add_argument(
         "--include-regions",
         default=[],
         type=parse_regions,
-        help="only target the specified comma-separated list of regions",
+        help="Only target the specified comma-separated list of regions.",
     )
     parser.add_argument(
         "--exclude-accounts",
         default=[],
         type=parse_organizations_accounts,
-        help="do not target the specified comma-separated list of account IDs",
+        help="Do not target the specified comma-separated list of account IDs.",
     )
     parser.add_argument(
         "--include-accounts",
         default=[],
         type=parse_organizations_accounts,
-        help="only target the specified comma-separated list of account IDs",
+        help="Only target the specified comma-separated list of account IDs.",
     )
     parser.add_argument(
         "--exclude-ous",
         default=[],
         type=parse_ous,
-        help="do not target the specified comma-separated list of Organizations OU IDs",
+        help="Do not target the specified comma-separated list of OU IDs of the Organization.",
     )
     parser.add_argument(
         "--include-ous",
         default=[],
         type=parse_ous,
-        help="only target the specified comma-separated list of Organizations OU IDs",
+        help="Only target the specified comma-separated list of OU IDs of the Organization.",
     )
     parser.add_argument(
         "--exclude-finding-issue-codes",
         default=[],
         type=parse_issue_codes,
-        help="do not report the specified comma-separated list of finding issue codes",
+        help="Do not report the specified comma-separated list of finding issue codes.",
     )
     parser.add_argument(
         "--include-finding-issue-codes",
         default=[],
         type=parse_issue_codes,
-        help="only report the specified comma-separated list of finding issue codes",
+        help="Only report the specified comma-separated list of finding issue codes.",
     )
     args = parser.parse_args()
     args.scope = get_scope()
@@ -290,7 +299,7 @@ if __name__ == "__main__":
             boto_session,
             BOTO_CONFIG,
             result_collector,
-            args.trusted_account_ids,
+            args.trusted_accounts,
             args.exclude_policy_types,
             args.include_policy_types,
             args.exclude_regions,
@@ -335,6 +344,14 @@ if __name__ == "__main__":
                     print("Unrecognized OU in Organization: {}".format(ou))
                     sys.exit(1)
 
+            # Populate trusted accounts when using SAMEORG
+            if "SAMEORG" in args.trusted_accounts:
+                organizations_accounts = []
+                accounts_paginator = organizations_client.get_paginator("list_accounts")
+                for accounts_page in accounts_paginator.paginate():
+                    organizations_accounts.extend(account["Id"] for account in accounts_page["Accounts"])
+                args.trusted_accounts = set(args.trusted_accounts + organizations_accounts) - set(["SAMEORG"])
+
             result_collector = ResultCollector(
                 account_id,
                 principal,
@@ -349,7 +366,7 @@ if __name__ == "__main__":
                 boto_session,
                 BOTO_CONFIG,
                 result_collector,
-                args.trusted_account_ids,
+                args.trusted_accounts,
                 args.exclude_policy_types,
                 args.include_policy_types,
                 args.exclude_regions,

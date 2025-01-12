@@ -74,7 +74,7 @@ class OrganizationAnalyzer:
         boto_session,
         boto_config,
         result_collector,
-        trusted_account_ids,
+        trusted_accounts,
         exclude_policy_types,
         include_policy_types,
         exclude_regions,
@@ -90,7 +90,7 @@ class OrganizationAnalyzer:
         self._boto_session = boto_session
         self._boto_config = boto_config
         self._result_collector = result_collector
-        self._trusted_account_ids = trusted_account_ids
+        self._trusted_accounts = trusted_accounts
         self._exclude_policy_types = exclude_policy_types
         self._include_policy_types = include_policy_types
         self._exclude_regions = exclude_regions
@@ -192,7 +192,7 @@ class OrganizationAnalyzer:
                     account_session,
                     self._boto_config,
                     self._result_collector,
-                    self._trusted_account_ids,
+                    self._trusted_accounts,
                     self._exclude_policy_types,
                     self._include_policy_types,
                     self._exclude_regions,

@@ -50,37 +50,37 @@ python aws_lint_iam_policies.py --scope ORGANIZATION --member-accounts-role Orga
 
 ```
 --list-policy-types
-    list all supported policy types and exit
+    List all supported policy types and exit.
 --scope {ACCOUNT,ORGANIZATION}
-    target either an individual account or all accounts of an AWS Organization
+    Target either an individual account or all accounts of an Organization.
 --member-accounts-role MEMBER_ACCOUNTS_ROLE
-    IAM role name present in member accounts that can be assumed from the Organizations management account
+    Assume the specified IAM role name in member accounts of the Organization.
 --profile PROFILE
-    named AWS profile to use
+    Use the specified AWS named profile.
 --result-name RESULT_NAME
-    result name to use instead of the run timestamp
---trusted-account-ids TRUSTED_ACCOUNT_IDS
-    list of comma-separated account IDs that should not be reported in trusted outside principal findings
+    Use the specified result name instead of the run timestamp.
+--trusted-accounts TRUSTED_ACCOUNTS
+    Do not report the specified comma-separated list of account IDs in trusted outside principal findings. Use 'SAMEORG' to trust all accounts that belong to the Organization.
 --exclude-policy-types EXCLUDE_POLICY_TYPES
-    do not target the specified comma-separated list of policy types
+    Do not target the specified comma-separated list of policy types.
 --include-policy-types INCLUDE_POLICY_TYPES
-    only target the specified comma-separated list of policy types
+    Only target the specified comma-separated list of policy types.
 --exclude-regions EXCLUDE_REGIONS
-    do not target the specified comma-separated list of regions
+    Do not target the specified comma-separated list of regions.
 --include-regions INCLUDE_REGIONS
-    only target the specified comma-separated list of regions
+    Only target the specified comma-separated list of regions.
 --exclude-accounts EXCLUDE_ACCOUNTS
-    do not target the specified comma-separated list of account IDs
+    Do not target the specified comma-separated list of account IDs.
 --include-accounts INCLUDE_ACCOUNTS
-    only target the specified comma-separated list of account IDs
+    Only target the specified comma-separated list of account IDs.
 --exclude-ous EXCLUDE_OUS
-    do not target the specified comma-separated list of Organizations OU IDs
+    Do not target the specified comma-separated list of OU IDs of the Organization.
 --include-ous INCLUDE_OUS
-    only target the specified comma-separated list of Organizations OU IDs
+    Only target the specified comma-separated list of OU IDs of the Organization.
 --exclude-finding-issue-codes EXCLUDE_FINDING_ISSUE_CODES
-    do not report the specified comma-separated list of finding issue codes
+    Do not report the specified comma-separated list of finding issue codes.
 --include-finding-issue-codes INCLUDE_FINDING_ISSUE_CODES
-    only report the specified comma-separated list of finding issue codes
+    Only report the specified comma-separated list of finding issue codes.
 ```
 
 
