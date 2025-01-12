@@ -179,7 +179,7 @@ if __name__ == "__main__":
         "--trusted-accounts",
         default=[],
         type=parse_trusted_accounts,
-        help="Do not report the specified comma-separated list of account IDs in trusted outside principal findings. Use 'SAMEORG' to trust all accounts that belong to the Organization.",
+        help="Treat the specified comma-separated list of account IDs as trusted and do not generate trusted outside principal findings for them. Use 'SAMEORG' to refer to all accounts that belong to the Organization.",
     )
     parser.add_argument(
         "--exclude-policy-types",

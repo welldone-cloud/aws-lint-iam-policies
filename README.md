@@ -60,7 +60,7 @@ python aws_lint_iam_policies.py --scope ORGANIZATION --member-accounts-role Orga
 --result-name RESULT_NAME
     Use the specified result name instead of the run timestamp.
 --trusted-accounts TRUSTED_ACCOUNTS
-    Do not report the specified comma-separated list of account IDs in trusted outside principal findings. Use 'SAMEORG' to trust all accounts that belong to the Organization.
+    Treat the specified comma-separated list of account IDs as trusted and do not generate trusted outside principal findings for them. Use 'SAMEORG' to refer to all accounts that belong to the Organization.
 --exclude-policy-types EXCLUDE_POLICY_TYPES
     Do not target the specified comma-separated list of policy types.
 --include-policy-types INCLUDE_POLICY_TYPES
