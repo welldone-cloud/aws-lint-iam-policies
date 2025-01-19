@@ -16,6 +16,7 @@
                 "backup:GetBackupVaultAccessPolicy",
                 "backup:ListBackupVaults",
                 "bedrock:GetResourcePolicy",
+                "billing:GetResourcePolicy",
                 "cloudhsm:GetResourcePolicy",
                 "cloudtrail:GetResourcePolicy",
                 "cloudtrail:ListChannels",
