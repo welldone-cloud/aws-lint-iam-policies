@@ -126,60 +126,68 @@ class ResultCollector:
             json.dump(self._result_collection, out_file, indent=2)
 
     def _write_html_result_file(self):
-        results_df = pandas.DataFrame(self._result_collection["results"])
-        try:
+        unique_finding_issue_codes = []
+        unique_account_ids = []
+        results_by_finding_issue_code = None
+        results_by_resource_type = None
+        results_by_account_id = None
+        results_by_region = None
+        json_policies_html_encoded = {}
+
+        if self._result_collection["results"]:
+            results_df = pandas.DataFrame(self._result_collection["results"])
             unique_finding_issue_codes = sorted(results_df["finding_issue_code"].unique())
             unique_account_ids = sorted(results_df["account_id"].unique())
-        except KeyError:
-            # The list of results is empty and so it does not make sense to create an HTML report
-            return
 
-        # Create figure "results by finding_issue_code"
-        results_by_finding_issue_code_df = (
-            results_df.groupby(["finding_type", "finding_issue_code"])
-            .size()
-            .reset_index()
-            .rename(columns={0: "count"})
-        )
-        results_by_finding_issue_code = ResultCollector._get_treemap_chart_html(
-            results_by_finding_issue_code_df,
-            [plotly.express.Constant("ALL"), "finding_type", "finding_issue_code"],
-            "count",
-        )
+            # Create figure "results by finding_issue_code"
+            results_by_finding_issue_code_df = (
+                results_df.groupby(["finding_type", "finding_issue_code"])
+                .size()
+                .reset_index()
+                .rename(columns={0: "count"})
+            )
+            results_by_finding_issue_code = ResultCollector._get_treemap_chart_html(
+                results_by_finding_issue_code_df,
+                [plotly.express.Constant("ALL"), "finding_type", "finding_issue_code"],
+                "count",
+            )
 
-        # Create figure "results by resource_type"
-        results_by_resource_type_df = (
-            results_df["resource_type"]
-            .value_counts()
-            .reset_index()
-            .rename(columns={"index": "resource_type", 0: "count"})
-        )
-        results_by_resource_type = ResultCollector._get_bar_chart_html(
-            results_by_resource_type_df, "resource_type", "count"
-        )
+            # Create figure "results by resource_type"
+            results_by_resource_type_df = (
+                results_df["resource_type"]
+                .value_counts()
+                .reset_index()
+                .rename(columns={"index": "resource_type", 0: "count"})
+            )
+            results_by_resource_type = ResultCollector._get_bar_chart_html(
+                results_by_resource_type_df, "resource_type", "count"
+            )
 
-        # Create figure "results by account_id"
-        results_by_account_id_df = (
-            results_df["account_id"].value_counts().reset_index().rename(columns={"index": "account_id", 0: "count"})
-        )
-        results_by_account_id = ResultCollector._get_pie_chart_html(
-            results_by_account_id_df,
-            "account_id",
-            "count",
-        )
+            # Create figure "results by account_id"
+            results_by_account_id_df = (
+                results_df["account_id"]
+                .value_counts()
+                .reset_index()
+                .rename(columns={"index": "account_id", 0: "count"})
+            )
+            results_by_account_id = ResultCollector._get_pie_chart_html(
+                results_by_account_id_df,
+                "account_id",
+                "count",
+            )
 
-        # Create figure "results by region"
-        results_by_region_df = (
-            results_df["region"].value_counts().reset_index().rename(columns={"index": "region", 0: "count"})
-        )
-        results_by_region = ResultCollector._get_bar_chart_html(results_by_region_df, "region", "count")
+            # Create figure "results by region"
+            results_by_region_df = (
+                results_df["region"].value_counts().reset_index().rename(columns={"index": "region", 0: "count"})
+            )
+            results_by_region = ResultCollector._get_bar_chart_html(results_by_region_df, "region", "count")
 
-        # Prepare JSON policies for embedding into HTML
-        json_policies_html_encoded = {
-            key: html.escape(self._json_policies[key])
-            for key in self._json_policies
-            if key in set(results_df["policy_file_name"])
-        }
+            # Prepare JSON policies for embedding into HTML
+            json_policies_html_encoded = {
+                key: html.escape(self._json_policies[key])
+                for key in self._json_policies
+                if key in set(results_df["policy_file_name"])
+            }
 
         # Render HTML template and write output
         with open(RESULTS_FILE_HTML_TEMPLATE_PATH) as template_file:

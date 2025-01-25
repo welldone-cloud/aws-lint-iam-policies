@@ -9,7 +9,7 @@ The script makes use of three mechanisms:
 
 2. AWS IAM Access Analyzer checks for public access, which test whether resource-based policies grant unrestricted public access (e.g., to S3 buckets, SQS queues, etc.). This is closer described [here](https://docs.aws.amazon.com/access-analyzer/latest/APIReference/API_CheckNoPublicAccess.html).
 
-3. Custom policy checks that report on trust relationships to other AWS accounts and to identity providers. Please note that these are only basic checks. They neither make use of automated reasoning nor evaluate the meaning of policy conditions.
+3. Custom policy checks that report on trust relationships to other AWS accounts and to identity providers. Please note that these are only basic checks: they neither make use of automated reasoning nor evaluate the meaning of policy conditions.
 
 
 

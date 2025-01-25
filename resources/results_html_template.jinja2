@@ -62,6 +62,7 @@
 		}
 
 		body {
+			color: #585858;
 			background-color: #fff;
 			font-family: 'Verdana';
 			margin: 0;
@@ -82,14 +83,12 @@
 		}
 
 		p {
-			color: #585858;
 			font-size: 22px;
 			margin-bottom: 20px;
 			margin-left: 30px;
 		}
 
 		table {
-			color: #585858;
 			border-collapse: collapse;
 			margin-left: 30px;
 			margin-right: 70px;
@@ -165,28 +164,39 @@
 			</table>
 		</div>
 
-		<div class="fullblock">
-			<h1>Summary, results by finding_issue_code</h1>
-			{{ results_by_finding_issue_code | safe }}
-		</div>
+		{% if results_by_finding_issue_code %}
+			<div class="fullblock">
+				<h1>Summary, results by finding_issue_code</h1>
+				{{ results_by_finding_issue_code | safe }}
+			</div>
+		{% endif %}
 
-		<div class="fullblock">
-			<h1>Summary, results by resource_type</h1>
-			{{ results_by_resource_type | safe }}
-		</div>
+		{% if results_by_resource_type %}
+			<div class="fullblock">
+				<h1>Summary, results by resource_type</h1>
+				{{ results_by_resource_type | safe }}
+			</div>
+		{% endif %}
 
-		<div class="fullblock">
-			<h1>Summary, results by account_id</h1>
-			{{ results_by_account_id | safe }}
-		</div>
+		{% if results_by_account_id %}
+			<div class="fullblock">
+				<h1>Summary, results by account_id</h1>
+				{{ results_by_account_id | safe }}
+			</div>
+		{% endif %}
 
-		<div class="fullblock">
-			<h1>Summary, results by region</h1>
-			{{ results_by_region | safe }}
-		</div>
+		{% if results_by_region %}
+			<div class="fullblock">
+				<h1>Summary, results by region</h1>
+				{{ results_by_region | safe }}
+			</div>
+		{% endif %}
 
 		<div class="fullblock">
 			<h1>Results by finding_issue_code</h1>
+			{% if not unique_finding_issue_codes %}
+				<p>None</p>
+			{% endif %}
 			{% for finding_issue_code in unique_finding_issue_codes %}
 				<p>
 					{{ finding_issue_code }}<br />
@@ -259,6 +269,9 @@
 
 		<div class="fullblock">
 			<h1>Results by account_id</h1>
+			{% if not unique_account_ids %}
+				<p>None</p>
+			{% endif %}
 			{% for account_id in unique_account_ids %}
 				<p>
 					{{ account_id }}<br />
