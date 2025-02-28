@@ -139,7 +139,7 @@ if __name__ == "__main__":
         sys.exit(1)
     with open(os.path.join(pathlib.Path(__file__).parent, REQUIREMENTS_FILE), "r") as requirements_file:
         for package_requirement in requirements_file.read().splitlines():
-            package_name, package_version = [val.strip() for val in package_requirement.split(">=")]
+            package_name, package_version = [val.strip() for val in package_requirement.split("~=")]
             installed_version = packaging.version.parse(importlib.metadata.version(package_name))
             expected_version = packaging.version.parse(package_version)
             if installed_version < expected_version:
