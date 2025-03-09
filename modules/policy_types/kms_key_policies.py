@@ -28,5 +28,5 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 resource_name=key["KeyId"],
                 resource_arn=describe_key_response["KeyMetadata"]["Arn"],
                 policy_document=get_key_policy_response["Policy"],
-                policy_type="RESOURCE_POLICY",
+                access_analyzer_type="RESOURCE_POLICY",
             )

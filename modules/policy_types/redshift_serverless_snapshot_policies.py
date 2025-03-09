@@ -27,7 +27,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                     resource_name=snapshot["snapshotName"],
                     resource_arn=snapshot["snapshotArn"],
                     policy_document=get_resource_policy_response["resourcePolicy"]["policy"],
-                    policy_type="RESOURCE_POLICY",
+                    access_analyzer_type="RESOURCE_POLICY",
                 )
 
     # Redshift serverless is not available in this region

@@ -31,5 +31,5 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 resource_name=ca_name,
                 resource_arn=certificate_authority["Arn"],
                 policy_document=get_policy_response["Policy"],
-                policy_type="RESOURCE_POLICY",
+                access_analyzer_type="RESOURCE_POLICY",
             )

@@ -25,5 +25,5 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 resource_name=vault["VaultName"],
                 resource_arn=vault["VaultARN"],
                 policy_document=get_vault_access_policy_response["policy"]["Policy"],
-                policy_type="RESOURCE_POLICY",
+                access_analyzer_type="RESOURCE_POLICY",
             )

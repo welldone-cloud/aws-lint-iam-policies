@@ -22,5 +22,5 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 resource_name=api["name"],
                 resource_arn="arn:aws:apigateway:{}::/restapis/{}".format(region, api["id"]),
                 policy_document=api["policy"].encode().decode("unicode_escape"),
-                policy_type="RESOURCE_POLICY",
+                access_analyzer_type="RESOURCE_POLICY",
             )

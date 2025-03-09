@@ -24,7 +24,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                             resource_name="{}:{}".format(project["ProjectArn"].split("/")[-2], policy["PolicyName"]),
                             resource_arn=project["ProjectArn"],
                             policy_document=policy["PolicyDocument"],
-                            policy_type="RESOURCE_POLICY",
+                            access_analyzer_type="RESOURCE_POLICY",
                         )
 
     except rekognition_client.exceptions.from_code("AccessDeniedException"):

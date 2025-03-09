@@ -30,5 +30,5 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                         resource_name="{}:{}".format(policy["PolicyName"], policy_version["VersionId"]),
                         resource_arn=policy["Arn"],
                         policy_document=json.dumps(get_policy_response["PolicyVersion"]["Document"]),
-                        policy_type="IDENTITY_POLICY",
+                        access_analyzer_type="IDENTITY_POLICY",
                     )

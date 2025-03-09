@@ -43,7 +43,7 @@ def analyze(
                         resource_name=resource_arn.split(arn_to_name_split_char)[-1],
                         resource_arn=resource_arn,
                         policy_document=policy,
-                        policy_type="RESOURCE_POLICY",
+                        access_analyzer_type="RESOURCE_POLICY",
                     )
 
         except ram_client.exceptions.from_code("ResourceArnNotFoundException"):

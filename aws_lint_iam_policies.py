@@ -70,10 +70,10 @@ def parse_member_accounts_role(val):
 def parse_policy_types(val):
     if get_scope() not in (SCOPE_ACCOUNT, SCOPE_ORGANIZATION):
         raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAMETER)
-    supported_policy_types = PolicyAnalyzer.get_supported_policy_type_names()
-    for policy_type_name in val.split(","):
-        if policy_type_name not in supported_policy_types:
-            raise argparse.ArgumentTypeError("Unrecognized policy type name: {}".format(policy_type_name))
+    supported_policy_types = PolicyAnalyzer.get_supported_policy_types()
+    for policy_type in val.split(","):
+        if policy_type not in supported_policy_types:
+            raise argparse.ArgumentTypeError("Unrecognized policy type name: {}".format(policy_type))
     return val.split(",")
 
 
@@ -247,8 +247,8 @@ if __name__ == "__main__":
 
     # List policy types and exit, if configured
     if args.list_policy_types:
-        for policy_type_name in PolicyAnalyzer.get_supported_policy_type_names():
-            print(policy_type_name)
+        for policy_type in PolicyAnalyzer.get_supported_policy_types():
+            print(policy_type)
         sys.exit(0)
 
     # Validate provided credentials and get account details

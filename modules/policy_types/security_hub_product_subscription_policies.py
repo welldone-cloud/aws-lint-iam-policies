@@ -40,5 +40,5 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                     resource_name="{}/{}".format(product["CompanyName"], product["ProductName"]),
                     resource_arn=product["ProductArn"],
                     policy_document=product["ProductSubscriptionResourcePolicy"],
-                    policy_type="RESOURCE_POLICY",
+                    access_analyzer_type="RESOURCE_POLICY",
                 )

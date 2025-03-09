@@ -27,5 +27,5 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 resource_name=repository["name"],
                 resource_arn=repository["arn"],
                 policy_document=get_repository_permissions_policy_response["policy"]["document"],
-                policy_type="RESOURCE_POLICY",
+                access_analyzer_type="RESOURCE_POLICY",
             )

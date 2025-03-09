@@ -27,5 +27,5 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 resource_name=file_system["FileSystemId"],
                 resource_arn=file_system["FileSystemArn"],
                 policy_document=describe_file_system_policy_response["Policy"],
-                policy_type="RESOURCE_POLICY",
+                access_analyzer_type="RESOURCE_POLICY",
             )

@@ -18,5 +18,5 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
         resource_name=get_registry_policy_response["registryId"],
         resource_arn="arn:aws:ecr:{}:{}".format(region, account_id),
         policy_document=get_registry_policy_response["policyText"],
-        policy_type="RESOURCE_POLICY",
+        access_analyzer_type="RESOURCE_POLICY",
     )

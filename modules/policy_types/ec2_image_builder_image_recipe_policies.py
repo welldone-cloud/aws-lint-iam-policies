@@ -32,7 +32,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 resource_name=image_recipe["name"],
                 resource_arn=image_recipe["arn"],
                 policy_document=get_image_recipe_policy_response["policy"],
-                policy_type="RESOURCE_POLICY",
+                access_analyzer_type="RESOURCE_POLICY",
             )
 
         try:

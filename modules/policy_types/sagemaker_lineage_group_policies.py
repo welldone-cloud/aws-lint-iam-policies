@@ -31,7 +31,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                     resource_name=lineage_group["LineageGroupName"],
                     resource_arn=lineage_group["LineageGroupArn"],
                     policy_document=get_lineage_group_policy_response["ResourcePolicy"],
-                    policy_type="RESOURCE_POLICY",
+                    access_analyzer_type="RESOURCE_POLICY",
                 )
 
     # Skip regions where the lineage group feature is not available

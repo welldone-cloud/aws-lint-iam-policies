@@ -224,7 +224,7 @@ class ResultCollector:
         print(msg)
         self._result_collection["_metadata"]["errors"].append(msg.strip())
 
-    def submit_policy(self, policy_descriptor, policy_document):
+    def submit_policy(self, account_id, region, source_service, resource_type, resource_name, policy_document):
         policy_document = json.dumps(json.loads(policy_document), indent=2)
         self._result_collection["_metadata"]["number_of_policies_analyzed"] += 1
 
@@ -233,12 +233,7 @@ class ResultCollector:
         file_index = 0
         while True:
             policy_file_name = "{}_{}_{}_{}_{}_{}.json".format(
-                policy_descriptor["account_id"],
-                policy_descriptor["region"],
-                policy_descriptor["source_service"],
-                policy_descriptor["resource_type"],
-                policy_descriptor["resource_name"],
-                file_index,
+                account_id, region, source_service, resource_type, resource_name, file_index
             )
             policy_file_name = re.sub(
                 "_+",
@@ -255,7 +250,7 @@ class ResultCollector:
         with open(policy_file, "w") as out_file:
             out_file.write(policy_document)
 
-        # Keep a copy of the policy document in memory
+        # Keep a copy of the policy document in memory for HTML output
         self._json_policies[policy_file_name] = policy_document
 
         return policy_file_name

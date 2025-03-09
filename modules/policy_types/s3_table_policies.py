@@ -36,7 +36,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                             resource_name=table["name"],
                             resource_arn=table["tableARN"],
                             policy_document=get_table_policy_response["resourcePolicy"],
-                            policy_type="RESOURCE_POLICY",
+                            access_analyzer_type="RESOURCE_POLICY",
                         )
 
     except s3_client.exceptions.from_code("UnauthorizedException"):

@@ -83,13 +83,13 @@ class AccountAnalyzer:
         )
         futures = {}
         with concurrent.futures.ThreadPoolExecutor() as executor:
-            for policy_type_name in PolicyAnalyzer.get_supported_policy_type_names():
-                if policy_type_name in self._exclude_policy_types:
+            for policy_type in PolicyAnalyzer.get_supported_policy_types():
+                if policy_type in self._exclude_policy_types:
                     continue
-                if self._include_policy_types and policy_type_name not in self._include_policy_types:
+                if self._include_policy_types and policy_type not in self._include_policy_types:
                     continue
 
-                policy_type_implementation = getattr(modules.policy_types, policy_type_name)
+                policy_type_implementation = getattr(modules.policy_types, policy_type)
                 for region in target_regions:
                     if policy_type_implementation.RUN_IN_REGION not in ("ALL", region):
                         continue
@@ -106,7 +106,7 @@ class AccountAnalyzer:
                         "policy_analysis_function": policy_analyzer.analyze_policy,
                     }
                     future = executor.submit(policy_type_implementation.analyze, **future_params)
-                    future_params["policy_type_name"] = policy_type_name
+                    future_params["policy_type"] = policy_type
                     futures[future] = future_params
 
             # Show status and process any errors that occurred
@@ -126,7 +126,7 @@ class AccountAnalyzer:
                         "Error for account ID {}, region {}, policy type {}: {} ({})".format(
                             self._account_id,
                             futures[future]["region"],
-                            futures[future]["policy_type_name"],
+                            futures[future]["policy_type"],
                             ex.response["Error"]["Code"],
                             ex.response["Error"]["Message"].strip(),
                         )
@@ -139,7 +139,7 @@ class AccountAnalyzer:
                         msg.format(
                             self._account_id,
                             futures[future]["region"],
-                            futures[future]["policy_type_name"],
+                            futures[future]["policy_type"],
                             ex.__class__.__name__,
                         )
                     )

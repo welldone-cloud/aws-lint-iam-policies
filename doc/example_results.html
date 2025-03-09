@@ -18,8 +18,9 @@
 		}
 	</script>
 
-	<link rel="shortcut icon" href="data:image/svg+xml,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 1000 1000' enable-background='new 0 0 1000 1000' xml:space='preserve'%3E%3Cg%3E%3Cpath fill='%23e4af00' d='M836.8,467.2c0.2-5.8,0.3-11.1,0.3-15.3c0-69.8-27.2-135.4-76.5-184.8c-49.4-49.4-115-76.5-184.8-76.5c-54.1,0-107.3,18.4-153.8,53.2c-31.8,23.8-58.5,54.1-77.7,87.7c-21.1-11-44.5-16.7-68.7-16.7c-38.8,0-76.1,18-105,50.7c-19.3,21.8-33,48.3-39.7,75.9c-32.7,12.9-61.9,35.1-83,63.5C23.1,538,10,577.4,10,618.8c0,105.1,85.5,190.6,190.6,190.6v-0.5H819v0.3c94.3,0,171-76.7,171-171C990,550.2,922.4,476.7,836.8,467.2z M825.8,769.4L825.8,769.4l-636.9-0.1c-77.8-6-139.3-71.2-139.3-150.6c0-65.5,41.3-123.6,103.2-144.3c0.2-0.1,0.4-0.2,0.6-0.3c6.1-1.7,10.9-6.8,12-13.4c8.8-52.9,54.7-106.4,110.1-106.4c22.7,0,44.4,6.9,62.9,19.9c1.8,1.7,4,3.1,6.6,4l0,0c9.7,3.6,20.5-0.9,24.8-10.3c37.6-80.9,121.5-137.9,206-137.9c122.3,0,221.7,99.5,221.7,221.7c0,8.3-0.4,21.3-1.2,32.7c-0.7,10.2,6.4,19.2,16.5,20.9l0,0c1.8,0.3,3.5,0.3,5.2,0.2v0.1c72.5,0,132.4,59.9,132.4,132.4C950.4,708.4,895.1,765.9,825.8,769.4z'/%3E%3C/g%3E%3C/svg%3E">
-	
+	<link rel="shortcut icon"
+		href="data:image/svg+xml,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 1000 1000' enable-background='new 0 0 1000 1000' xml:space='preserve'%3E%3Cg%3E%3Cpath fill='%23e4af00' d='M836.8,467.2c0.2-5.8,0.3-11.1,0.3-15.3c0-69.8-27.2-135.4-76.5-184.8c-49.4-49.4-115-76.5-184.8-76.5c-54.1,0-107.3,18.4-153.8,53.2c-31.8,23.8-58.5,54.1-77.7,87.7c-21.1-11-44.5-16.7-68.7-16.7c-38.8,0-76.1,18-105,50.7c-19.3,21.8-33,48.3-39.7,75.9c-32.7,12.9-61.9,35.1-83,63.5C23.1,538,10,577.4,10,618.8c0,105.1,85.5,190.6,190.6,190.6v-0.5H819v0.3c94.3,0,171-76.7,171-171C990,550.2,922.4,476.7,836.8,467.2z M825.8,769.4L825.8,769.4l-636.9-0.1c-77.8-6-139.3-71.2-139.3-150.6c0-65.5,41.3-123.6,103.2-144.3c0.2-0.1,0.4-0.2,0.6-0.3c6.1-1.7,10.9-6.8,12-13.4c8.8-52.9,54.7-106.4,110.1-106.4c22.7,0,44.4,6.9,62.9,19.9c1.8,1.7,4,3.1,6.6,4l0,0c9.7,3.6,20.5-0.9,24.8-10.3c37.6-80.9,121.5-137.9,206-137.9c122.3,0,221.7,99.5,221.7,221.7c0,8.3-0.4,21.3-1.2,32.7c-0.7,10.2,6.4,19.2,16.5,20.9l0,0c1.8,0.3,3.5,0.3,5.2,0.2v0.1c72.5,0,132.4,59.9,132.4,132.4C950.4,708.4,895.1,765.9,825.8,769.4z'/%3E%3C/g%3E%3C/svg%3E">
+
 	<style>
 		.header {
 			background-color: #f6f6f6;
@@ -117,7 +118,8 @@
 			<table>
 				<tr>
 					<td class="fixedwidth">invocation</td>
-					<td class="wrapped">aws_lint_iam_policies.py --scope ORGANIZATION --member-accounts-role OrganizationAccountAccessRole --include-ous ou-sbja-c5fcd2b2</td>
+					<td class="wrapped">aws_lint_iam_policies.py --scope ORGANIZATION --member-accounts-role
+						OrganizationAccountAccessRole --include-ous ou-sbja-c5fcd2b2</td>
 				</tr>
 				<tr>
 					<td class="fixedwidth">account_id</td>
@@ -146,13 +148,15 @@
 				<tr>
 					<td class="fixedwidth">errors</td>
 					<td class="wrapped">
-							<a href="javascript:toggleVisibility('errors')">Show</a>
-							<div id="errors" class="hidden">
-								<ul>
-										<li>Error for account ID 737767487588, region ap-southeast-5, policy type iam_identity_center_application_policies: AccessDeniedException ()</li>
-										<li>Error for account ID 737767487588, region ap-southeast-5, policy type iam_identity_center_permission_set_inline_policies: AccessDeniedException ()</li>
-								</ul>
-							</div>
+						<a href="javascript:toggleVisibility('errors')">Show</a>
+						<div id="errors" class="hidden">
+							<ul>
+								<li>Error for account ID 737767487588, region ap-southeast-5, policy type
+									iam_identity_center_application_policies: AccessDeniedException ()</li>
+								<li>Error for account ID 737767487588, region ap-southeast-5, policy type
+									iam_identity_center_permission_set_inline_policies: AccessDeniedException ()</li>
+							</ul>
+						</div>
 					</td>
 				</tr>
 			</table>
@@ -160,82 +164,111 @@
 
 		<div class="fullblock">
 			<h1>Summary, results by finding_issue_code</h1>
-			<div>                            <div id="e474059e-5dbc-441b-bb31-cdf6f0c96ecf" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("e474059e-5dbc-441b-bb31-cdf6f0c96ecf")) {                    Plotly.newPlot(                        "e474059e-5dbc-441b-bb31-cdf6f0c96ecf",                        [{"branchvalues":"total","domain":{"x":[0.0,1.0],"y":[0.0,1.0]},"hovertemplate":"category=%{label}\u003cbr \u002f\u003ecount=%{value}","ids":["ALL\u002fSUGGESTION\u002fEMPTY_OBJECT_CONDITION","ALL\u002fSUGGESTION\u002fEMPTY_SID_VALUE","ALL\u002fERROR\u002fMISSING_TAG_KEY_IN_CONDITION","ALL\u002fSECURITY_WARNING\u002fPASS_ROLE_WITH_STAR_IN_RESOURCE","ALL\u002fSECURITY_WARNING\u002fPUBLIC_ACCESS","ALL\u002fSUGGESTION\u002fREDUNDANT_ACTION","ALL\u002fSECURITY_WARNING\u002fTRUSTED_OUTSIDE_PRINCIPAL","ALL\u002fERROR","ALL\u002fSECURITY_WARNING","ALL\u002fSUGGESTION","ALL"],"labels":["EMPTY_OBJECT_CONDITION","EMPTY_SID_VALUE","MISSING_TAG_KEY_IN_CONDITION","PASS_ROLE_WITH_STAR_IN_RESOURCE","PUBLIC_ACCESS","REDUNDANT_ACTION","TRUSTED_OUTSIDE_PRINCIPAL","ERROR","SECURITY_WARNING","SUGGESTION","ALL"],"name":"","parents":["ALL\u002fSUGGESTION","ALL\u002fSUGGESTION","ALL\u002fERROR","ALL\u002fSECURITY_WARNING","ALL\u002fSECURITY_WARNING","ALL\u002fSUGGESTION","ALL\u002fSECURITY_WARNING","ALL","ALL","ALL",""],"root":{"color":"lightgrey"},"values":[2,2,1,1,1,1,2,1,4,5,10],"type":"treemap"}],                        {"font":{"family":"Verdana"},"legend":{"tracegroupgap":0},"margin":{"b":10,"l":30,"r":70,"t":25},"showlegend":false,"template":{"data":{"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmapgl":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmapgl"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"#E5ECF6","showlakes":true,"showland":true,"subunitcolor":"white"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2}}}},                        {"displayModeBar": false, "responsive": true}                    )                };                            </script>        </div>
+			<div>
+				<div id="e474059e-5dbc-441b-bb31-cdf6f0c96ecf" class="plotly-graph-div"
+					style="height:100%; width:100%;"></div>
+				<script
+					type="text/javascript">                                    window.PLOTLYENV = window.PLOTLYENV || {}; if (document.getElementById("e474059e-5dbc-441b-bb31-cdf6f0c96ecf")) { Plotly.newPlot("e474059e-5dbc-441b-bb31-cdf6f0c96ecf", [{ "branchvalues": "total", "domain": { "x": [0.0, 1.0], "y": [0.0, 1.0] }, "hovertemplate": "category=%{label}\u003cbr \u002f\u003ecount=%{value}", "ids": ["ALL\u002fSUGGESTION\u002fEMPTY_OBJECT_CONDITION", "ALL\u002fSUGGESTION\u002fEMPTY_SID_VALUE", "ALL\u002fERROR\u002fMISSING_TAG_KEY_IN_CONDITION", "ALL\u002fSECURITY_WARNING\u002fPASS_ROLE_WITH_STAR_IN_RESOURCE", "ALL\u002fSECURITY_WARNING\u002fPUBLIC_ACCESS", "ALL\u002fSUGGESTION\u002fREDUNDANT_ACTION", "ALL\u002fSECURITY_WARNING\u002fTRUSTED_OUTSIDE_PRINCIPAL", "ALL\u002fERROR", "ALL\u002fSECURITY_WARNING", "ALL\u002fSUGGESTION", "ALL"], "labels": ["EMPTY_OBJECT_CONDITION", "EMPTY_SID_VALUE", "MISSING_TAG_KEY_IN_CONDITION", "PASS_ROLE_WITH_STAR_IN_RESOURCE", "PUBLIC_ACCESS", "REDUNDANT_ACTION", "TRUSTED_OUTSIDE_PRINCIPAL", "ERROR", "SECURITY_WARNING", "SUGGESTION", "ALL"], "name": "", "parents": ["ALL\u002fSUGGESTION", "ALL\u002fSUGGESTION", "ALL\u002fERROR", "ALL\u002fSECURITY_WARNING", "ALL\u002fSECURITY_WARNING", "ALL\u002fSUGGESTION", "ALL\u002fSECURITY_WARNING", "ALL", "ALL", "ALL", ""], "root": { "color": "lightgrey" }, "values": [2, 2, 1, 1, 1, 1, 2, 1, 4, 5, 10], "type": "treemap" }], { "font": { "family": "Verdana" }, "legend": { "tracegroupgap": 0 }, "margin": { "b": 10, "l": 30, "r": 70, "t": 25 }, "showlegend": false, "template": { "data": { "barpolar": [{ "marker": { "line": { "color": "#E5ECF6", "width": 0.5 }, "pattern": { "fillmode": "overlay", "size": 10, "solidity": 0.2 } }, "type": "barpolar" }], "bar": [{ "error_x": { "color": "#2a3f5f" }, "error_y": { "color": "#2a3f5f" }, "marker": { "line": { "color": "#E5ECF6", "width": 0.5 }, "pattern": { "fillmode": "overlay", "size": 10, "solidity": 0.2 } }, "type": "bar" }], "carpet": [{ "aaxis": { "endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f" }, "baxis": { "endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f" }, "type": "carpet" }], "choropleth": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "type": "choropleth" }], "contourcarpet": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "type": "contourcarpet" }], "contour": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "contour" }], "heatmapgl": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmapgl" }], "heatmap": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmap" }], "histogram2dcontour": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2dcontour" }], "histogram2d": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2d" }], "histogram": [{ "marker": { "pattern": { "fillmode": "overlay", "size": 10, "solidity": 0.2 } }, "type": "histogram" }], "mesh3d": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "type": "mesh3d" }], "parcoords": [{ "line": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "parcoords" }], "pie": [{ "automargin": true, "type": "pie" }], "scatter3d": [{ "line": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scatter3d" }], "scattercarpet": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scattercarpet" }], "scattergeo": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scattergeo" }], "scattergl": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scattergl" }], "scattermapbox": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scattermapbox" }], "scatterpolargl": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scatterpolargl" }], "scatterpolar": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scatterpolar" }], "scatter": [{ "fillpattern": { "fillmode": "overlay", "size": 10, "solidity": 0.2 }, "type": "scatter" }], "scatterternary": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scatterternary" }], "surface": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "surface" }], "table": [{ "cells": { "fill": { "color": "#EBF0F8" }, "line": { "color": "white" } }, "header": { "fill": { "color": "#C8D4E3" }, "line": { "color": "white" } }, "type": "table" }] }, "layout": { "annotationdefaults": { "arrowcolor": "#2a3f5f", "arrowhead": 0, "arrowwidth": 1 }, "autotypenumbers": "strict", "coloraxis": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "colorscale": { "diverging": [[0, "#8e0152"], [0.1, "#c51b7d"], [0.2, "#de77ae"], [0.3, "#f1b6da"], [0.4, "#fde0ef"], [0.5, "#f7f7f7"], [0.6, "#e6f5d0"], [0.7, "#b8e186"], [0.8, "#7fbc41"], [0.9, "#4d9221"], [1, "#276419"]], "sequential": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "sequentialminus": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]] }, "colorway": ["#636efa", "#EF553B", "#00cc96", "#ab63fa", "#FFA15A", "#19d3f3", "#FF6692", "#B6E880", "#FF97FF", "#FECB52"], "font": { "color": "#2a3f5f" }, "geo": { "bgcolor": "white", "lakecolor": "white", "landcolor": "#E5ECF6", "showlakes": true, "showland": true, "subunitcolor": "white" }, "hoverlabel": { "align": "left" }, "hovermode": "closest", "mapbox": { "style": "light" }, "paper_bgcolor": "white", "plot_bgcolor": "#E5ECF6", "polar": { "angularaxis": { "gridcolor": "white", "linecolor": "white", "ticks": "" }, "bgcolor": "#E5ECF6", "radialaxis": { "gridcolor": "white", "linecolor": "white", "ticks": "" } }, "scene": { "xaxis": { "backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white" }, "yaxis": { "backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white" }, "zaxis": { "backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white" } }, "shapedefaults": { "line": { "color": "#2a3f5f" } }, "ternary": { "aaxis": { "gridcolor": "white", "linecolor": "white", "ticks": "" }, "baxis": { "gridcolor": "white", "linecolor": "white", "ticks": "" }, "bgcolor": "#E5ECF6", "caxis": { "gridcolor": "white", "linecolor": "white", "ticks": "" } }, "title": { "x": 0.05 }, "xaxis": { "automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": { "standoff": 15 }, "zerolinecolor": "white", "zerolinewidth": 2 }, "yaxis": { "automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": { "standoff": 15 }, "zerolinecolor": "white", "zerolinewidth": 2 } } } }, { "displayModeBar": false, "responsive": true }) };                            </script>
+			</div>
 		</div>
 
 		<div class="fullblock">
 			<h1>Summary, results by resource_type</h1>
-			<div>                            <div id="18592b07-f0e8-4215-9b90-2d216cd04a42" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("18592b07-f0e8-4215-9b90-2d216cd04a42")) {                    Plotly.newPlot(                        "18592b07-f0e8-4215-9b90-2d216cd04a42",                        [{"alignmentgroup":"True","hovertemplate":"resource_type=%{x}\u003cbr\u003ecount=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"AWS::IAM::AssumeRolePolicyDocument","marker":{"color":"#636efa","pattern":{"shape":""}},"name":"AWS::IAM::AssumeRolePolicyDocument","offsetgroup":"AWS::IAM::AssumeRolePolicyDocument","orientation":"v","showlegend":true,"textposition":"auto","x":["AWS::IAM::AssumeRolePolicyDocument"],"xaxis":"x","y":[5],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"resource_type=%{x}\u003cbr\u003ecount=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"AWS::SNS::Topic","marker":{"color":"#EF553B","pattern":{"shape":""}},"name":"AWS::SNS::Topic","offsetgroup":"AWS::SNS::Topic","orientation":"v","showlegend":true,"textposition":"auto","x":["AWS::SNS::Topic"],"xaxis":"x","y":[2],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"resource_type=%{x}\u003cbr\u003ecount=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"AWS::S3::Bucket","marker":{"color":"#00cc96","pattern":{"shape":""}},"name":"AWS::S3::Bucket","offsetgroup":"AWS::S3::Bucket","orientation":"v","showlegend":true,"textposition":"auto","x":["AWS::S3::Bucket"],"xaxis":"x","y":[2],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"resource_type=%{x}\u003cbr\u003ecount=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"AWS::IAM::Role","marker":{"color":"#ab63fa","pattern":{"shape":""}},"name":"AWS::IAM::Role","offsetgroup":"AWS::IAM::Role","orientation":"v","showlegend":true,"textposition":"auto","x":["AWS::IAM::Role"],"xaxis":"x","y":[1],"yaxis":"y","type":"bar"}],                        {"barmode":"relative","font":{"family":"Verdana"},"legend":{"title":{"text":"resource_type"},"tracegroupgap":0},"margin":{"b":10,"l":90,"r":70,"t":25},"showlegend":false,"template":{"data":{"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmapgl":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmapgl"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"#E5ECF6","showlakes":true,"showland":true,"subunitcolor":"white"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2}}},"xaxis":{"anchor":"y","categoryarray":["AWS::IAM::AssumeRolePolicyDocument","AWS::SNS::Topic","AWS::S3::Bucket","AWS::IAM::Role"],"categoryorder":"array","domain":[0.0,1.0],"fixedrange":true},"yaxis":{"anchor":"x","domain":[0.0,1.0],"fixedrange":true,"title":{"text":"count"}}},                        {"displayModeBar": false, "responsive": true}                    )                };                            </script>        </div>
+			<div>
+				<div id="18592b07-f0e8-4215-9b90-2d216cd04a42" class="plotly-graph-div"
+					style="height:100%; width:100%;"></div>
+				<script
+					type="text/javascript">                                    window.PLOTLYENV = window.PLOTLYENV || {}; if (document.getElementById("18592b07-f0e8-4215-9b90-2d216cd04a42")) { Plotly.newPlot("18592b07-f0e8-4215-9b90-2d216cd04a42", [{ "alignmentgroup": "True", "hovertemplate": "resource_type=%{x}\u003cbr\u003ecount=%{y}\u003cextra\u003e\u003c\u002fextra\u003e", "legendgroup": "AWS::IAM::AssumeRolePolicyDocument", "marker": { "color": "#636efa", "pattern": { "shape": "" } }, "name": "AWS::IAM::AssumeRolePolicyDocument", "offsetgroup": "AWS::IAM::AssumeRolePolicyDocument", "orientation": "v", "showlegend": true, "textposition": "auto", "x": ["AWS::IAM::AssumeRolePolicyDocument"], "xaxis": "x", "y": [5], "yaxis": "y", "type": "bar" }, { "alignmentgroup": "True", "hovertemplate": "resource_type=%{x}\u003cbr\u003ecount=%{y}\u003cextra\u003e\u003c\u002fextra\u003e", "legendgroup": "AWS::SNS::Topic", "marker": { "color": "#EF553B", "pattern": { "shape": "" } }, "name": "AWS::SNS::Topic", "offsetgroup": "AWS::SNS::Topic", "orientation": "v", "showlegend": true, "textposition": "auto", "x": ["AWS::SNS::Topic"], "xaxis": "x", "y": [2], "yaxis": "y", "type": "bar" }, { "alignmentgroup": "True", "hovertemplate": "resource_type=%{x}\u003cbr\u003ecount=%{y}\u003cextra\u003e\u003c\u002fextra\u003e", "legendgroup": "AWS::S3::Bucket", "marker": { "color": "#00cc96", "pattern": { "shape": "" } }, "name": "AWS::S3::Bucket", "offsetgroup": "AWS::S3::Bucket", "orientation": "v", "showlegend": true, "textposition": "auto", "x": ["AWS::S3::Bucket"], "xaxis": "x", "y": [2], "yaxis": "y", "type": "bar" }, { "alignmentgroup": "True", "hovertemplate": "resource_type=%{x}\u003cbr\u003ecount=%{y}\u003cextra\u003e\u003c\u002fextra\u003e", "legendgroup": "AWS::IAM::Role", "marker": { "color": "#ab63fa", "pattern": { "shape": "" } }, "name": "AWS::IAM::Role", "offsetgroup": "AWS::IAM::Role", "orientation": "v", "showlegend": true, "textposition": "auto", "x": ["AWS::IAM::Role"], "xaxis": "x", "y": [1], "yaxis": "y", "type": "bar" }], { "barmode": "relative", "font": { "family": "Verdana" }, "legend": { "title": { "text": "resource_type" }, "tracegroupgap": 0 }, "margin": { "b": 10, "l": 90, "r": 70, "t": 25 }, "showlegend": false, "template": { "data": { "barpolar": [{ "marker": { "line": { "color": "#E5ECF6", "width": 0.5 }, "pattern": { "fillmode": "overlay", "size": 10, "solidity": 0.2 } }, "type": "barpolar" }], "bar": [{ "error_x": { "color": "#2a3f5f" }, "error_y": { "color": "#2a3f5f" }, "marker": { "line": { "color": "#E5ECF6", "width": 0.5 }, "pattern": { "fillmode": "overlay", "size": 10, "solidity": 0.2 } }, "type": "bar" }], "carpet": [{ "aaxis": { "endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f" }, "baxis": { "endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f" }, "type": "carpet" }], "choropleth": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "type": "choropleth" }], "contourcarpet": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "type": "contourcarpet" }], "contour": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "contour" }], "heatmapgl": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmapgl" }], "heatmap": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmap" }], "histogram2dcontour": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2dcontour" }], "histogram2d": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2d" }], "histogram": [{ "marker": { "pattern": { "fillmode": "overlay", "size": 10, "solidity": 0.2 } }, "type": "histogram" }], "mesh3d": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "type": "mesh3d" }], "parcoords": [{ "line": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "parcoords" }], "pie": [{ "automargin": true, "type": "pie" }], "scatter3d": [{ "line": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scatter3d" }], "scattercarpet": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scattercarpet" }], "scattergeo": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scattergeo" }], "scattergl": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scattergl" }], "scattermapbox": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scattermapbox" }], "scatterpolargl": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scatterpolargl" }], "scatterpolar": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scatterpolar" }], "scatter": [{ "fillpattern": { "fillmode": "overlay", "size": 10, "solidity": 0.2 }, "type": "scatter" }], "scatterternary": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scatterternary" }], "surface": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "surface" }], "table": [{ "cells": { "fill": { "color": "#EBF0F8" }, "line": { "color": "white" } }, "header": { "fill": { "color": "#C8D4E3" }, "line": { "color": "white" } }, "type": "table" }] }, "layout": { "annotationdefaults": { "arrowcolor": "#2a3f5f", "arrowhead": 0, "arrowwidth": 1 }, "autotypenumbers": "strict", "coloraxis": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "colorscale": { "diverging": [[0, "#8e0152"], [0.1, "#c51b7d"], [0.2, "#de77ae"], [0.3, "#f1b6da"], [0.4, "#fde0ef"], [0.5, "#f7f7f7"], [0.6, "#e6f5d0"], [0.7, "#b8e186"], [0.8, "#7fbc41"], [0.9, "#4d9221"], [1, "#276419"]], "sequential": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "sequentialminus": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]] }, "colorway": ["#636efa", "#EF553B", "#00cc96", "#ab63fa", "#FFA15A", "#19d3f3", "#FF6692", "#B6E880", "#FF97FF", "#FECB52"], "font": { "color": "#2a3f5f" }, "geo": { "bgcolor": "white", "lakecolor": "white", "landcolor": "#E5ECF6", "showlakes": true, "showland": true, "subunitcolor": "white" }, "hoverlabel": { "align": "left" }, "hovermode": "closest", "mapbox": { "style": "light" }, "paper_bgcolor": "white", "plot_bgcolor": "#E5ECF6", "polar": { "angularaxis": { "gridcolor": "white", "linecolor": "white", "ticks": "" }, "bgcolor": "#E5ECF6", "radialaxis": { "gridcolor": "white", "linecolor": "white", "ticks": "" } }, "scene": { "xaxis": { "backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white" }, "yaxis": { "backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white" }, "zaxis": { "backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white" } }, "shapedefaults": { "line": { "color": "#2a3f5f" } }, "ternary": { "aaxis": { "gridcolor": "white", "linecolor": "white", "ticks": "" }, "baxis": { "gridcolor": "white", "linecolor": "white", "ticks": "" }, "bgcolor": "#E5ECF6", "caxis": { "gridcolor": "white", "linecolor": "white", "ticks": "" } }, "title": { "x": 0.05 }, "xaxis": { "automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": { "standoff": 15 }, "zerolinecolor": "white", "zerolinewidth": 2 }, "yaxis": { "automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": { "standoff": 15 }, "zerolinecolor": "white", "zerolinewidth": 2 } } }, "xaxis": { "anchor": "y", "categoryarray": ["AWS::IAM::AssumeRolePolicyDocument", "AWS::SNS::Topic", "AWS::S3::Bucket", "AWS::IAM::Role"], "categoryorder": "array", "domain": [0.0, 1.0], "fixedrange": true }, "yaxis": { "anchor": "x", "domain": [0.0, 1.0], "fixedrange": true, "title": { "text": "count" } } }, { "displayModeBar": false, "responsive": true }) };                            </script>
+			</div>
 		</div>
 
 		<div class="fullblock">
 			<h1>Summary, results by account_id</h1>
-			<div>                            <div id="96cdb5fc-4564-4ef3-af31-18a9c5908964" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("96cdb5fc-4564-4ef3-af31-18a9c5908964")) {                    Plotly.newPlot(                        "96cdb5fc-4564-4ef3-af31-18a9c5908964",                        [{"domain":{"x":[0.0,1.0],"y":[0.0,1.0]},"hovertemplate":"account_id=%{label}\u003cbr\u003ecount=%{value}\u003cextra\u003e\u003c\u002fextra\u003e","labels":["737767487588","251094496418"],"legendgroup":"","name":"","showlegend":true,"textinfo":"label+percent","values":[6,4],"type":"pie"}],                        {"font":{"family":"Verdana"},"legend":{"tracegroupgap":0},"margin":{"b":10,"l":30,"r":70,"t":25},"showlegend":false,"template":{"data":{"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmapgl":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmapgl"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"#E5ECF6","showlakes":true,"showland":true,"subunitcolor":"white"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2}}}},                        {"displayModeBar": false, "responsive": true}                    )                };                            </script>        </div>
+			<div>
+				<div id="96cdb5fc-4564-4ef3-af31-18a9c5908964" class="plotly-graph-div"
+					style="height:100%; width:100%;"></div>
+				<script
+					type="text/javascript">                                    window.PLOTLYENV = window.PLOTLYENV || {}; if (document.getElementById("96cdb5fc-4564-4ef3-af31-18a9c5908964")) { Plotly.newPlot("96cdb5fc-4564-4ef3-af31-18a9c5908964", [{ "domain": { "x": [0.0, 1.0], "y": [0.0, 1.0] }, "hovertemplate": "account_id=%{label}\u003cbr\u003ecount=%{value}\u003cextra\u003e\u003c\u002fextra\u003e", "labels": ["737767487588", "251094496418"], "legendgroup": "", "name": "", "showlegend": true, "textinfo": "label+percent", "values": [6, 4], "type": "pie" }], { "font": { "family": "Verdana" }, "legend": { "tracegroupgap": 0 }, "margin": { "b": 10, "l": 30, "r": 70, "t": 25 }, "showlegend": false, "template": { "data": { "barpolar": [{ "marker": { "line": { "color": "#E5ECF6", "width": 0.5 }, "pattern": { "fillmode": "overlay", "size": 10, "solidity": 0.2 } }, "type": "barpolar" }], "bar": [{ "error_x": { "color": "#2a3f5f" }, "error_y": { "color": "#2a3f5f" }, "marker": { "line": { "color": "#E5ECF6", "width": 0.5 }, "pattern": { "fillmode": "overlay", "size": 10, "solidity": 0.2 } }, "type": "bar" }], "carpet": [{ "aaxis": { "endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f" }, "baxis": { "endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f" }, "type": "carpet" }], "choropleth": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "type": "choropleth" }], "contourcarpet": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "type": "contourcarpet" }], "contour": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "contour" }], "heatmapgl": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmapgl" }], "heatmap": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmap" }], "histogram2dcontour": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2dcontour" }], "histogram2d": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2d" }], "histogram": [{ "marker": { "pattern": { "fillmode": "overlay", "size": 10, "solidity": 0.2 } }, "type": "histogram" }], "mesh3d": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "type": "mesh3d" }], "parcoords": [{ "line": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "parcoords" }], "pie": [{ "automargin": true, "type": "pie" }], "scatter3d": [{ "line": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scatter3d" }], "scattercarpet": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scattercarpet" }], "scattergeo": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scattergeo" }], "scattergl": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scattergl" }], "scattermapbox": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scattermapbox" }], "scatterpolargl": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scatterpolargl" }], "scatterpolar": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scatterpolar" }], "scatter": [{ "fillpattern": { "fillmode": "overlay", "size": 10, "solidity": 0.2 }, "type": "scatter" }], "scatterternary": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scatterternary" }], "surface": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "surface" }], "table": [{ "cells": { "fill": { "color": "#EBF0F8" }, "line": { "color": "white" } }, "header": { "fill": { "color": "#C8D4E3" }, "line": { "color": "white" } }, "type": "table" }] }, "layout": { "annotationdefaults": { "arrowcolor": "#2a3f5f", "arrowhead": 0, "arrowwidth": 1 }, "autotypenumbers": "strict", "coloraxis": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "colorscale": { "diverging": [[0, "#8e0152"], [0.1, "#c51b7d"], [0.2, "#de77ae"], [0.3, "#f1b6da"], [0.4, "#fde0ef"], [0.5, "#f7f7f7"], [0.6, "#e6f5d0"], [0.7, "#b8e186"], [0.8, "#7fbc41"], [0.9, "#4d9221"], [1, "#276419"]], "sequential": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "sequentialminus": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]] }, "colorway": ["#636efa", "#EF553B", "#00cc96", "#ab63fa", "#FFA15A", "#19d3f3", "#FF6692", "#B6E880", "#FF97FF", "#FECB52"], "font": { "color": "#2a3f5f" }, "geo": { "bgcolor": "white", "lakecolor": "white", "landcolor": "#E5ECF6", "showlakes": true, "showland": true, "subunitcolor": "white" }, "hoverlabel": { "align": "left" }, "hovermode": "closest", "mapbox": { "style": "light" }, "paper_bgcolor": "white", "plot_bgcolor": "#E5ECF6", "polar": { "angularaxis": { "gridcolor": "white", "linecolor": "white", "ticks": "" }, "bgcolor": "#E5ECF6", "radialaxis": { "gridcolor": "white", "linecolor": "white", "ticks": "" } }, "scene": { "xaxis": { "backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white" }, "yaxis": { "backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white" }, "zaxis": { "backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white" } }, "shapedefaults": { "line": { "color": "#2a3f5f" } }, "ternary": { "aaxis": { "gridcolor": "white", "linecolor": "white", "ticks": "" }, "baxis": { "gridcolor": "white", "linecolor": "white", "ticks": "" }, "bgcolor": "#E5ECF6", "caxis": { "gridcolor": "white", "linecolor": "white", "ticks": "" } }, "title": { "x": 0.05 }, "xaxis": { "automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": { "standoff": 15 }, "zerolinecolor": "white", "zerolinewidth": 2 }, "yaxis": { "automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": { "standoff": 15 }, "zerolinecolor": "white", "zerolinewidth": 2 } } } }, { "displayModeBar": false, "responsive": true }) };                            </script>
+			</div>
 		</div>
 
 		<div class="fullblock">
 			<h1>Summary, results by region</h1>
-			<div>                            <div id="13915245-dbc0-4ef8-bb29-810bea56fc47" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("13915245-dbc0-4ef8-bb29-810bea56fc47")) {                    Plotly.newPlot(                        "13915245-dbc0-4ef8-bb29-810bea56fc47",                        [{"alignmentgroup":"True","hovertemplate":"region=%{x}\u003cbr\u003ecount=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"us-east-1","marker":{"color":"#636efa","pattern":{"shape":""}},"name":"us-east-1","offsetgroup":"us-east-1","orientation":"v","showlegend":true,"textposition":"auto","x":["us-east-1"],"xaxis":"x","y":[6],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"region=%{x}\u003cbr\u003ecount=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"ap-southeast-1","marker":{"color":"#EF553B","pattern":{"shape":""}},"name":"ap-southeast-1","offsetgroup":"ap-southeast-1","orientation":"v","showlegend":true,"textposition":"auto","x":["ap-southeast-1"],"xaxis":"x","y":[2],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"region=%{x}\u003cbr\u003ecount=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"eu-central-1","marker":{"color":"#00cc96","pattern":{"shape":""}},"name":"eu-central-1","offsetgroup":"eu-central-1","orientation":"v","showlegend":true,"textposition":"auto","x":["eu-central-1"],"xaxis":"x","y":[2],"yaxis":"y","type":"bar"}],                        {"barmode":"relative","font":{"family":"Verdana"},"legend":{"title":{"text":"region"},"tracegroupgap":0},"margin":{"b":10,"l":90,"r":70,"t":25},"showlegend":false,"template":{"data":{"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmapgl":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmapgl"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"#E5ECF6","showlakes":true,"showland":true,"subunitcolor":"white"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2}}},"xaxis":{"anchor":"y","categoryarray":["us-east-1","ap-southeast-1","eu-central-1"],"categoryorder":"array","domain":[0.0,1.0],"fixedrange":true},"yaxis":{"anchor":"x","domain":[0.0,1.0],"fixedrange":true,"title":{"text":"count"}}},                        {"displayModeBar": false, "responsive": true}                    )                };                            </script>        </div>
+			<div>
+				<div id="13915245-dbc0-4ef8-bb29-810bea56fc47" class="plotly-graph-div"
+					style="height:100%; width:100%;"></div>
+				<script
+					type="text/javascript">                                    window.PLOTLYENV = window.PLOTLYENV || {}; if (document.getElementById("13915245-dbc0-4ef8-bb29-810bea56fc47")) { Plotly.newPlot("13915245-dbc0-4ef8-bb29-810bea56fc47", [{ "alignmentgroup": "True", "hovertemplate": "region=%{x}\u003cbr\u003ecount=%{y}\u003cextra\u003e\u003c\u002fextra\u003e", "legendgroup": "us-east-1", "marker": { "color": "#636efa", "pattern": { "shape": "" } }, "name": "us-east-1", "offsetgroup": "us-east-1", "orientation": "v", "showlegend": true, "textposition": "auto", "x": ["us-east-1"], "xaxis": "x", "y": [6], "yaxis": "y", "type": "bar" }, { "alignmentgroup": "True", "hovertemplate": "region=%{x}\u003cbr\u003ecount=%{y}\u003cextra\u003e\u003c\u002fextra\u003e", "legendgroup": "ap-southeast-1", "marker": { "color": "#EF553B", "pattern": { "shape": "" } }, "name": "ap-southeast-1", "offsetgroup": "ap-southeast-1", "orientation": "v", "showlegend": true, "textposition": "auto", "x": ["ap-southeast-1"], "xaxis": "x", "y": [2], "yaxis": "y", "type": "bar" }, { "alignmentgroup": "True", "hovertemplate": "region=%{x}\u003cbr\u003ecount=%{y}\u003cextra\u003e\u003c\u002fextra\u003e", "legendgroup": "eu-central-1", "marker": { "color": "#00cc96", "pattern": { "shape": "" } }, "name": "eu-central-1", "offsetgroup": "eu-central-1", "orientation": "v", "showlegend": true, "textposition": "auto", "x": ["eu-central-1"], "xaxis": "x", "y": [2], "yaxis": "y", "type": "bar" }], { "barmode": "relative", "font": { "family": "Verdana" }, "legend": { "title": { "text": "region" }, "tracegroupgap": 0 }, "margin": { "b": 10, "l": 90, "r": 70, "t": 25 }, "showlegend": false, "template": { "data": { "barpolar": [{ "marker": { "line": { "color": "#E5ECF6", "width": 0.5 }, "pattern": { "fillmode": "overlay", "size": 10, "solidity": 0.2 } }, "type": "barpolar" }], "bar": [{ "error_x": { "color": "#2a3f5f" }, "error_y": { "color": "#2a3f5f" }, "marker": { "line": { "color": "#E5ECF6", "width": 0.5 }, "pattern": { "fillmode": "overlay", "size": 10, "solidity": 0.2 } }, "type": "bar" }], "carpet": [{ "aaxis": { "endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f" }, "baxis": { "endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f" }, "type": "carpet" }], "choropleth": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "type": "choropleth" }], "contourcarpet": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "type": "contourcarpet" }], "contour": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "contour" }], "heatmapgl": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmapgl" }], "heatmap": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmap" }], "histogram2dcontour": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2dcontour" }], "histogram2d": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2d" }], "histogram": [{ "marker": { "pattern": { "fillmode": "overlay", "size": 10, "solidity": 0.2 } }, "type": "histogram" }], "mesh3d": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "type": "mesh3d" }], "parcoords": [{ "line": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "parcoords" }], "pie": [{ "automargin": true, "type": "pie" }], "scatter3d": [{ "line": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scatter3d" }], "scattercarpet": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scattercarpet" }], "scattergeo": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scattergeo" }], "scattergl": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scattergl" }], "scattermapbox": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scattermapbox" }], "scatterpolargl": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scatterpolargl" }], "scatterpolar": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scatterpolar" }], "scatter": [{ "fillpattern": { "fillmode": "overlay", "size": 10, "solidity": 0.2 }, "type": "scatter" }], "scatterternary": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scatterternary" }], "surface": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "surface" }], "table": [{ "cells": { "fill": { "color": "#EBF0F8" }, "line": { "color": "white" } }, "header": { "fill": { "color": "#C8D4E3" }, "line": { "color": "white" } }, "type": "table" }] }, "layout": { "annotationdefaults": { "arrowcolor": "#2a3f5f", "arrowhead": 0, "arrowwidth": 1 }, "autotypenumbers": "strict", "coloraxis": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "colorscale": { "diverging": [[0, "#8e0152"], [0.1, "#c51b7d"], [0.2, "#de77ae"], [0.3, "#f1b6da"], [0.4, "#fde0ef"], [0.5, "#f7f7f7"], [0.6, "#e6f5d0"], [0.7, "#b8e186"], [0.8, "#7fbc41"], [0.9, "#4d9221"], [1, "#276419"]], "sequential": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "sequentialminus": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]] }, "colorway": ["#636efa", "#EF553B", "#00cc96", "#ab63fa", "#FFA15A", "#19d3f3", "#FF6692", "#B6E880", "#FF97FF", "#FECB52"], "font": { "color": "#2a3f5f" }, "geo": { "bgcolor": "white", "lakecolor": "white", "landcolor": "#E5ECF6", "showlakes": true, "showland": true, "subunitcolor": "white" }, "hoverlabel": { "align": "left" }, "hovermode": "closest", "mapbox": { "style": "light" }, "paper_bgcolor": "white", "plot_bgcolor": "#E5ECF6", "polar": { "angularaxis": { "gridcolor": "white", "linecolor": "white", "ticks": "" }, "bgcolor": "#E5ECF6", "radialaxis": { "gridcolor": "white", "linecolor": "white", "ticks": "" } }, "scene": { "xaxis": { "backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white" }, "yaxis": { "backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white" }, "zaxis": { "backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white" } }, "shapedefaults": { "line": { "color": "#2a3f5f" } }, "ternary": { "aaxis": { "gridcolor": "white", "linecolor": "white", "ticks": "" }, "baxis": { "gridcolor": "white", "linecolor": "white", "ticks": "" }, "bgcolor": "#E5ECF6", "caxis": { "gridcolor": "white", "linecolor": "white", "ticks": "" } }, "title": { "x": 0.05 }, "xaxis": { "automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": { "standoff": 15 }, "zerolinecolor": "white", "zerolinewidth": 2 }, "yaxis": { "automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": { "standoff": 15 }, "zerolinecolor": "white", "zerolinewidth": 2 } } }, "xaxis": { "anchor": "y", "categoryarray": ["us-east-1", "ap-southeast-1", "eu-central-1"], "categoryorder": "array", "domain": [0.0, 1.0], "fixedrange": true }, "yaxis": { "anchor": "x", "domain": [0.0, 1.0], "fixedrange": true, "title": { "text": "count" } } }, { "displayModeBar": false, "responsive": true }) };                            </script>
+			</div>
 		</div>
 
 		<div class="fullblock">
 			<h1>Results by finding_issue_code</h1>
-				<p>
-					EMPTY_OBJECT_CONDITION<br />
-					<a href="javascript:toggleVisibility('results_by_finding_issue_code_EMPTY_OBJECT_CONDITION')">Show</a>
-				</p>
-				<div id="results_by_finding_issue_code_EMPTY_OBJECT_CONDITION" class="hidden">
-							<table>
-								<tr>
-									<td class="fixedwidth">account_id</td>
-									<td class="wrapped">251094496418</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">region</td>
-									<td class="wrapped">us-east-1</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">source_service</td>
-									<td class="wrapped">iam</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_type</td>
-									<td class="wrapped">AWS::IAM::AssumeRolePolicyDocument</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_name</td>
-									<td class="wrapped">SwimBikeRunRole</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_arn</td>
-									<td class="wrapped">arn:aws:iam::251094496418:role/SwimBikeRunRole</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_type</td>
-									<td class="wrapped">SUGGESTION</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_issue_code</td>
-									<td class="wrapped">EMPTY_OBJECT_CONDITION</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_description</td>
-									<td class="wrapped">This condition block is empty and it does not affect the policy. Specify conditions.</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_link</td>
-									<td class="wrapped"><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-object-condition" target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-object-condition</a></td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy_file_name</td>
-									<td class="wrapped">251094496418_us-east-1_iam_AWS_IAM_AssumeRolePolicyDocument_SwimBikeRunRole_0.json</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy</td>
-									<td class="wrapped">
-										<a href="javascript:toggleVisibility('results_by_finding_issue_code_4')">Show</a>
-										<div id="results_by_finding_issue_code_4" class="hidden">
-											<pre>{
+			<p>
+				EMPTY_OBJECT_CONDITION<br />
+				<a href="javascript:toggleVisibility('results_by_finding_issue_code_EMPTY_OBJECT_CONDITION')">Show</a>
+			</p>
+			<div id="results_by_finding_issue_code_EMPTY_OBJECT_CONDITION" class="hidden">
+				<table>
+					<tr>
+						<td class="fixedwidth">account_id</td>
+						<td class="wrapped">251094496418</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">region</td>
+						<td class="wrapped">us-east-1</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">source_service</td>
+						<td class="wrapped">iam</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_type</td>
+						<td class="wrapped">AWS::IAM::AssumeRolePolicyDocument</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_name</td>
+						<td class="wrapped">SwimBikeRunRole</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_arn</td>
+						<td class="wrapped">arn:aws:iam::251094496418:role/SwimBikeRunRole</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_type</td>
+						<td class="wrapped">SUGGESTION</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_issue_code</td>
+						<td class="wrapped">EMPTY_OBJECT_CONDITION</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_description</td>
+						<td class="wrapped">This condition block is empty and it does not affect the policy. Specify
+							conditions.</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_link</td>
+						<td class="wrapped"><a
+								href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-object-condition"
+								target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-object-condition</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_type</td>
+						<td class="wrapped">iam_role_trust_policies</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_file_name</td>
+						<td class="wrapped">
+							251094496418_us-east-1_iam_AWS_IAM_AssumeRolePolicyDocument_SwimBikeRunRole_0.json</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy</td>
+						<td class="wrapped">
+							<a href="javascript:toggleVisibility('results_by_finding_issue_code_4')">Show</a>
+							<div id="results_by_finding_issue_code_4" class="hidden">
+								<pre>{
   &quot;Version&quot;: &quot;2012-10-17&quot;,
   &quot;Statement&quot;: [
     {
@@ -248,61 +281,70 @@
     }
   ]
 }</pre>
-										</div>
-									</td>
-								</tr>
-							</table>
-							<table>
-								<tr>
-									<td class="fixedwidth">account_id</td>
-									<td class="wrapped">737767487588</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">region</td>
-									<td class="wrapped">us-east-1</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">source_service</td>
-									<td class="wrapped">iam</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_type</td>
-									<td class="wrapped">AWS::IAM::AssumeRolePolicyDocument</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_name</td>
-									<td class="wrapped">TemporaryAdminRole</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_arn</td>
-									<td class="wrapped">arn:aws:iam::737767487588:role/TemporaryAdminRole</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_type</td>
-									<td class="wrapped">SUGGESTION</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_issue_code</td>
-									<td class="wrapped">EMPTY_OBJECT_CONDITION</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_description</td>
-									<td class="wrapped">This condition block is empty and it does not affect the policy. Specify conditions.</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_link</td>
-									<td class="wrapped"><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-object-condition" target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-object-condition</a></td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy_file_name</td>
-									<td class="wrapped">737767487588_us-east-1_iam_AWS_IAM_AssumeRolePolicyDocument_TemporaryAdminRole_0.json</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy</td>
-									<td class="wrapped">
-										<a href="javascript:toggleVisibility('results_by_finding_issue_code_7')">Show</a>
-										<div id="results_by_finding_issue_code_7" class="hidden">
-											<pre>{
+							</div>
+						</td>
+					</tr>
+				</table>
+				<table>
+					<tr>
+						<td class="fixedwidth">account_id</td>
+						<td class="wrapped">737767487588</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">region</td>
+						<td class="wrapped">us-east-1</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">source_service</td>
+						<td class="wrapped">iam</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_type</td>
+						<td class="wrapped">AWS::IAM::AssumeRolePolicyDocument</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_name</td>
+						<td class="wrapped">TemporaryAdminRole</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_arn</td>
+						<td class="wrapped">arn:aws:iam::737767487588:role/TemporaryAdminRole</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_type</td>
+						<td class="wrapped">SUGGESTION</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_issue_code</td>
+						<td class="wrapped">EMPTY_OBJECT_CONDITION</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_description</td>
+						<td class="wrapped">This condition block is empty and it does not affect the policy. Specify
+							conditions.</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_link</td>
+						<td class="wrapped"><a
+								href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-object-condition"
+								target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-object-condition</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_type</td>
+						<td class="wrapped">iam_role_trust_policies</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_file_name</td>
+						<td class="wrapped">
+							737767487588_us-east-1_iam_AWS_IAM_AssumeRolePolicyDocument_TemporaryAdminRole_0.json</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy</td>
+						<td class="wrapped">
+							<a href="javascript:toggleVisibility('results_by_finding_issue_code_7')">Show</a>
+							<div id="results_by_finding_issue_code_7" class="hidden">
+								<pre>{
   &quot;Version&quot;: &quot;2012-10-17&quot;,
   &quot;Statement&quot;: [
     {
@@ -315,67 +357,75 @@
     }
   ]
 }</pre>
-										</div>
-									</td>
-								</tr>
-							</table>
-				</div>
-				<p>
-					EMPTY_SID_VALUE<br />
-					<a href="javascript:toggleVisibility('results_by_finding_issue_code_EMPTY_SID_VALUE')">Show</a>
-				</p>
-				<div id="results_by_finding_issue_code_EMPTY_SID_VALUE" class="hidden">
-							<table>
-								<tr>
-									<td class="fixedwidth">account_id</td>
-									<td class="wrapped">251094496418</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">region</td>
-									<td class="wrapped">us-east-1</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">source_service</td>
-									<td class="wrapped">iam</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_type</td>
-									<td class="wrapped">AWS::IAM::AssumeRolePolicyDocument</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_name</td>
-									<td class="wrapped">EC2RoleForSSM</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_arn</td>
-									<td class="wrapped">arn:aws:iam::251094496418:role/EC2RoleForSSM</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_type</td>
-									<td class="wrapped">SUGGESTION</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_issue_code</td>
-									<td class="wrapped">EMPTY_SID_VALUE</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_description</td>
-									<td class="wrapped">Add a value to the empty string in the Sid element.</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_link</td>
-									<td class="wrapped"><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-sid-value" target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-sid-value</a></td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy_file_name</td>
-									<td class="wrapped">251094496418_us-east-1_iam_AWS_IAM_AssumeRolePolicyDocument_EC2RoleForSSM_0.json</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy</td>
-									<td class="wrapped">
-										<a href="javascript:toggleVisibility('results_by_finding_issue_code_3')">Show</a>
-										<div id="results_by_finding_issue_code_3" class="hidden">
-											<pre>{
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<p>
+				EMPTY_SID_VALUE<br />
+				<a href="javascript:toggleVisibility('results_by_finding_issue_code_EMPTY_SID_VALUE')">Show</a>
+			</p>
+			<div id="results_by_finding_issue_code_EMPTY_SID_VALUE" class="hidden">
+				<table>
+					<tr>
+						<td class="fixedwidth">account_id</td>
+						<td class="wrapped">251094496418</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">region</td>
+						<td class="wrapped">us-east-1</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">source_service</td>
+						<td class="wrapped">iam</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_type</td>
+						<td class="wrapped">AWS::IAM::AssumeRolePolicyDocument</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_name</td>
+						<td class="wrapped">EC2RoleForSSM</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_arn</td>
+						<td class="wrapped">arn:aws:iam::251094496418:role/EC2RoleForSSM</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_type</td>
+						<td class="wrapped">SUGGESTION</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_issue_code</td>
+						<td class="wrapped">EMPTY_SID_VALUE</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_description</td>
+						<td class="wrapped">Add a value to the empty string in the Sid element.</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_link</td>
+						<td class="wrapped"><a
+								href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-sid-value"
+								target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-sid-value</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_type</td>
+						<td class="wrapped">iam_role_trust_policies</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_file_name</td>
+						<td class="wrapped">
+							251094496418_us-east-1_iam_AWS_IAM_AssumeRolePolicyDocument_EC2RoleForSSM_0.json</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy</td>
+						<td class="wrapped">
+							<a href="javascript:toggleVisibility('results_by_finding_issue_code_3')">Show</a>
+							<div id="results_by_finding_issue_code_3" class="hidden">
+								<pre>{
   &quot;Version&quot;: &quot;2012-10-17&quot;,
   &quot;Statement&quot;: [
     {
@@ -388,61 +438,69 @@
     }
   ]
 }</pre>
-										</div>
-									</td>
-								</tr>
-							</table>
-							<table>
-								<tr>
-									<td class="fixedwidth">account_id</td>
-									<td class="wrapped">737767487588</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">region</td>
-									<td class="wrapped">us-east-1</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">source_service</td>
-									<td class="wrapped">iam</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_type</td>
-									<td class="wrapped">AWS::IAM::AssumeRolePolicyDocument</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_name</td>
-									<td class="wrapped">rds-monitoring-role</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_arn</td>
-									<td class="wrapped">arn:aws:iam::737767487588:role/rds-monitoring-role</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_type</td>
-									<td class="wrapped">SUGGESTION</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_issue_code</td>
-									<td class="wrapped">EMPTY_SID_VALUE</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_description</td>
-									<td class="wrapped">Add a value to the empty string in the Sid element.</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_link</td>
-									<td class="wrapped"><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-sid-value" target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-sid-value</a></td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy_file_name</td>
-									<td class="wrapped">737767487588_us-east-1_iam_AWS_IAM_AssumeRolePolicyDocument_rds-monitoring-role_0.json</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy</td>
-									<td class="wrapped">
-										<a href="javascript:toggleVisibility('results_by_finding_issue_code_9')">Show</a>
-										<div id="results_by_finding_issue_code_9" class="hidden">
-											<pre>{
+							</div>
+						</td>
+					</tr>
+				</table>
+				<table>
+					<tr>
+						<td class="fixedwidth">account_id</td>
+						<td class="wrapped">737767487588</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">region</td>
+						<td class="wrapped">us-east-1</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">source_service</td>
+						<td class="wrapped">iam</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_type</td>
+						<td class="wrapped">AWS::IAM::AssumeRolePolicyDocument</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_name</td>
+						<td class="wrapped">rds-monitoring-role</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_arn</td>
+						<td class="wrapped">arn:aws:iam::737767487588:role/rds-monitoring-role</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_type</td>
+						<td class="wrapped">SUGGESTION</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_issue_code</td>
+						<td class="wrapped">EMPTY_SID_VALUE</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_description</td>
+						<td class="wrapped">Add a value to the empty string in the Sid element.</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_link</td>
+						<td class="wrapped"><a
+								href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-sid-value"
+								target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-sid-value</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_type</td>
+						<td class="wrapped">iam_role_trust_policies</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_file_name</td>
+						<td class="wrapped">
+							737767487588_us-east-1_iam_AWS_IAM_AssumeRolePolicyDocument_rds-monitoring-role_0.json</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy</td>
+						<td class="wrapped">
+							<a href="javascript:toggleVisibility('results_by_finding_issue_code_9')">Show</a>
+							<div id="results_by_finding_issue_code_9" class="hidden">
+								<pre>{
   &quot;Version&quot;: &quot;2012-10-17&quot;,
   &quot;Statement&quot;: [
     {
@@ -455,67 +513,77 @@
     }
   ]
 }</pre>
-										</div>
-									</td>
-								</tr>
-							</table>
-				</div>
-				<p>
-					MISSING_TAG_KEY_IN_CONDITION<br />
-					<a href="javascript:toggleVisibility('results_by_finding_issue_code_MISSING_TAG_KEY_IN_CONDITION')">Show</a>
-				</p>
-				<div id="results_by_finding_issue_code_MISSING_TAG_KEY_IN_CONDITION" class="hidden">
-							<table>
-								<tr>
-									<td class="fixedwidth">account_id</td>
-									<td class="wrapped">737767487588</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">region</td>
-									<td class="wrapped">eu-central-1</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">source_service</td>
-									<td class="wrapped">s3</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_type</td>
-									<td class="wrapped">AWS::S3::Bucket</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_name</td>
-									<td class="wrapped">share-737767487588</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_arn</td>
-									<td class="wrapped">arn:aws:s3:::share-737767487588</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_type</td>
-									<td class="wrapped">ERROR</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_issue_code</td>
-									<td class="wrapped">MISSING_TAG_KEY_IN_CONDITION</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_description</td>
-									<td class="wrapped">The condition key aws:PrincipalTag must include a tag-key to control access based on tags. Use the format aws:PrincipalTag/tag-key and specify a key name for tag-key.</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_link</td>
-									<td class="wrapped"><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-error-missing-tag-key-in-condition" target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-error-missing-tag-key-in-condition</a></td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy_file_name</td>
-									<td class="wrapped">737767487588_eu-central-1_s3_AWS_S3_Bucket_share-737767487588_0.json</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy</td>
-									<td class="wrapped">
-										<a href="javascript:toggleVisibility('results_by_finding_issue_code_6')">Show</a>
-										<div id="results_by_finding_issue_code_6" class="hidden">
-											<pre>{
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<p>
+				MISSING_TAG_KEY_IN_CONDITION<br />
+				<a
+					href="javascript:toggleVisibility('results_by_finding_issue_code_MISSING_TAG_KEY_IN_CONDITION')">Show</a>
+			</p>
+			<div id="results_by_finding_issue_code_MISSING_TAG_KEY_IN_CONDITION" class="hidden">
+				<table>
+					<tr>
+						<td class="fixedwidth">account_id</td>
+						<td class="wrapped">737767487588</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">region</td>
+						<td class="wrapped">eu-central-1</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">source_service</td>
+						<td class="wrapped">s3</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_type</td>
+						<td class="wrapped">AWS::S3::Bucket</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_name</td>
+						<td class="wrapped">share-737767487588</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_arn</td>
+						<td class="wrapped">arn:aws:s3:::share-737767487588</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_type</td>
+						<td class="wrapped">ERROR</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_issue_code</td>
+						<td class="wrapped">MISSING_TAG_KEY_IN_CONDITION</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_description</td>
+						<td class="wrapped">The condition key aws:PrincipalTag must include a tag-key to control access
+							based on tags. Use the format aws:PrincipalTag/tag-key and specify a key name for tag-key.
+						</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_link</td>
+						<td class="wrapped"><a
+								href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-error-missing-tag-key-in-condition"
+								target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-error-missing-tag-key-in-condition</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_type</td>
+						<td class="wrapped">s3_bucket_policies</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_file_name</td>
+						<td class="wrapped">737767487588_eu-central-1_s3_AWS_S3_Bucket_share-737767487588_0.json</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy</td>
+						<td class="wrapped">
+							<a href="javascript:toggleVisibility('results_by_finding_issue_code_6')">Show</a>
+							<div id="results_by_finding_issue_code_6" class="hidden">
+								<pre>{
   &quot;Version&quot;: &quot;2012-10-17&quot;,
   &quot;Statement&quot;: [
     {
@@ -534,67 +602,79 @@
     }
   ]
 }</pre>
-										</div>
-									</td>
-								</tr>
-							</table>
-				</div>
-				<p>
-					PASS_ROLE_WITH_STAR_IN_RESOURCE<br />
-					<a href="javascript:toggleVisibility('results_by_finding_issue_code_PASS_ROLE_WITH_STAR_IN_RESOURCE')">Show</a>
-				</p>
-				<div id="results_by_finding_issue_code_PASS_ROLE_WITH_STAR_IN_RESOURCE" class="hidden">
-							<table>
-								<tr>
-									<td class="fixedwidth">account_id</td>
-									<td class="wrapped">737767487588</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">region</td>
-									<td class="wrapped">us-east-1</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">source_service</td>
-									<td class="wrapped">iam</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_type</td>
-									<td class="wrapped">AWS::IAM::Role</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_name</td>
-									<td class="wrapped">TemporaryAdminRole:allow_lambda_access</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_arn</td>
-									<td class="wrapped">arn:aws:iam::737767487588:role/TemporaryAdminRole</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_type</td>
-									<td class="wrapped">SECURITY_WARNING</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_issue_code</td>
-									<td class="wrapped">PASS_ROLE_WITH_STAR_IN_RESOURCE</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_description</td>
-									<td class="wrapped">Using the iam:PassRole action with wildcards (*) in the resource can be overly permissive because it allows iam:PassRole permissions on multiple resources. We recommend that you specify resource ARNs or add the iam:PassedToService condition key to your statement.</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_link</td>
-									<td class="wrapped"><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-security-warning-pass-role-with-star-in-resource" target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-security-warning-pass-role-with-star-in-resource</a></td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy_file_name</td>
-									<td class="wrapped">737767487588_us-east-1_iam_AWS_IAM_Role_TemporaryAdminRole_allow_lambda_access_0.json</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy</td>
-									<td class="wrapped">
-										<a href="javascript:toggleVisibility('results_by_finding_issue_code_10')">Show</a>
-										<div id="results_by_finding_issue_code_10" class="hidden">
-											<pre>{
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<p>
+				PASS_ROLE_WITH_STAR_IN_RESOURCE<br />
+				<a
+					href="javascript:toggleVisibility('results_by_finding_issue_code_PASS_ROLE_WITH_STAR_IN_RESOURCE')">Show</a>
+			</p>
+			<div id="results_by_finding_issue_code_PASS_ROLE_WITH_STAR_IN_RESOURCE" class="hidden">
+				<table>
+					<tr>
+						<td class="fixedwidth">account_id</td>
+						<td class="wrapped">737767487588</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">region</td>
+						<td class="wrapped">us-east-1</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">source_service</td>
+						<td class="wrapped">iam</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_type</td>
+						<td class="wrapped">AWS::IAM::Role</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_name</td>
+						<td class="wrapped">TemporaryAdminRole:allow_lambda_access</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_arn</td>
+						<td class="wrapped">arn:aws:iam::737767487588:role/TemporaryAdminRole</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_type</td>
+						<td class="wrapped">SECURITY_WARNING</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_issue_code</td>
+						<td class="wrapped">PASS_ROLE_WITH_STAR_IN_RESOURCE</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_description</td>
+						<td class="wrapped">Using the iam:PassRole action with wildcards (*) in the resource can be
+							overly permissive because it allows iam:PassRole permissions on multiple resources. We
+							recommend that you specify resource ARNs or add the iam:PassedToService condition key to
+							your statement.</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_link</td>
+						<td class="wrapped"><a
+								href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-security-warning-pass-role-with-star-in-resource"
+								target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-security-warning-pass-role-with-star-in-resource</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_type</td>
+						<td class="wrapped">iam_role_inline_policies</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_file_name</td>
+						<td class="wrapped">
+							737767487588_us-east-1_iam_AWS_IAM_Role_TemporaryAdminRole_allow_lambda_access_0.json</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy</td>
+						<td class="wrapped">
+							<a href="javascript:toggleVisibility('results_by_finding_issue_code_10')">Show</a>
+							<div id="results_by_finding_issue_code_10" class="hidden">
+								<pre>{
   &quot;Version&quot;: &quot;2012-10-17&quot;,
   &quot;Statement&quot;: [
     {
@@ -620,67 +700,75 @@
     }
   ]
 }</pre>
-										</div>
-									</td>
-								</tr>
-							</table>
-				</div>
-				<p>
-					PUBLIC_ACCESS<br />
-					<a href="javascript:toggleVisibility('results_by_finding_issue_code_PUBLIC_ACCESS')">Show</a>
-				</p>
-				<div id="results_by_finding_issue_code_PUBLIC_ACCESS" class="hidden">
-							<table>
-								<tr>
-									<td class="fixedwidth">account_id</td>
-									<td class="wrapped">737767487588</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">region</td>
-									<td class="wrapped">eu-central-1</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">source_service</td>
-									<td class="wrapped">s3</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_type</td>
-									<td class="wrapped">AWS::S3::Bucket</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_name</td>
-									<td class="wrapped">applicationbucket-737767487588</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_arn</td>
-									<td class="wrapped">arn:aws:s3:::applicationbucket-737767487588</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_type</td>
-									<td class="wrapped">SECURITY_WARNING</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_issue_code</td>
-									<td class="wrapped">PUBLIC_ACCESS</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_description</td>
-									<td class="wrapped">The resource policy grants public access for the given resource type.</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_link</td>
-									<td class="wrapped"><a href="https://docs.aws.amazon.com/access-analyzer/latest/APIReference/API_CheckNoPublicAccess.html" target="_blank">https://docs.aws.amazon.com/access-analyzer/latest/APIReference/API_CheckNoPublicAccess.html</a></td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy_file_name</td>
-									<td class="wrapped">737767487588_eu-central-1_s3_AWS_S3_Bucket_applicationbucket-737767487588_0.json</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy</td>
-									<td class="wrapped">
-										<a href="javascript:toggleVisibility('results_by_finding_issue_code_5')">Show</a>
-										<div id="results_by_finding_issue_code_5" class="hidden">
-											<pre>{
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<p>
+				PUBLIC_ACCESS<br />
+				<a href="javascript:toggleVisibility('results_by_finding_issue_code_PUBLIC_ACCESS')">Show</a>
+			</p>
+			<div id="results_by_finding_issue_code_PUBLIC_ACCESS" class="hidden">
+				<table>
+					<tr>
+						<td class="fixedwidth">account_id</td>
+						<td class="wrapped">737767487588</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">region</td>
+						<td class="wrapped">eu-central-1</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">source_service</td>
+						<td class="wrapped">s3</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_type</td>
+						<td class="wrapped">AWS::S3::Bucket</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_name</td>
+						<td class="wrapped">applicationbucket-737767487588</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_arn</td>
+						<td class="wrapped">arn:aws:s3:::applicationbucket-737767487588</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_type</td>
+						<td class="wrapped">SECURITY_WARNING</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_issue_code</td>
+						<td class="wrapped">PUBLIC_ACCESS</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_description</td>
+						<td class="wrapped">The resource policy grants public access for the given resource type.</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_link</td>
+						<td class="wrapped"><a
+								href="https://docs.aws.amazon.com/access-analyzer/latest/APIReference/API_CheckNoPublicAccess.html"
+								target="_blank">https://docs.aws.amazon.com/access-analyzer/latest/APIReference/API_CheckNoPublicAccess.html</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_type</td>
+						<td class="wrapped">s3_bucket_policies</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_file_name</td>
+						<td class="wrapped">
+							737767487588_eu-central-1_s3_AWS_S3_Bucket_applicationbucket-737767487588_0.json</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy</td>
+						<td class="wrapped">
+							<a href="javascript:toggleVisibility('results_by_finding_issue_code_5')">Show</a>
+							<div id="results_by_finding_issue_code_5" class="hidden">
+								<pre>{
   &quot;Version&quot;: &quot;2012-10-17&quot;,
   &quot;Statement&quot;: [
     {
@@ -705,67 +793,76 @@
     }
   ]
 }</pre>
-										</div>
-									</td>
-								</tr>
-							</table>
-				</div>
-				<p>
-					REDUNDANT_ACTION<br />
-					<a href="javascript:toggleVisibility('results_by_finding_issue_code_REDUNDANT_ACTION')">Show</a>
-				</p>
-				<div id="results_by_finding_issue_code_REDUNDANT_ACTION" class="hidden">
-							<table>
-								<tr>
-									<td class="fixedwidth">account_id</td>
-									<td class="wrapped">251094496418</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">region</td>
-									<td class="wrapped">ap-southeast-1</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">source_service</td>
-									<td class="wrapped">sns</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_type</td>
-									<td class="wrapped">AWS::SNS::Topic</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_name</td>
-									<td class="wrapped">swarmhost-notification</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_arn</td>
-									<td class="wrapped">arn:aws:sns:ap-southeast-1:251094496418:swarmhost-notification</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_type</td>
-									<td class="wrapped">SUGGESTION</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_issue_code</td>
-									<td class="wrapped">REDUNDANT_ACTION</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_description</td>
-									<td class="wrapped">The 2 action(s) are redundant because they provide similar permissions. Update the policy to remove the redundant action such as: SNS:Subscribe.</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_link</td>
-									<td class="wrapped"><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-redundant-action" target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-redundant-action</a></td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy_file_name</td>
-									<td class="wrapped">251094496418_ap-southeast-1_sns_AWS_SNS_Topic_swarmhost-notification_0.json</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy</td>
-									<td class="wrapped">
-										<a href="javascript:toggleVisibility('results_by_finding_issue_code_1')">Show</a>
-										<div id="results_by_finding_issue_code_1" class="hidden">
-											<pre>{
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<p>
+				REDUNDANT_ACTION<br />
+				<a href="javascript:toggleVisibility('results_by_finding_issue_code_REDUNDANT_ACTION')">Show</a>
+			</p>
+			<div id="results_by_finding_issue_code_REDUNDANT_ACTION" class="hidden">
+				<table>
+					<tr>
+						<td class="fixedwidth">account_id</td>
+						<td class="wrapped">251094496418</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">region</td>
+						<td class="wrapped">ap-southeast-1</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">source_service</td>
+						<td class="wrapped">sns</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_type</td>
+						<td class="wrapped">AWS::SNS::Topic</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_name</td>
+						<td class="wrapped">swarmhost-notification</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_arn</td>
+						<td class="wrapped">arn:aws:sns:ap-southeast-1:251094496418:swarmhost-notification</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_type</td>
+						<td class="wrapped">SUGGESTION</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_issue_code</td>
+						<td class="wrapped">REDUNDANT_ACTION</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_description</td>
+						<td class="wrapped">The 2 action(s) are redundant because they provide similar permissions.
+							Update the policy to remove the redundant action such as: SNS:Subscribe.</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_link</td>
+						<td class="wrapped"><a
+								href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-redundant-action"
+								target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-redundant-action</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_type</td>
+						<td class="wrapped">sns_topic_policies</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_file_name</td>
+						<td class="wrapped">251094496418_ap-southeast-1_sns_AWS_SNS_Topic_swarmhost-notification_0.json
+						</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy</td>
+						<td class="wrapped">
+							<a href="javascript:toggleVisibility('results_by_finding_issue_code_1')">Show</a>
+							<div id="results_by_finding_issue_code_1" class="hidden">
+								<pre>{
   &quot;Version&quot;: &quot;2008-10-17&quot;,
   &quot;Statement&quot;: [
     {
@@ -785,67 +882,78 @@
     }
   ]
 }</pre>
-										</div>
-									</td>
-								</tr>
-							</table>
-				</div>
-				<p>
-					TRUSTED_OUTSIDE_PRINCIPAL<br />
-					<a href="javascript:toggleVisibility('results_by_finding_issue_code_TRUSTED_OUTSIDE_PRINCIPAL')">Show</a>
-				</p>
-				<div id="results_by_finding_issue_code_TRUSTED_OUTSIDE_PRINCIPAL" class="hidden">
-							<table>
-								<tr>
-									<td class="fixedwidth">account_id</td>
-									<td class="wrapped">251094496418</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">region</td>
-									<td class="wrapped">ap-southeast-1</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">source_service</td>
-									<td class="wrapped">sns</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_type</td>
-									<td class="wrapped">AWS::SNS::Topic</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_name</td>
-									<td class="wrapped">swarmhost-notification</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_arn</td>
-									<td class="wrapped">arn:aws:sns:ap-southeast-1:251094496418:swarmhost-notification</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_type</td>
-									<td class="wrapped">SECURITY_WARNING</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_issue_code</td>
-									<td class="wrapped">TRUSTED_OUTSIDE_PRINCIPAL</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_description</td>
-									<td class="wrapped">The policy trusts principals outside the analyzed AWS account. A review is recommended to determine whether this is the desired setup. Trusted principals: [&#39;arn:aws:iam::737767487588:root&#39;]</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_link</td>
-									<td class="wrapped"><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html" target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html</a></td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy_file_name</td>
-									<td class="wrapped">251094496418_ap-southeast-1_sns_AWS_SNS_Topic_swarmhost-notification_0.json</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy</td>
-									<td class="wrapped">
-										<a href="javascript:toggleVisibility('results_by_finding_issue_code_2')">Show</a>
-										<div id="results_by_finding_issue_code_2" class="hidden">
-											<pre>{
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<p>
+				TRUSTED_OUTSIDE_PRINCIPAL<br />
+				<a
+					href="javascript:toggleVisibility('results_by_finding_issue_code_TRUSTED_OUTSIDE_PRINCIPAL')">Show</a>
+			</p>
+			<div id="results_by_finding_issue_code_TRUSTED_OUTSIDE_PRINCIPAL" class="hidden">
+				<table>
+					<tr>
+						<td class="fixedwidth">account_id</td>
+						<td class="wrapped">251094496418</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">region</td>
+						<td class="wrapped">ap-southeast-1</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">source_service</td>
+						<td class="wrapped">sns</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_type</td>
+						<td class="wrapped">AWS::SNS::Topic</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_name</td>
+						<td class="wrapped">swarmhost-notification</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_arn</td>
+						<td class="wrapped">arn:aws:sns:ap-southeast-1:251094496418:swarmhost-notification</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_type</td>
+						<td class="wrapped">SECURITY_WARNING</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_issue_code</td>
+						<td class="wrapped">TRUSTED_OUTSIDE_PRINCIPAL</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_description</td>
+						<td class="wrapped">The policy trusts principals outside the analyzed AWS account. A review is
+							recommended to determine whether this is the desired setup. Trusted principals:
+							[&#39;arn:aws:iam::737767487588:root&#39;]</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_link</td>
+						<td class="wrapped"><a
+								href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html"
+								target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_type</td>
+						<td class="wrapped">sns_topic_policies</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_file_name</td>
+						<td class="wrapped">251094496418_ap-southeast-1_sns_AWS_SNS_Topic_swarmhost-notification_0.json
+						</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy</td>
+						<td class="wrapped">
+							<a href="javascript:toggleVisibility('results_by_finding_issue_code_2')">Show</a>
+							<div id="results_by_finding_issue_code_2" class="hidden">
+								<pre>{
   &quot;Version&quot;: &quot;2008-10-17&quot;,
   &quot;Statement&quot;: [
     {
@@ -865,61 +973,71 @@
     }
   ]
 }</pre>
-										</div>
-									</td>
-								</tr>
-							</table>
-							<table>
-								<tr>
-									<td class="fixedwidth">account_id</td>
-									<td class="wrapped">737767487588</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">region</td>
-									<td class="wrapped">us-east-1</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">source_service</td>
-									<td class="wrapped">iam</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_type</td>
-									<td class="wrapped">AWS::IAM::AssumeRolePolicyDocument</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_name</td>
-									<td class="wrapped">TemporaryAdminRole</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_arn</td>
-									<td class="wrapped">arn:aws:iam::737767487588:role/TemporaryAdminRole</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_type</td>
-									<td class="wrapped">SECURITY_WARNING</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_issue_code</td>
-									<td class="wrapped">TRUSTED_OUTSIDE_PRINCIPAL</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_description</td>
-									<td class="wrapped">The policy trusts principals outside the analyzed AWS account. A review is recommended to determine whether this is the desired setup. Trusted principals: [&#39;arn:aws:iam::251094496418:root&#39;]</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_link</td>
-									<td class="wrapped"><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html" target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html</a></td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy_file_name</td>
-									<td class="wrapped">737767487588_us-east-1_iam_AWS_IAM_AssumeRolePolicyDocument_TemporaryAdminRole_0.json</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy</td>
-									<td class="wrapped">
-										<a href="javascript:toggleVisibility('results_by_finding_issue_code_8')">Show</a>
-										<div id="results_by_finding_issue_code_8" class="hidden">
-											<pre>{
+							</div>
+						</td>
+					</tr>
+				</table>
+				<table>
+					<tr>
+						<td class="fixedwidth">account_id</td>
+						<td class="wrapped">737767487588</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">region</td>
+						<td class="wrapped">us-east-1</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">source_service</td>
+						<td class="wrapped">iam</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_type</td>
+						<td class="wrapped">AWS::IAM::AssumeRolePolicyDocument</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_name</td>
+						<td class="wrapped">TemporaryAdminRole</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_arn</td>
+						<td class="wrapped">arn:aws:iam::737767487588:role/TemporaryAdminRole</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_type</td>
+						<td class="wrapped">SECURITY_WARNING</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_issue_code</td>
+						<td class="wrapped">TRUSTED_OUTSIDE_PRINCIPAL</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_description</td>
+						<td class="wrapped">The policy trusts principals outside the analyzed AWS account. A review is
+							recommended to determine whether this is the desired setup. Trusted principals:
+							[&#39;arn:aws:iam::251094496418:root&#39;]</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_link</td>
+						<td class="wrapped"><a
+								href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html"
+								target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_type</td>
+						<td class="wrapped">iam_role_trust_policies</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_file_name</td>
+						<td class="wrapped">
+							737767487588_us-east-1_iam_AWS_IAM_AssumeRolePolicyDocument_TemporaryAdminRole_0.json</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy</td>
+						<td class="wrapped">
+							<a href="javascript:toggleVisibility('results_by_finding_issue_code_8')">Show</a>
+							<div id="results_by_finding_issue_code_8" class="hidden">
+								<pre>{
   &quot;Version&quot;: &quot;2012-10-17&quot;,
   &quot;Statement&quot;: [
     {
@@ -932,72 +1050,81 @@
     }
   ]
 }</pre>
-										</div>
-									</td>
-								</tr>
-							</table>
-				</div>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
 			<div></div>
 		</div>
 
 		<div class="fullblock">
 			<h1>Results by account_id</h1>
-				<p>
-					251094496418<br />
-					<a href="javascript:toggleVisibility('results_by_account_id_251094496418')">Show</a>
-				</p>
-				<div id="results_by_account_id_251094496418" class="hidden">
-							<table>
-								<tr>
-									<td class="fixedwidth">account_id</td>
-									<td class="wrapped">251094496418</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">region</td>
-									<td class="wrapped">ap-southeast-1</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">source_service</td>
-									<td class="wrapped">sns</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_type</td>
-									<td class="wrapped">AWS::SNS::Topic</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_name</td>
-									<td class="wrapped">swarmhost-notification</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_arn</td>
-									<td class="wrapped">arn:aws:sns:ap-southeast-1:251094496418:swarmhost-notification</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_type</td>
-									<td class="wrapped">SUGGESTION</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_issue_code</td>
-									<td class="wrapped">REDUNDANT_ACTION</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_description</td>
-									<td class="wrapped">The 2 action(s) are redundant because they provide similar permissions. Update the policy to remove the redundant action such as: SNS:Subscribe.</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_link</td>
-									<td class="wrapped"><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-redundant-action" target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-redundant-action</a></td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy_file_name</td>
-									<td class="wrapped">251094496418_ap-southeast-1_sns_AWS_SNS_Topic_swarmhost-notification_0.json</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy</td>
-									<td class="wrapped">
-										<a href="javascript:toggleVisibility('results_by_account_id_1')">Show</a>
-										<div id="results_by_account_id_1" class="hidden">
-											<pre>{
+			<p>
+				251094496418<br />
+				<a href="javascript:toggleVisibility('results_by_account_id_251094496418')">Show</a>
+			</p>
+			<div id="results_by_account_id_251094496418" class="hidden">
+				<table>
+					<tr>
+						<td class="fixedwidth">account_id</td>
+						<td class="wrapped">251094496418</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">region</td>
+						<td class="wrapped">ap-southeast-1</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">source_service</td>
+						<td class="wrapped">sns</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_type</td>
+						<td class="wrapped">AWS::SNS::Topic</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_name</td>
+						<td class="wrapped">swarmhost-notification</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_arn</td>
+						<td class="wrapped">arn:aws:sns:ap-southeast-1:251094496418:swarmhost-notification</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_type</td>
+						<td class="wrapped">SUGGESTION</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_issue_code</td>
+						<td class="wrapped">REDUNDANT_ACTION</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_description</td>
+						<td class="wrapped">The 2 action(s) are redundant because they provide similar permissions.
+							Update the policy to remove the redundant action such as: SNS:Subscribe.</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_link</td>
+						<td class="wrapped"><a
+								href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-redundant-action"
+								target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-redundant-action</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_type</td>
+						<td class="wrapped">sns_topic_policies</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_file_name</td>
+						<td class="wrapped">251094496418_ap-southeast-1_sns_AWS_SNS_Topic_swarmhost-notification_0.json
+						</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy</td>
+						<td class="wrapped">
+							<a href="javascript:toggleVisibility('results_by_account_id_1')">Show</a>
+							<div id="results_by_account_id_1" class="hidden">
+								<pre>{
   &quot;Version&quot;: &quot;2008-10-17&quot;,
   &quot;Statement&quot;: [
     {
@@ -1017,61 +1144,71 @@
     }
   ]
 }</pre>
-										</div>
-									</td>
-								</tr>
-							</table>
-							<table>
-								<tr>
-									<td class="fixedwidth">account_id</td>
-									<td class="wrapped">251094496418</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">region</td>
-									<td class="wrapped">ap-southeast-1</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">source_service</td>
-									<td class="wrapped">sns</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_type</td>
-									<td class="wrapped">AWS::SNS::Topic</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_name</td>
-									<td class="wrapped">swarmhost-notification</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_arn</td>
-									<td class="wrapped">arn:aws:sns:ap-southeast-1:251094496418:swarmhost-notification</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_type</td>
-									<td class="wrapped">SECURITY_WARNING</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_issue_code</td>
-									<td class="wrapped">TRUSTED_OUTSIDE_PRINCIPAL</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_description</td>
-									<td class="wrapped">The policy trusts principals outside the analyzed AWS account. A review is recommended to determine whether this is the desired setup. Trusted principals: [&#39;arn:aws:iam::737767487588:root&#39;]</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_link</td>
-									<td class="wrapped"><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html" target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html</a></td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy_file_name</td>
-									<td class="wrapped">251094496418_ap-southeast-1_sns_AWS_SNS_Topic_swarmhost-notification_0.json</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy</td>
-									<td class="wrapped">
-										<a href="javascript:toggleVisibility('results_by_account_id_2')">Show</a>
-										<div id="results_by_account_id_2" class="hidden">
-											<pre>{
+							</div>
+						</td>
+					</tr>
+				</table>
+				<table>
+					<tr>
+						<td class="fixedwidth">account_id</td>
+						<td class="wrapped">251094496418</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">region</td>
+						<td class="wrapped">ap-southeast-1</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">source_service</td>
+						<td class="wrapped">sns</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_type</td>
+						<td class="wrapped">AWS::SNS::Topic</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_name</td>
+						<td class="wrapped">swarmhost-notification</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_arn</td>
+						<td class="wrapped">arn:aws:sns:ap-southeast-1:251094496418:swarmhost-notification</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_type</td>
+						<td class="wrapped">SECURITY_WARNING</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_issue_code</td>
+						<td class="wrapped">TRUSTED_OUTSIDE_PRINCIPAL</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_description</td>
+						<td class="wrapped">The policy trusts principals outside the analyzed AWS account. A review is
+							recommended to determine whether this is the desired setup. Trusted principals:
+							[&#39;arn:aws:iam::737767487588:root&#39;]</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_link</td>
+						<td class="wrapped"><a
+								href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html"
+								target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_type</td>
+						<td class="wrapped">sns_topic_policies</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_file_name</td>
+						<td class="wrapped">251094496418_ap-southeast-1_sns_AWS_SNS_Topic_swarmhost-notification_0.json
+						</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy</td>
+						<td class="wrapped">
+							<a href="javascript:toggleVisibility('results_by_account_id_2')">Show</a>
+							<div id="results_by_account_id_2" class="hidden">
+								<pre>{
   &quot;Version&quot;: &quot;2008-10-17&quot;,
   &quot;Statement&quot;: [
     {
@@ -1091,61 +1228,69 @@
     }
   ]
 }</pre>
-										</div>
-									</td>
-								</tr>
-							</table>
-							<table>
-								<tr>
-									<td class="fixedwidth">account_id</td>
-									<td class="wrapped">251094496418</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">region</td>
-									<td class="wrapped">us-east-1</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">source_service</td>
-									<td class="wrapped">iam</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_type</td>
-									<td class="wrapped">AWS::IAM::AssumeRolePolicyDocument</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_name</td>
-									<td class="wrapped">EC2RoleForSSM</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_arn</td>
-									<td class="wrapped">arn:aws:iam::251094496418:role/EC2RoleForSSM</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_type</td>
-									<td class="wrapped">SUGGESTION</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_issue_code</td>
-									<td class="wrapped">EMPTY_SID_VALUE</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_description</td>
-									<td class="wrapped">Add a value to the empty string in the Sid element.</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_link</td>
-									<td class="wrapped"><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-sid-value" target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-sid-value</a></td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy_file_name</td>
-									<td class="wrapped">251094496418_us-east-1_iam_AWS_IAM_AssumeRolePolicyDocument_EC2RoleForSSM_0.json</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy</td>
-									<td class="wrapped">
-										<a href="javascript:toggleVisibility('results_by_account_id_3')">Show</a>
-										<div id="results_by_account_id_3" class="hidden">
-											<pre>{
+							</div>
+						</td>
+					</tr>
+				</table>
+				<table>
+					<tr>
+						<td class="fixedwidth">account_id</td>
+						<td class="wrapped">251094496418</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">region</td>
+						<td class="wrapped">us-east-1</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">source_service</td>
+						<td class="wrapped">iam</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_type</td>
+						<td class="wrapped">AWS::IAM::AssumeRolePolicyDocument</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_name</td>
+						<td class="wrapped">EC2RoleForSSM</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_arn</td>
+						<td class="wrapped">arn:aws:iam::251094496418:role/EC2RoleForSSM</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_type</td>
+						<td class="wrapped">SUGGESTION</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_issue_code</td>
+						<td class="wrapped">EMPTY_SID_VALUE</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_description</td>
+						<td class="wrapped">Add a value to the empty string in the Sid element.</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_link</td>
+						<td class="wrapped"><a
+								href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-sid-value"
+								target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-sid-value</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_type</td>
+						<td class="wrapped">iam_role_trust_policies</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_file_name</td>
+						<td class="wrapped">
+							251094496418_us-east-1_iam_AWS_IAM_AssumeRolePolicyDocument_EC2RoleForSSM_0.json</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy</td>
+						<td class="wrapped">
+							<a href="javascript:toggleVisibility('results_by_account_id_3')">Show</a>
+							<div id="results_by_account_id_3" class="hidden">
+								<pre>{
   &quot;Version&quot;: &quot;2012-10-17&quot;,
   &quot;Statement&quot;: [
     {
@@ -1158,61 +1303,70 @@
     }
   ]
 }</pre>
-										</div>
-									</td>
-								</tr>
-							</table>
-							<table>
-								<tr>
-									<td class="fixedwidth">account_id</td>
-									<td class="wrapped">251094496418</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">region</td>
-									<td class="wrapped">us-east-1</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">source_service</td>
-									<td class="wrapped">iam</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_type</td>
-									<td class="wrapped">AWS::IAM::AssumeRolePolicyDocument</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_name</td>
-									<td class="wrapped">SwimBikeRunRole</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_arn</td>
-									<td class="wrapped">arn:aws:iam::251094496418:role/SwimBikeRunRole</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_type</td>
-									<td class="wrapped">SUGGESTION</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_issue_code</td>
-									<td class="wrapped">EMPTY_OBJECT_CONDITION</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_description</td>
-									<td class="wrapped">This condition block is empty and it does not affect the policy. Specify conditions.</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_link</td>
-									<td class="wrapped"><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-object-condition" target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-object-condition</a></td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy_file_name</td>
-									<td class="wrapped">251094496418_us-east-1_iam_AWS_IAM_AssumeRolePolicyDocument_SwimBikeRunRole_0.json</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy</td>
-									<td class="wrapped">
-										<a href="javascript:toggleVisibility('results_by_account_id_4')">Show</a>
-										<div id="results_by_account_id_4" class="hidden">
-											<pre>{
+							</div>
+						</td>
+					</tr>
+				</table>
+				<table>
+					<tr>
+						<td class="fixedwidth">account_id</td>
+						<td class="wrapped">251094496418</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">region</td>
+						<td class="wrapped">us-east-1</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">source_service</td>
+						<td class="wrapped">iam</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_type</td>
+						<td class="wrapped">AWS::IAM::AssumeRolePolicyDocument</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_name</td>
+						<td class="wrapped">SwimBikeRunRole</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_arn</td>
+						<td class="wrapped">arn:aws:iam::251094496418:role/SwimBikeRunRole</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_type</td>
+						<td class="wrapped">SUGGESTION</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_issue_code</td>
+						<td class="wrapped">EMPTY_OBJECT_CONDITION</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_description</td>
+						<td class="wrapped">This condition block is empty and it does not affect the policy. Specify
+							conditions.</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_link</td>
+						<td class="wrapped"><a
+								href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-object-condition"
+								target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-object-condition</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_type</td>
+						<td class="wrapped">iam_role_trust_policies</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_file_name</td>
+						<td class="wrapped">
+							251094496418_us-east-1_iam_AWS_IAM_AssumeRolePolicyDocument_SwimBikeRunRole_0.json</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy</td>
+						<td class="wrapped">
+							<a href="javascript:toggleVisibility('results_by_account_id_4')">Show</a>
+							<div id="results_by_account_id_4" class="hidden">
+								<pre>{
   &quot;Version&quot;: &quot;2012-10-17&quot;,
   &quot;Statement&quot;: [
     {
@@ -1225,67 +1379,75 @@
     }
   ]
 }</pre>
-										</div>
-									</td>
-								</tr>
-							</table>
-				</div>
-				<p>
-					737767487588<br />
-					<a href="javascript:toggleVisibility('results_by_account_id_737767487588')">Show</a>
-				</p>
-				<div id="results_by_account_id_737767487588" class="hidden">
-							<table>
-								<tr>
-									<td class="fixedwidth">account_id</td>
-									<td class="wrapped">737767487588</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">region</td>
-									<td class="wrapped">eu-central-1</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">source_service</td>
-									<td class="wrapped">s3</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_type</td>
-									<td class="wrapped">AWS::S3::Bucket</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_name</td>
-									<td class="wrapped">applicationbucket-737767487588</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_arn</td>
-									<td class="wrapped">arn:aws:s3:::applicationbucket-737767487588</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_type</td>
-									<td class="wrapped">SECURITY_WARNING</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_issue_code</td>
-									<td class="wrapped">PUBLIC_ACCESS</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_description</td>
-									<td class="wrapped">The resource policy grants public access for the given resource type.</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_link</td>
-									<td class="wrapped"><a href="https://docs.aws.amazon.com/access-analyzer/latest/APIReference/API_CheckNoPublicAccess.html" target="_blank">https://docs.aws.amazon.com/access-analyzer/latest/APIReference/API_CheckNoPublicAccess.html</a></td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy_file_name</td>
-									<td class="wrapped">737767487588_eu-central-1_s3_AWS_S3_Bucket_applicationbucket-737767487588_0.json</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy</td>
-									<td class="wrapped">
-										<a href="javascript:toggleVisibility('results_by_account_id_5')">Show</a>
-										<div id="results_by_account_id_5" class="hidden">
-											<pre>{
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<p>
+				737767487588<br />
+				<a href="javascript:toggleVisibility('results_by_account_id_737767487588')">Show</a>
+			</p>
+			<div id="results_by_account_id_737767487588" class="hidden">
+				<table>
+					<tr>
+						<td class="fixedwidth">account_id</td>
+						<td class="wrapped">737767487588</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">region</td>
+						<td class="wrapped">eu-central-1</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">source_service</td>
+						<td class="wrapped">s3</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_type</td>
+						<td class="wrapped">AWS::S3::Bucket</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_name</td>
+						<td class="wrapped">applicationbucket-737767487588</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_arn</td>
+						<td class="wrapped">arn:aws:s3:::applicationbucket-737767487588</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_type</td>
+						<td class="wrapped">SECURITY_WARNING</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_issue_code</td>
+						<td class="wrapped">PUBLIC_ACCESS</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_description</td>
+						<td class="wrapped">The resource policy grants public access for the given resource type.</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_link</td>
+						<td class="wrapped"><a
+								href="https://docs.aws.amazon.com/access-analyzer/latest/APIReference/API_CheckNoPublicAccess.html"
+								target="_blank">https://docs.aws.amazon.com/access-analyzer/latest/APIReference/API_CheckNoPublicAccess.html</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_type</td>
+						<td class="wrapped">s3_bucket_policies</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_file_name</td>
+						<td class="wrapped">
+							737767487588_eu-central-1_s3_AWS_S3_Bucket_applicationbucket-737767487588_0.json</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy</td>
+						<td class="wrapped">
+							<a href="javascript:toggleVisibility('results_by_account_id_5')">Show</a>
+							<div id="results_by_account_id_5" class="hidden">
+								<pre>{
   &quot;Version&quot;: &quot;2012-10-17&quot;,
   &quot;Statement&quot;: [
     {
@@ -1310,61 +1472,70 @@
     }
   ]
 }</pre>
-										</div>
-									</td>
-								</tr>
-							</table>
-							<table>
-								<tr>
-									<td class="fixedwidth">account_id</td>
-									<td class="wrapped">737767487588</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">region</td>
-									<td class="wrapped">eu-central-1</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">source_service</td>
-									<td class="wrapped">s3</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_type</td>
-									<td class="wrapped">AWS::S3::Bucket</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_name</td>
-									<td class="wrapped">share-737767487588</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_arn</td>
-									<td class="wrapped">arn:aws:s3:::share-737767487588</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_type</td>
-									<td class="wrapped">ERROR</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_issue_code</td>
-									<td class="wrapped">MISSING_TAG_KEY_IN_CONDITION</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_description</td>
-									<td class="wrapped">The condition key aws:PrincipalTag must include a tag-key to control access based on tags. Use the format aws:PrincipalTag/tag-key and specify a key name for tag-key.</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_link</td>
-									<td class="wrapped"><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-error-missing-tag-key-in-condition" target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-error-missing-tag-key-in-condition</a></td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy_file_name</td>
-									<td class="wrapped">737767487588_eu-central-1_s3_AWS_S3_Bucket_share-737767487588_0.json</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy</td>
-									<td class="wrapped">
-										<a href="javascript:toggleVisibility('results_by_account_id_6')">Show</a>
-										<div id="results_by_account_id_6" class="hidden">
-											<pre>{
+							</div>
+						</td>
+					</tr>
+				</table>
+				<table>
+					<tr>
+						<td class="fixedwidth">account_id</td>
+						<td class="wrapped">737767487588</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">region</td>
+						<td class="wrapped">eu-central-1</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">source_service</td>
+						<td class="wrapped">s3</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_type</td>
+						<td class="wrapped">AWS::S3::Bucket</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_name</td>
+						<td class="wrapped">share-737767487588</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_arn</td>
+						<td class="wrapped">arn:aws:s3:::share-737767487588</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_type</td>
+						<td class="wrapped">ERROR</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_issue_code</td>
+						<td class="wrapped">MISSING_TAG_KEY_IN_CONDITION</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_description</td>
+						<td class="wrapped">The condition key aws:PrincipalTag must include a tag-key to control access
+							based on tags. Use the format aws:PrincipalTag/tag-key and specify a key name for tag-key.
+						</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_link</td>
+						<td class="wrapped"><a
+								href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-error-missing-tag-key-in-condition"
+								target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-error-missing-tag-key-in-condition</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_type</td>
+						<td class="wrapped">s3_bucket_policies</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_file_name</td>
+						<td class="wrapped">737767487588_eu-central-1_s3_AWS_S3_Bucket_share-737767487588_0.json</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy</td>
+						<td class="wrapped">
+							<a href="javascript:toggleVisibility('results_by_account_id_6')">Show</a>
+							<div id="results_by_account_id_6" class="hidden">
+								<pre>{
   &quot;Version&quot;: &quot;2012-10-17&quot;,
   &quot;Statement&quot;: [
     {
@@ -1383,61 +1554,70 @@
     }
   ]
 }</pre>
-										</div>
-									</td>
-								</tr>
-							</table>
-							<table>
-								<tr>
-									<td class="fixedwidth">account_id</td>
-									<td class="wrapped">737767487588</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">region</td>
-									<td class="wrapped">us-east-1</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">source_service</td>
-									<td class="wrapped">iam</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_type</td>
-									<td class="wrapped">AWS::IAM::AssumeRolePolicyDocument</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_name</td>
-									<td class="wrapped">TemporaryAdminRole</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_arn</td>
-									<td class="wrapped">arn:aws:iam::737767487588:role/TemporaryAdminRole</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_type</td>
-									<td class="wrapped">SUGGESTION</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_issue_code</td>
-									<td class="wrapped">EMPTY_OBJECT_CONDITION</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_description</td>
-									<td class="wrapped">This condition block is empty and it does not affect the policy. Specify conditions.</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_link</td>
-									<td class="wrapped"><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-object-condition" target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-object-condition</a></td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy_file_name</td>
-									<td class="wrapped">737767487588_us-east-1_iam_AWS_IAM_AssumeRolePolicyDocument_TemporaryAdminRole_0.json</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy</td>
-									<td class="wrapped">
-										<a href="javascript:toggleVisibility('results_by_account_id_7')">Show</a>
-										<div id="results_by_account_id_7" class="hidden">
-											<pre>{
+							</div>
+						</td>
+					</tr>
+				</table>
+				<table>
+					<tr>
+						<td class="fixedwidth">account_id</td>
+						<td class="wrapped">737767487588</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">region</td>
+						<td class="wrapped">us-east-1</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">source_service</td>
+						<td class="wrapped">iam</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_type</td>
+						<td class="wrapped">AWS::IAM::AssumeRolePolicyDocument</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_name</td>
+						<td class="wrapped">TemporaryAdminRole</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_arn</td>
+						<td class="wrapped">arn:aws:iam::737767487588:role/TemporaryAdminRole</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_type</td>
+						<td class="wrapped">SUGGESTION</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_issue_code</td>
+						<td class="wrapped">EMPTY_OBJECT_CONDITION</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_description</td>
+						<td class="wrapped">This condition block is empty and it does not affect the policy. Specify
+							conditions.</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_link</td>
+						<td class="wrapped"><a
+								href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-object-condition"
+								target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-object-condition</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_type</td>
+						<td class="wrapped">iam_role_trust_policies</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_file_name</td>
+						<td class="wrapped">
+							737767487588_us-east-1_iam_AWS_IAM_AssumeRolePolicyDocument_TemporaryAdminRole_0.json</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy</td>
+						<td class="wrapped">
+							<a href="javascript:toggleVisibility('results_by_account_id_7')">Show</a>
+							<div id="results_by_account_id_7" class="hidden">
+								<pre>{
   &quot;Version&quot;: &quot;2012-10-17&quot;,
   &quot;Statement&quot;: [
     {
@@ -1450,61 +1630,71 @@
     }
   ]
 }</pre>
-										</div>
-									</td>
-								</tr>
-							</table>
-							<table>
-								<tr>
-									<td class="fixedwidth">account_id</td>
-									<td class="wrapped">737767487588</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">region</td>
-									<td class="wrapped">us-east-1</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">source_service</td>
-									<td class="wrapped">iam</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_type</td>
-									<td class="wrapped">AWS::IAM::AssumeRolePolicyDocument</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_name</td>
-									<td class="wrapped">TemporaryAdminRole</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_arn</td>
-									<td class="wrapped">arn:aws:iam::737767487588:role/TemporaryAdminRole</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_type</td>
-									<td class="wrapped">SECURITY_WARNING</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_issue_code</td>
-									<td class="wrapped">TRUSTED_OUTSIDE_PRINCIPAL</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_description</td>
-									<td class="wrapped">The policy trusts principals outside the analyzed AWS account. A review is recommended to determine whether this is the desired setup. Trusted principals: [&#39;arn:aws:iam::251094496418:root&#39;]</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_link</td>
-									<td class="wrapped"><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html" target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html</a></td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy_file_name</td>
-									<td class="wrapped">737767487588_us-east-1_iam_AWS_IAM_AssumeRolePolicyDocument_TemporaryAdminRole_0.json</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy</td>
-									<td class="wrapped">
-										<a href="javascript:toggleVisibility('results_by_account_id_8')">Show</a>
-										<div id="results_by_account_id_8" class="hidden">
-											<pre>{
+							</div>
+						</td>
+					</tr>
+				</table>
+				<table>
+					<tr>
+						<td class="fixedwidth">account_id</td>
+						<td class="wrapped">737767487588</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">region</td>
+						<td class="wrapped">us-east-1</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">source_service</td>
+						<td class="wrapped">iam</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_type</td>
+						<td class="wrapped">AWS::IAM::AssumeRolePolicyDocument</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_name</td>
+						<td class="wrapped">TemporaryAdminRole</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_arn</td>
+						<td class="wrapped">arn:aws:iam::737767487588:role/TemporaryAdminRole</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_type</td>
+						<td class="wrapped">SECURITY_WARNING</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_issue_code</td>
+						<td class="wrapped">TRUSTED_OUTSIDE_PRINCIPAL</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_description</td>
+						<td class="wrapped">The policy trusts principals outside the analyzed AWS account. A review is
+							recommended to determine whether this is the desired setup. Trusted principals:
+							[&#39;arn:aws:iam::251094496418:root&#39;]</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_link</td>
+						<td class="wrapped"><a
+								href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html"
+								target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_type</td>
+						<td class="wrapped">iam_role_trust_policies</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_file_name</td>
+						<td class="wrapped">
+							737767487588_us-east-1_iam_AWS_IAM_AssumeRolePolicyDocument_TemporaryAdminRole_0.json</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy</td>
+						<td class="wrapped">
+							<a href="javascript:toggleVisibility('results_by_account_id_8')">Show</a>
+							<div id="results_by_account_id_8" class="hidden">
+								<pre>{
   &quot;Version&quot;: &quot;2012-10-17&quot;,
   &quot;Statement&quot;: [
     {
@@ -1517,61 +1707,69 @@
     }
   ]
 }</pre>
-										</div>
-									</td>
-								</tr>
-							</table>
-							<table>
-								<tr>
-									<td class="fixedwidth">account_id</td>
-									<td class="wrapped">737767487588</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">region</td>
-									<td class="wrapped">us-east-1</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">source_service</td>
-									<td class="wrapped">iam</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_type</td>
-									<td class="wrapped">AWS::IAM::AssumeRolePolicyDocument</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_name</td>
-									<td class="wrapped">rds-monitoring-role</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_arn</td>
-									<td class="wrapped">arn:aws:iam::737767487588:role/rds-monitoring-role</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_type</td>
-									<td class="wrapped">SUGGESTION</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_issue_code</td>
-									<td class="wrapped">EMPTY_SID_VALUE</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_description</td>
-									<td class="wrapped">Add a value to the empty string in the Sid element.</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_link</td>
-									<td class="wrapped"><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-sid-value" target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-sid-value</a></td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy_file_name</td>
-									<td class="wrapped">737767487588_us-east-1_iam_AWS_IAM_AssumeRolePolicyDocument_rds-monitoring-role_0.json</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy</td>
-									<td class="wrapped">
-										<a href="javascript:toggleVisibility('results_by_account_id_9')">Show</a>
-										<div id="results_by_account_id_9" class="hidden">
-											<pre>{
+							</div>
+						</td>
+					</tr>
+				</table>
+				<table>
+					<tr>
+						<td class="fixedwidth">account_id</td>
+						<td class="wrapped">737767487588</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">region</td>
+						<td class="wrapped">us-east-1</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">source_service</td>
+						<td class="wrapped">iam</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_type</td>
+						<td class="wrapped">AWS::IAM::AssumeRolePolicyDocument</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_name</td>
+						<td class="wrapped">rds-monitoring-role</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_arn</td>
+						<td class="wrapped">arn:aws:iam::737767487588:role/rds-monitoring-role</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_type</td>
+						<td class="wrapped">SUGGESTION</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_issue_code</td>
+						<td class="wrapped">EMPTY_SID_VALUE</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_description</td>
+						<td class="wrapped">Add a value to the empty string in the Sid element.</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_link</td>
+						<td class="wrapped"><a
+								href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-sid-value"
+								target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-sid-value</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_type</td>
+						<td class="wrapped">iam_role_trust_policies</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_file_name</td>
+						<td class="wrapped">
+							737767487588_us-east-1_iam_AWS_IAM_AssumeRolePolicyDocument_rds-monitoring-role_0.json</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy</td>
+						<td class="wrapped">
+							<a href="javascript:toggleVisibility('results_by_account_id_9')">Show</a>
+							<div id="results_by_account_id_9" class="hidden">
+								<pre>{
   &quot;Version&quot;: &quot;2012-10-17&quot;,
   &quot;Statement&quot;: [
     {
@@ -1584,61 +1782,72 @@
     }
   ]
 }</pre>
-										</div>
-									</td>
-								</tr>
-							</table>
-							<table>
-								<tr>
-									<td class="fixedwidth">account_id</td>
-									<td class="wrapped">737767487588</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">region</td>
-									<td class="wrapped">us-east-1</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">source_service</td>
-									<td class="wrapped">iam</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_type</td>
-									<td class="wrapped">AWS::IAM::Role</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_name</td>
-									<td class="wrapped">TemporaryAdminRole:allow_lambda_access</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">resource_arn</td>
-									<td class="wrapped">arn:aws:iam::737767487588:role/TemporaryAdminRole</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_type</td>
-									<td class="wrapped">SECURITY_WARNING</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_issue_code</td>
-									<td class="wrapped">PASS_ROLE_WITH_STAR_IN_RESOURCE</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_description</td>
-									<td class="wrapped">Using the iam:PassRole action with wildcards (*) in the resource can be overly permissive because it allows iam:PassRole permissions on multiple resources. We recommend that you specify resource ARNs or add the iam:PassedToService condition key to your statement.</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">finding_link</td>
-									<td class="wrapped"><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-security-warning-pass-role-with-star-in-resource" target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-security-warning-pass-role-with-star-in-resource</a></td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy_file_name</td>
-									<td class="wrapped">737767487588_us-east-1_iam_AWS_IAM_Role_TemporaryAdminRole_allow_lambda_access_0.json</td>
-								</tr>
-								<tr>
-									<td class="fixedwidth">policy</td>
-									<td class="wrapped">
-										<a href="javascript:toggleVisibility('results_by_account_id_10')">Show</a>
-										<div id="results_by_account_id_10" class="hidden">
-											<pre>{
+							</div>
+						</td>
+					</tr>
+				</table>
+				<table>
+					<tr>
+						<td class="fixedwidth">account_id</td>
+						<td class="wrapped">737767487588</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">region</td>
+						<td class="wrapped">us-east-1</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">source_service</td>
+						<td class="wrapped">iam</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_type</td>
+						<td class="wrapped">AWS::IAM::Role</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_name</td>
+						<td class="wrapped">TemporaryAdminRole:allow_lambda_access</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">resource_arn</td>
+						<td class="wrapped">arn:aws:iam::737767487588:role/TemporaryAdminRole</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_type</td>
+						<td class="wrapped">SECURITY_WARNING</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_issue_code</td>
+						<td class="wrapped">PASS_ROLE_WITH_STAR_IN_RESOURCE</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_description</td>
+						<td class="wrapped">Using the iam:PassRole action with wildcards (*) in the resource can be
+							overly permissive because it allows iam:PassRole permissions on multiple resources. We
+							recommend that you specify resource ARNs or add the iam:PassedToService condition key to
+							your statement.</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">finding_link</td>
+						<td class="wrapped"><a
+								href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-security-warning-pass-role-with-star-in-resource"
+								target="_blank">https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-security-warning-pass-role-with-star-in-resource</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_type</td>
+						<td class="wrapped">iam_role_trust_policies</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy_file_name</td>
+						<td class="wrapped">
+							737767487588_us-east-1_iam_AWS_IAM_Role_TemporaryAdminRole_allow_lambda_access_0.json</td>
+					</tr>
+					<tr>
+						<td class="fixedwidth">policy</td>
+						<td class="wrapped">
+							<a href="javascript:toggleVisibility('results_by_account_id_10')">Show</a>
+							<div id="results_by_account_id_10" class="hidden">
+								<pre>{
   &quot;Version&quot;: &quot;2012-10-17&quot;,
   &quot;Statement&quot;: [
     {
@@ -1664,11 +1873,11 @@
     }
   ]
 }</pre>
-										</div>
-									</td>
-								</tr>
-							</table>
-				</div>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
 			<div></div>
 		</div>
 

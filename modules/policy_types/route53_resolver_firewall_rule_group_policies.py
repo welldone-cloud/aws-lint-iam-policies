@@ -31,5 +31,5 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 resource_name=firewall_rule_group["Name"],
                 resource_arn=firewall_rule_group["Arn"],
                 policy_document=get_firewall_rule_group_policy_response["FirewallRuleGroupPolicy"],
-                policy_type="RESOURCE_POLICY",
+                access_analyzer_type="RESOURCE_POLICY",
             )

@@ -28,7 +28,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                     resource_name=model_package_group["ModelPackageGroupName"],
                     resource_arn=model_package_group["ModelPackageGroupArn"],
                     policy_document=get_model_package_group_policy_response["ResourcePolicy"],
-                    policy_type="RESOURCE_POLICY",
+                    access_analyzer_type="RESOURCE_POLICY",
                 )
 
     # Feature is not supported in this region

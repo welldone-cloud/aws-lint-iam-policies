@@ -27,6 +27,6 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                     resource_name="{}:v{}".format(policy["policyName"], policy_version["versionId"]),
                     resource_arn=policy["policyArn"],
                     policy_document=get_policy_version_response["policyDocument"],
-                    policy_type="RESOURCE_POLICY",
+                    access_analyzer_type="RESOURCE_POLICY",
                     disabled_finding_issue_codes=["MISSING_PRINCIPAL"],
                 )

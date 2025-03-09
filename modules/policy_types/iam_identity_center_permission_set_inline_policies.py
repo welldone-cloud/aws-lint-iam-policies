@@ -47,7 +47,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                             resource_name=describe_permission_response["PermissionSet"]["Name"],
                             resource_arn=permission_set_arn,
                             policy_document=get_inline_policy_response["InlinePolicy"],
-                            policy_type="IDENTITY_POLICY",
+                            access_analyzer_type="IDENTITY_POLICY",
                         )
 
             except sso_client.exceptions.from_code("ValidationException"):

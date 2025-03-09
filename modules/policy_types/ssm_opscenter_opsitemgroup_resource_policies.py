@@ -24,7 +24,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                     resource_name="default",
                     resource_arn=ops_item_group_arn,
                     policy_document=policy["Policy"],
-                    policy_type="RESOURCE_POLICY",
+                    access_analyzer_type="RESOURCE_POLICY",
                 )
 
     except ssm_client.exceptions.from_code("AccessDeniedException"):

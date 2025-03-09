@@ -43,5 +43,5 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                         region, account_id, endpoint["VpcEndpointId"]
                     ),
                     policy_document=endpoint["PolicyDocument"],
-                    policy_type="RESOURCE_POLICY",
+                    access_analyzer_type="RESOURCE_POLICY",
                 )

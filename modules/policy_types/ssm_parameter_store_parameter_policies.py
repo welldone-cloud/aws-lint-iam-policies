@@ -32,5 +32,5 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                         resource_name=parameter["Name"],
                         resource_arn=parameter["ARN"],
                         policy_document=policy["Policy"],
-                        policy_type="RESOURCE_POLICY",
+                        access_analyzer_type="RESOURCE_POLICY",
                     )

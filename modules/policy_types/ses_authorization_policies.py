@@ -27,5 +27,5 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                     resource_name="{}:{}".format(identity_name, policy_name),
                     resource_arn="arn:aws:ses:{}:{}:identity/{}".format(region, account_id, identity_name),
                     policy_document=get_identity_policies_response["Policies"][policy_name],
-                    policy_type="RESOURCE_POLICY",
+                    access_analyzer_type="RESOURCE_POLICY",
                 )

@@ -29,7 +29,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                     resource_name=service_network["name"],
                     resource_arn=service_network["arn"],
                     policy_document=get_auth_policy_response["policy"],
-                    policy_type="RESOURCE_POLICY",
+                    access_analyzer_type="RESOURCE_POLICY",
                 )
 
     except vpc_lattice_client.exceptions.from_code("AccessDeniedException"):

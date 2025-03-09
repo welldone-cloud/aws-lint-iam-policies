@@ -21,5 +21,5 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 resource_name=topic["TopicArn"].split(":")[-1],
                 resource_arn=topic["TopicArn"],
                 policy_document=get_topic_attributes_response["Attributes"]["Policy"],
-                policy_type="RESOURCE_POLICY",
+                access_analyzer_type="RESOURCE_POLICY",
             )

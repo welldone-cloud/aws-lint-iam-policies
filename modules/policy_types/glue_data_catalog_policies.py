@@ -19,5 +19,5 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
         resource_name="catalog",
         resource_arn="arn:aws:glue:{}:{}:catalog".format(region, account_id),
         policy_document=get_resource_policy_response["PolicyInJson"],
-        policy_type="RESOURCE_POLICY",
+        access_analyzer_type="RESOURCE_POLICY",
     )

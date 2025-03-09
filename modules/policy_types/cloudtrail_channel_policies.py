@@ -29,7 +29,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 resource_name=channel["Name"],
                 resource_arn=channel["ChannelArn"],
                 policy_document=get_resource_policy_response["ResourcePolicy"],
-                policy_type="RESOURCE_POLICY",
+                access_analyzer_type="RESOURCE_POLICY",
             )
 
         try:

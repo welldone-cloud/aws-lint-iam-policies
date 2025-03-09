@@ -54,7 +54,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                                     resource_name=application["Name"],
                                     resource_arn=application["ApplicationArn"],
                                     policy_document=policy,
-                                    policy_type="RESOURCE_POLICY",
+                                    access_analyzer_type="RESOURCE_POLICY",
                                     disabled_finding_issue_codes=["MISSING_RESOURCE", "INVALID_ACTION"],
                                 )
 

@@ -1,3 +1,4 @@
+import inspect
 import json
 import re
 
@@ -40,41 +41,47 @@ AWS_ACCOUNT_ID_PATTERN = re.compile(r"^\d{12,}$")
 
 AWS_IAM_STS_ARN_PATTERN = re.compile(r"^arn:aws:(iam|sts)::\d{12,}:[^\s]*$")
 
-CUSTOM_POLICY_CHECKS_DETAILS = {
-    "TRUSTED_IDENTITY_PROVIDER": {
+PUBLIC_ACCESS_CHECKS_DETAILS = [
+    {
+        "finding_issue_code": "PUBLIC_ACCESS",
+        "finding_link": "https://docs.aws.amazon.com/access-analyzer/latest/APIReference/API_CheckNoPublicAccess.html",
+    },
+]
+
+CUSTOM_POLICY_CHECKS_DETAILS = [
+    {
+        "finding_issue_code": "TRUSTED_IDENTITY_PROVIDER",
         "description": "The policy trusts identity providers to verify caller identities. A review is recommended to determine whether this is the desired setup. Trusted identity providers: {}",
-        "link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers.html",
+        "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers.html",
     },
-    "TRUSTED_OUTSIDE_PRINCIPAL": {
+    {
+        "finding_issue_code": "TRUSTED_OUTSIDE_PRINCIPAL",
         "description": "The policy trusts principals outside the analyzed AWS account. A review is recommended to determine whether this is the desired setup. Trusted principals: {}",
-        "link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html",
+        "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html",
     },
-    "TRUSTED_OUTSIDE_PRINCIPAL_WITH_CONDITIONS": {
+    {
+        "finding_issue_code": "TRUSTED_OUTSIDE_PRINCIPAL_WITH_CONDITIONS",
         "description": "The policy trusts principals outside the analyzed AWS account, restricted by conditions. A review is recommended to determine whether this is the desired setup. Trusted principals: {}",
-        "link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html",
+        "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html",
     },
-    "TRUSTED_WILDCARD_PRINCIPAL": {
+    {
+        "finding_issue_code": "TRUSTED_WILDCARD_PRINCIPAL",
         "description": "The policy trusts the wildcard principal ('*'). A review is recommended to determine whether this is the desired setup.",
-        "link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html",
+        "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html",
     },
-    "TRUSTED_WILDCARD_PRINCIPAL_WITH_CONDITIONS": {
+    {
+        "finding_issue_code": "TRUSTED_WILDCARD_PRINCIPAL_WITH_CONDITIONS",
         "description": "The policy trusts the wildcard principal ('*'), restricted by conditions. A review is recommended to determine whether this is the desired setup.",
-        "link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html",
+        "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html",
     },
-}
+]
 
 
 class PolicyAnalyzer:
 
     @staticmethod
     def _get_custom_policy_check_results(policy, account_id, trusted_accounts):
-        results = {
-            "TRUSTED_IDENTITY_PROVIDER": set(),
-            "TRUSTED_OUTSIDE_PRINCIPAL": set(),
-            "TRUSTED_OUTSIDE_PRINCIPAL_WITH_CONDITIONS": set(),
-            "TRUSTED_WILDCARD_PRINCIPAL": set(),
-            "TRUSTED_WILDCARD_PRINCIPAL_WITH_CONDITIONS": set(),
-        }
+        results = {check["finding_issue_code"]: set() for check in CUSTOM_POLICY_CHECKS_DETAILS}
         policy = json.loads(policy)
 
         # Make sure the "Statement" block is represented as a list, even if it only consists of a single item
@@ -149,7 +156,14 @@ class PolicyAnalyzer:
         return results
 
     @staticmethod
-    def get_supported_policy_type_names():
+    def _get_details_for_finding_issue_code(finding_issue_code):
+        for details in PUBLIC_ACCESS_CHECKS_DETAILS + CUSTOM_POLICY_CHECKS_DETAILS:
+            if details["finding_issue_code"] == finding_issue_code:
+                return details
+        raise KeyError(finding_issue_code)
+
+    @staticmethod
+    def get_supported_policy_types():
         return modules.policy_types.__all__
 
     def __init__(self, boto_session, boto_config, result_collector, trusted_accounts):
@@ -158,6 +172,13 @@ class PolicyAnalyzer:
         self._result_collector = result_collector
         self._trusted_accounts = trusted_accounts
         self._regional_access_analyzer_clients = {}
+
+    def _get_calling_policy_type(self):
+        for frame in inspect.getouterframes(inspect.currentframe()):
+            calling_module = inspect.getmodulename(frame.filename)
+            if calling_module in self.get_supported_policy_types():
+                return calling_module
+        return None
 
     def _get_regional_access_analyzer_client(self, region):
         try:
@@ -178,40 +199,48 @@ class PolicyAnalyzer:
         resource_name,
         resource_arn,
         policy_document,
-        policy_type,
+        access_analyzer_type,
         disabled_finding_issue_codes=[],
     ):
-        policy_descriptor = {
+        result_descriptor = {
             "account_id": account_id,
             "region": region,
             "source_service": source_service,
             "resource_type": resource_type,
             "resource_name": resource_name,
             "resource_arn": resource_arn,
+            "finding_type": None,
+            "finding_issue_code": None,
+            "finding_description": None,
+            "finding_link": None,
+            "policy_type": self._get_calling_policy_type(),
+            "policy_file_name": self._result_collector.submit_policy(
+                account_id, region, source_service, resource_type, resource_name, policy_document
+            ),
         }
-        policy_file_name = self._result_collector.submit_policy(policy_descriptor, policy_document)
 
         # Send policy through Access Analyzer's validate_policy
         access_analyzer_client = self._get_regional_access_analyzer_client(region)
         findings_paginator = access_analyzer_client.get_paginator("validate_policy")
         call_parameters = {
             "locale": "EN",
-            "policyType": policy_type,
+            "policyType": access_analyzer_type,
             "policyDocument": policy_document,
         }
         if resource_type in ACCESS_ANALYZER_PARAMETERS_VALIDATE_POLICY:
             call_parameters["validatePolicyResourceType"] = resource_type
         for findings_page in findings_paginator.paginate(**call_parameters):
             for finding in findings_page["findings"]:
-                result = {
-                    **policy_descriptor,
-                    "finding_type": finding["findingType"],
-                    "finding_issue_code": finding["issueCode"],
-                    "finding_description": finding["findingDetails"],
-                    "finding_link": finding["learnMoreLink"],
-                    "policy_file_name": policy_file_name,
-                }
-                self._result_collector.submit_result(result, disabled_finding_issue_codes)
+                self._result_collector.submit_result(
+                    {
+                        **result_descriptor,
+                        "finding_type": finding["findingType"],
+                        "finding_issue_code": finding["issueCode"],
+                        "finding_description": finding["findingDetails"],
+                        "finding_link": finding["learnMoreLink"],
+                    },
+                    disabled_finding_issue_codes,
+                )
 
         # Send policy through Access Analyzer's check_no_public_access, if supported
         if resource_type in ACCESS_ANALYZER_PARAMETERS_CHECK_NO_PUBLIC_ACCESS:
@@ -225,18 +254,20 @@ class PolicyAnalyzer:
                 pass
             else:
                 if check_no_public_access_response["result"] == "FAIL":
-                    result = {
-                        **policy_descriptor,
-                        "finding_type": "SECURITY_WARNING",
-                        "finding_issue_code": "PUBLIC_ACCESS",
-                        "finding_description": check_no_public_access_response["message"],
-                        "finding_link": "https://docs.aws.amazon.com/access-analyzer/latest/APIReference/API_CheckNoPublicAccess.html",
-                        "policy_file_name": policy_file_name,
-                    }
-                    self._result_collector.submit_result(result, disabled_finding_issue_codes)
+                    finding_details = PolicyAnalyzer._get_details_for_finding_issue_code("PUBLIC_ACCESS")
+                    self._result_collector.submit_result(
+                        {
+                            **result_descriptor,
+                            "finding_type": "SECURITY_WARNING",
+                            "finding_issue_code": finding_details["finding_issue_code"],
+                            "finding_description": check_no_public_access_response["message"],
+                            "finding_link": finding_details["finding_link"],
+                        },
+                        disabled_finding_issue_codes,
+                    )
 
         # Send policy through custom policy checks
-        if policy_type == "RESOURCE_POLICY":
+        if access_analyzer_type == "RESOURCE_POLICY":
             custom_policy_check_results = PolicyAnalyzer._get_custom_policy_check_results(
                 policy_document, account_id, self._trusted_accounts
             )
@@ -244,14 +275,14 @@ class PolicyAnalyzer:
                 if not principals:
                     continue
 
-                result = {
-                    **policy_descriptor,
-                    "finding_type": "SECURITY_WARNING",
-                    "finding_issue_code": finding_issue_code,
-                    "finding_description": CUSTOM_POLICY_CHECKS_DETAILS[finding_issue_code]["description"].format(
-                        sorted(principals)
-                    ),
-                    "finding_link": CUSTOM_POLICY_CHECKS_DETAILS[finding_issue_code]["link"],
-                    "policy_file_name": policy_file_name,
-                }
-                self._result_collector.submit_result(result, disabled_finding_issue_codes)
+                finding_details = PolicyAnalyzer._get_details_for_finding_issue_code(finding_issue_code)
+                self._result_collector.submit_result(
+                    {
+                        **result_descriptor,
+                        "finding_type": "SECURITY_WARNING",
+                        "finding_issue_code": finding_issue_code,
+                        "finding_description": finding_details["description"].format(sorted(principals)),
+                        "finding_link": finding_details["finding_link"],
+                    },
+                    disabled_finding_issue_codes,
+                )

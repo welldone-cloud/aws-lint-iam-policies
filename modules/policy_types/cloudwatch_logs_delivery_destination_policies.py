@@ -28,5 +28,5 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 resource_name=delivery_destination["name"],
                 resource_arn=delivery_destination["arn"],
                 policy_document=get_delivery_destination_policy_response["policy"]["deliveryDestinationPolicy"],
-                policy_type="RESOURCE_POLICY",
+                access_analyzer_type="RESOURCE_POLICY",
             )

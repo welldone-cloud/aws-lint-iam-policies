@@ -28,5 +28,5 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 resource_name=domain["domainName"],
                 resource_arn=domain["domainNameArn"],
                 policy_document=get_domain_name_response["policy"],
-                policy_type="RESOURCE_POLICY",
+                access_analyzer_type="RESOURCE_POLICY",
             )

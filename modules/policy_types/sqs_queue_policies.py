@@ -27,5 +27,5 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 resource_name=get_queue_attributes_response["Attributes"]["QueueArn"].split(":")[-1],
                 resource_arn=get_queue_attributes_response["Attributes"]["QueueArn"],
                 policy_document=get_queue_attributes_response["Attributes"]["Policy"],
-                policy_type="RESOURCE_POLICY",
+                access_analyzer_type="RESOURCE_POLICY",
             )

@@ -39,7 +39,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                         resource_name=component_build_version["name"],
                         resource_arn=component_build_version["arn"],
                         policy_document=get_component_policy_response["policy"],
-                        policy_type="RESOURCE_POLICY",
+                        access_analyzer_type="RESOURCE_POLICY",
                     )
 
                 try:
