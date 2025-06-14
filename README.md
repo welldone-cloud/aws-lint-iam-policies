@@ -104,6 +104,7 @@ The following IAM policy types are analyzed:
 * CloudWatch Logs delivery destination policies
 * CloudWatch Logs destination policies
 * CloudWatch Logs resource policies
+* CloudWatch OAM sink policies
 * CodeArtifact domain policies
 * CodeArtifact repository policies
 * CodeBuild build project policies
