@@ -1,6 +1,6 @@
 # aws-lint-iam-policies
 
-Runs IAM policy linting and security checks against either a single AWS account or a set of member accounts of an AWS Organization. Stores all supported identity-based and resource-based policies to a local directory and reports on those that may violate security best practices or contain errors. 
+Runs IAM policy linting and security checks against either a single AWS account or a set of member accounts of an AWS Organization. Stores all supported identity-based and resource-based policies to a local directory and reports on those that may violate security best practices or contain errors. Results are written both to a JSON file ([see example](doc/example_results.json)) and an HTML file ([see example](https://welldone.cloud/resources/aws-lint-iam-policies/example_results.html)).
 
 The script makes use of three mechanisms:
 
@@ -26,7 +26,7 @@ argument.
 
 By default, all supported policy types and all regions are analyzed in the targeted AWS account(s). See the list of supported arguments below, in case you want to reduce coverage.
 
-Install dependencies:
+Ensure you run at least Python 3.10 (or newer) and install dependencies:
 
 ```bash
 pip install -r requirements.txt
@@ -82,12 +82,6 @@ python aws_lint_iam_policies.py --scope ORGANIZATION --member-accounts-role Orga
 --include-finding-issue-codes INCLUDE_FINDING_ISSUE_CODES
     Only report the specified comma-separated list of finding issue codes.
 ```
-
-
-
-## Example results
-
-Results are written both to a JSON file ([see example](doc/example_results.json)) and an HTML file ([see example](https://welldone.cloud/resources/aws-lint-iam-policies/example_results.html)).
 
 
 

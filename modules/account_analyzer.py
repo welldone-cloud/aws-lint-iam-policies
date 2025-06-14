@@ -1,11 +1,15 @@
 import botocore.exceptions
 import concurrent.futures
+import os
 import traceback
 
 import modules.policy_types
 
 from modules.policy_analyzer import PolicyAnalyzer
 from modules.policy_types import *
+
+
+THREADS_PER_CPU_AVAILABLE = 4
 
 
 class AccountAnalyzer:
@@ -72,7 +76,7 @@ class AccountAnalyzer:
         # skip policy type implementations that use RAM, if there are anyhow no such resources in a certain region.
         print("Analyzing account ID {}".format(self._account_id))
         ram_resource_types_per_region = {}
-        with concurrent.futures.ThreadPoolExecutor() as executor:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=len(target_regions)) as executor:
             for region in target_regions:
                 executor.submit(self._get_ram_resource_types_used_in_region, region, ram_resource_types_per_region)
 
@@ -82,7 +86,7 @@ class AccountAnalyzer:
             self._boto_session, self._boto_config, self._result_collector, self._trusted_accounts
         )
         futures = {}
-        with concurrent.futures.ThreadPoolExecutor() as executor:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=os.cpu_count() * THREADS_PER_CPU_AVAILABLE) as executor:
             for policy_type in PolicyAnalyzer.get_supported_policy_types():
                 if policy_type in self._exclude_policy_types:
                     continue

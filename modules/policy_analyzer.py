@@ -17,6 +17,11 @@ ACCESS_ANALYZER_PARAMETERS_VALIDATE_POLICY = (
 
 ACCESS_ANALYZER_PARAMETERS_CHECK_NO_PUBLIC_ACCESS = (
     # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/accessanalyzer/client/check_no_public_access.html
+    "AWS::ApiGateway::RestApi",
+    "AWS::Backup::BackupVault",
+    "AWS::CloudTrail::Dashboard",
+    "AWS::CloudTrail::EventDataStore",
+    "AWS::CodeArtifact::Domain",
     "AWS::DynamoDB::Stream",
     "AWS::DynamoDB::Table",
     "AWS::EFS::FileSystem",
@@ -29,9 +34,12 @@ ACCESS_ANALYZER_PARAMETERS_CHECK_NO_PUBLIC_ACCESS = (
     "AWS::S3::AccessPoint",
     "AWS::S3::Bucket",
     "AWS::S3::Glacier",
+    "AWS::S3Express::AccessPoint",
     "AWS::S3Express::DirectoryBucket",
     "AWS::S3Outposts::AccessPoint",
     "AWS::S3Outposts::Bucket",
+    "AWS::S3Tables::Table",
+    "AWS::S3Tables::TableBucket",
     "AWS::SecretsManager::Secret",
     "AWS::SNS::Topic",
     "AWS::SQS::Queue",
