@@ -121,6 +121,8 @@
                 "network-firewall:ListFirewallPolicies",
                 "network-firewall:ListRuleGroups",
                 "networkmanager:GetResourcePolicy",
+                "oam:GetSinkPolicy",
+                "oam:ListSinks",
                 "organizations:DescribePolicy",
                 "organizations:DescribeResourcePolicy",
                 "organizations:ListPolicies",
