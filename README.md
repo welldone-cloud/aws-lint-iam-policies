@@ -101,6 +101,7 @@ The following IAM policy types are analyzed:
 * Cloud WAN core network policies
 * CloudHSM backup policies
 * CloudTrail channel policies
+* CloudTrail dashboard policies
 * CloudWatch Logs delivery destination policies
 * CloudWatch Logs destination policies
 * CloudWatch Logs resource policies

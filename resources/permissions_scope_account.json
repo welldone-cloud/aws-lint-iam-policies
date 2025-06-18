@@ -20,6 +20,7 @@
                 "cloudhsm:GetResourcePolicy",
                 "cloudtrail:GetResourcePolicy",
                 "cloudtrail:ListChannels",
+                "cloudtrail:ListDashboards",
                 "codeartifact:GetDomainPermissionsPolicy",
                 "codeartifact:GetRepositoryPermissionsPolicy",
                 "codeartifact:ListDomains",
