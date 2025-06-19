@@ -6,20 +6,20 @@ SOURCE_SERVICE = "cloudtrail"
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     cloudtrail_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
 
-    # Iterate all dashboards (there is unfortunately no paginator available for this at the moment)
-    call_params = {"Type": "CUSTOM"}
+    # Iterate all event data stores (there is unfortunately no paginator available for this at the moment)
+    call_params = {}
     while True:
         try:
-            list_dashboards_response = cloudtrail_client.list_dashboards(**call_params)
+            list_event_data_stores_response = cloudtrail_client.list_event_data_stores(**call_params)
         except cloudtrail_client.exceptions.from_code("UnsupportedOperationException"):
-            # This region does not support dashboards
+            # This region does not support event data stores
             break
 
-        for dashboard in list_dashboards_response["Dashboards"]:
-            # Fetch the dashboard policy
+        for event_data_store in list_event_data_stores_response["EventDataStores"]:
+            # Fetch the event data store policy
             try:
                 get_resource_policy_response = cloudtrail_client.get_resource_policy(
-                    ResourceArn=dashboard["DashboardArn"]
+                    ResourceArn=event_data_store["EventDataStoreArn"]
                 )
             except (
                 cloudtrail_client.exceptions.from_code("ResourcePolicyNotFoundException"),
@@ -32,14 +32,14 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 account_id=account_id,
                 region=region,
                 source_service=SOURCE_SERVICE,
-                resource_type="AWS::CloudTrail::Dashboard",
-                resource_name=dashboard["DashboardArn"].split("/")[-1],
-                resource_arn=dashboard["DashboardArn"],
+                resource_type="AWS::CloudTrail::EventDataStore",
+                resource_name=event_data_store["Name"],
+                resource_arn=event_data_store["EventDataStoreArn"],
                 policy_document=get_resource_policy_response["ResourcePolicy"],
                 access_analyzer_type="RESOURCE_POLICY",
             )
 
         try:
-            call_params["NextToken"] = list_dashboards_response["NextToken"]
+            call_params["NextToken"] = list_event_data_stores_response["NextToken"]
         except KeyError:
             break

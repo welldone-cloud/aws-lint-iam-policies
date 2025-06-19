@@ -102,6 +102,7 @@ The following IAM policy types are analyzed:
 * CloudHSM backup policies
 * CloudTrail channel policies
 * CloudTrail dashboard policies
+* CloudTrail event data store policies
 * CloudWatch Logs delivery destination policies
 * CloudWatch Logs destination policies
 * CloudWatch Logs resource policies

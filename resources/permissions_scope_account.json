@@ -21,6 +21,7 @@
                 "cloudtrail:GetResourcePolicy",
                 "cloudtrail:ListChannels",
                 "cloudtrail:ListDashboards",
+                "cloudtrail:ListEventDataStores",
                 "codeartifact:GetDomainPermissionsPolicy",
                 "codeartifact:GetRepositoryPermissionsPolicy",
                 "codeartifact:ListDomains",
