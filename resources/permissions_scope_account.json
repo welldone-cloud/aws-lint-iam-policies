@@ -129,6 +129,8 @@
                 "route53resolver:ListFirewallRuleGroups",
                 "route53resolver:ListResolverQueryLogConfigs",
                 "route53resolver:ListResolverRules",
+                "rum:GetResourcePolicy",
+                "rum:ListAppMonitors",
                 "s3-outposts:GetAccessPointPolicy",
                 "s3-outposts:GetBucketPolicy",
                 "s3-outposts:ListAccessPoints",
