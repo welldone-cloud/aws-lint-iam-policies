@@ -180,6 +180,7 @@ The following IAM policy types are analyzed:
 * S3 access grants instance policies
 * S3 access point policies
 * S3 bucket policies
+* S3 directory bucket access point policies
 * S3 directory bucket policies
 * S3 multi-region access point policies
 * S3 object Lambda access point policies
