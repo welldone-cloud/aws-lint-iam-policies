@@ -154,6 +154,8 @@
                 "s3tables:GetTablePolicy",
                 "s3tables:ListTableBuckets",
                 "s3tables:ListTables",
+                "s3vectors:GetVectorBucketPolicy",
+                "s3vectors:ListVectorBuckets",
                 "sagemaker:GetLineageGroupPolicy",
                 "sagemaker:GetModelPackageGroupPolicy",
                 "sagemaker:GetResourcePolicy",

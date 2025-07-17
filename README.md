@@ -188,6 +188,7 @@ The following IAM policy types are analyzed:
 * S3 on Outposts bucket policies
 * S3 table bucket policies
 * S3 table policies
+* S3 vector bucket policies
 * SageMaker feature group catalog policies
 * SageMaker feature group policies
 * SageMaker hub policies
