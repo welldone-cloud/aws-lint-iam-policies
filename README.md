@@ -127,6 +127,7 @@ The following IAM policy types are analyzed:
 * ECR private repository policies
 * ECR public repository policies
 * EFS file system policies
+* ELB trust store policies
 * Elemental MediaStore container policies
 * End User Messaging opt-out list policies
 * End User Messaging phone number policies

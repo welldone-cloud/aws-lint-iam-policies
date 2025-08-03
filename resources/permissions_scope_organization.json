@@ -63,6 +63,7 @@
                 "ecr-public:GetRepositoryPolicy",
                 "elasticfilesystem:DescribeFileSystemPolicy",
                 "elasticfilesystem:DescribeFileSystems",
+                "elasticloadbalancing:GetResourcePolicy",
                 "es:DescribeDomain",
                 "es:ListDomainNames",
                 "events:ListEventBuses",
