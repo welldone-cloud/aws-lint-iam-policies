@@ -122,6 +122,7 @@
                 "mediastore:ListContainers",
                 "network-firewall:DescribeResourcePolicy",
                 "network-firewall:ListFirewallPolicies",
+                "network-firewall:ListFirewalls",
                 "network-firewall:ListRuleGroups",
                 "networkmanager:GetResourcePolicy",
                 "oam:GetSinkPolicy",

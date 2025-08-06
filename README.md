@@ -160,6 +160,7 @@ The following IAM policy types are analyzed:
 * Marketplace Catalog entity policies
 * Migration Hub Refactor Spaces environment policies
 * Network Firewall firewall policies
+* Network Firewall policy policies
 * Network Firewall rule group policies
 * OpenSearch domain policies
 * Organizations delegation policies
