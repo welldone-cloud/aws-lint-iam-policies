@@ -162,6 +162,8 @@ The following IAM policy types are analyzed:
 * Network Firewall firewall policies
 * Network Firewall policy policies
 * Network Firewall rule group policies
+* ODB cloud exadata infrastructure policies
+* ODB network policies
 * OpenSearch domain policies
 * Organizations delegation policies
 * Organizations resource control policies

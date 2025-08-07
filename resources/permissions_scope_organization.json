@@ -127,6 +127,7 @@
                 "networkmanager:GetResourcePolicy",
                 "oam:GetSinkPolicy",
                 "oam:ListSinks",
+                "odb:GetResourcePolicy",
                 "organizations:DescribePolicy",
                 "organizations:DescribeResourcePolicy",
                 "organizations:ListPolicies",
