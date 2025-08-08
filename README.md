@@ -1,10 +1,10 @@
 # aws-lint-iam-policies
 
-Runs IAM policy linting and security checks against either a single AWS account or a set of member accounts of an AWS Organization. Stores all supported identity-based and resource-based policies to a local directory and reports on those that may violate security best practices or contain errors. Results are written both to a JSON file ([see example](doc/example_results.json)) and an HTML file ([see example](https://welldone.cloud/resources/aws-lint-iam-policies/example_results.html)).
+Runs IAM policy linting and security checks against either a single AWS account or multiple member accounts of an AWS Organization. Stores all supported identity-based and resource-based policies to a local directory and reports on those that may violate security best practices or contain errors. Results are written both to a JSON file ([see example](doc/example_results.json)) and an HTML file ([see example](https://welldone.cloud/resources/aws-lint-iam-policies/example_results.html)).
 
 The script makes use of three mechanisms:
 
-1. AWS IAM Access Analyzer policy validation, which is mostly known for showing recommendations when manually editing IAM policies on the AWS Console UI. The checks are created and maintained by AWS and are described closer [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html).
+1. AWS IAM Access Analyzer policy validation, which is mostly known for showing recommendations when manually editing IAM policies on the AWS Console UI. These checks are created and maintained by AWS and are closer described [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html).
 ![](./doc/access_analyzer_console.png)
 
 2. AWS IAM Access Analyzer checks for public access, which test whether resource-based policies grant unrestricted public access (e.g., to S3 buckets, SQS queues, etc.). This is closer described [here](https://docs.aws.amazon.com/access-analyzer/latest/APIReference/API_CheckNoPublicAccess.html).
@@ -22,9 +22,7 @@ argument.
 
 * If your are running the script against a single AWS account, you require at least [these permissions](resources/permissions_scope_account.json). 
 
-* If you are running the script against a set of member accounts of an AWS Organization, you must use credentials that belong to the Organizations management account and have at least [these permissions](resources/permissions_scope_organization.json). The member accounts need to have an IAM role configured that can be assumed from the Organizations management account. In many cases, there is the default `OrganizationAccountAccessRole` available. When the script assumes the role you specify, it automatically drops its permissions to only those that are required. 
-
-By default, all supported policy types and all regions are analyzed in the targeted AWS account(s). See the list of supported arguments below, in case you want to reduce coverage.
+* If you are running the script against multiple member accounts of an AWS Organization, you must use credentials that belong to the Organizations management account and have at least [these permissions](resources/permissions_scope_organization.json). The member accounts need to have an IAM role configured that can be assumed from the Organizations management account. In many cases, there is the default `OrganizationAccountAccessRole` available. When the script assumes the role specified, it drops its permissions to only those that are required. 
 
 Ensure you run at least Python 3.10 (or newer) and install dependencies:
 
@@ -32,16 +30,37 @@ Ensure you run at least Python 3.10 (or newer) and install dependencies:
 pip install -r requirements.txt
 ```
 
-Example invocations:
+### Example invocations
 
+Running the script against a single AWS account, targeting all regions and all supported policy types:
 ```bash
 python aws_lint_iam_policies.py --scope ACCOUNT
+```
 
-python aws_lint_iam_policies.py --scope ACCOUNT --include-policy-types s3_bucket_policies,kms_key_policies
+Running the script against a single AWS account, targeting only two specific regions and checking only S3 bucket policies and KMS key policies:
+```bash
+python aws_lint_iam_policies.py \
+  --scope ACCOUNT \
+  --include-regions us-east-1,eu-central-1 \
+  --include-policy-types s3_bucket_policies,kms_key_policies
+```
 
-python aws_lint_iam_policies.py --scope ORGANIZATION --member-accounts-role OrganizationAccountAccessRole
+Running the script against all accounts of an AWS Organizations OU, excluding one account of that OU:
+```bash
+python aws_lint_iam_policies.py \
+  --scope ORGANIZATION \
+  --member-accounts-role OrganizationAccountAccessRole \
+  --include-ous ou-abcd-1ab2c3d4 \
+  --exclude-accounts 112233445566
+```
 
-python aws_lint_iam_policies.py --scope ORGANIZATION --member-accounts-role OrganizationAccountAccessRole --exclude-accounts 112233445566,998877665544
+Running the script against all accounts of an AWS Organizations OU, not reporting cross-account trusts to other accounts of the same Organization and to a specific external account:
+```bash
+python aws_lint_iam_policies.py \
+  --scope ORGANIZATION \
+  --member-accounts-role OrganizationAccountAccessRole \
+  --include-ous ou-abcd-1ab2c3d4 \
+  --trusted-accounts SAMEORG,998877665544
 ```
 
 
@@ -233,4 +252,4 @@ The following IAM policy types are analyzed:
 
 * The provided minimum IAM permissions exceed the policy size limit for IAM user inline policies (2048 characters). Consider using managed policies or roles instead, which have higher policy size limits.
 
-* The script can only lint policies that are using the AWS IAM policy language. It is not capable of linting other policy types, such as Cedar policies (as used in AWS Verified Access and AWS Verified Permissions) or declarative policies.
+* The script lints policies that are using the AWS IAM policy language. It is not capable of linting other policy types, such as Cedar policies (as used in AWS Verified Access and AWS Verified Permissions) or declarative policies.
