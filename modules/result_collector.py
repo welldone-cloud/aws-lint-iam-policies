@@ -1,3 +1,4 @@
+import csv
 import datetime
 import html
 import jinja2
@@ -14,9 +15,7 @@ import sys
 
 RESULTS_DIRECTORY_NAME = "results"
 
-RESULTS_FILE_JSON_NAME = "results_{}.json"
-
-RESULTS_FILE_HTML_NAME = "results_{}.html"
+RESULTS_FILE_NAME = "results_{}.{}"
 
 RESULTS_FILE_HTML_TEMPLATE_PATH = os.path.join(
     pathlib.Path(__file__).parent.parent, "resources", "results_html_template.jinja2"
@@ -86,10 +85,9 @@ class ResultCollector:
             pass
 
         # If result files with the same name already exists, remove them
-        for results_file_name in (
-            RESULTS_FILE_JSON_NAME.format(self._result_name),
-            RESULTS_FILE_HTML_NAME.format(self._result_name),
-        ):
+        for results_file_name in [
+            RESULTS_FILE_NAME.format(self._result_name, suffix) for suffix in ("json", "csv", "html")
+        ]:
             try:
                 os.remove(os.path.join(self._results_directory, results_file_name))
             except FileNotFoundError:
@@ -121,9 +119,30 @@ class ResultCollector:
         }
 
     def _write_json_result_file(self):
-        json_file_name = os.path.join(self._results_directory, RESULTS_FILE_JSON_NAME.format(self._result_name))
+        json_file_name = os.path.join(self._results_directory, RESULTS_FILE_NAME.format(self._result_name, "json"))
         with open(json_file_name, "w") as out_file:
             json.dump(self._result_collection, out_file, indent=2)
+
+    def _write_csv_result_file(self):
+        csv_file_name = os.path.join(self._results_directory, RESULTS_FILE_NAME.format(self._result_name, "csv"))
+        with open(csv_file_name, "w", newline="") as csvfile:
+            fieldnames = (
+                "account_id",
+                "region",
+                "source_service",
+                "resource_type",
+                "resource_name",
+                "resource_arn",
+                "finding_type",
+                "finding_issue_code",
+                "finding_description",
+                "finding_link",
+                "policy_type",
+                "policy_file_name",
+            )
+            csv_writer = csv.DictWriter(csvfile, fieldnames=fieldnames, quoting=csv.QUOTE_ALL)
+            csv_writer.writeheader()
+            csv_writer.writerows(self._result_collection["results"])
 
     def _write_html_result_file(self):
         unique_finding_issue_codes = []
@@ -197,7 +216,7 @@ class ResultCollector:
                 trim_blocks=True,
                 lstrip_blocks=True,
             )
-        html_file_name = os.path.join(self._results_directory, RESULTS_FILE_HTML_NAME.format(self._result_name))
+        html_file_name = os.path.join(self._results_directory, RESULTS_FILE_NAME.format(self._result_name, "html"))
         with open(html_file_name, "w") as out_file:
             out_file.write(
                 jinja_template.render(
@@ -280,4 +299,5 @@ class ResultCollector:
             )
         )
         self._write_json_result_file()
+        self._write_csv_result_file()
         self._write_html_result_file()

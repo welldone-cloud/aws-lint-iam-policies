@@ -1,6 +1,6 @@
 # aws-lint-iam-policies
 
-Runs IAM policy linting and security checks against either a single AWS account or multiple member accounts of an AWS Organization. Stores all supported identity-based and resource-based policies to a local directory and reports on those that may violate security best practices or contain errors. Results are written both to a JSON file ([see example](doc/example_results.json)) and an HTML file ([see example](https://welldone.cloud/resources/aws-lint-iam-policies/example_results.html)).
+Runs IAM policy linting and security checks against either a single AWS account or multiple member accounts of an AWS Organization. Stores all supported identity-based and resource-based policies to a local directory and reports on those that may violate security best practices or contain errors. Results are written in JSON ([see example](doc/example_results.json)), CSV ([see example](doc/example_results.csv)) and HTML format ([see example](https://welldone.cloud/resources/aws-lint-iam-policies/example_results.html)).
 
 The script makes use of three mechanisms:
 
