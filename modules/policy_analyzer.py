@@ -237,18 +237,22 @@ class PolicyAnalyzer:
         }
         if resource_type in ACCESS_ANALYZER_PARAMETERS_VALIDATE_POLICY:
             call_parameters["validatePolicyResourceType"] = resource_type
+
+        # The same findings can occur multiple times at different positions in the policy. Deduplicate them here.
+        validate_policy_results = []
         for findings_page in findings_paginator.paginate(**call_parameters):
             for finding in findings_page["findings"]:
-                self._result_collector.submit_result(
-                    {
-                        **result_descriptor,
-                        "finding_type": finding["findingType"],
-                        "finding_issue_code": finding["issueCode"],
-                        "finding_description": finding["findingDetails"],
-                        "finding_link": finding["learnMoreLink"],
-                    },
-                    disabled_finding_issue_codes,
-                )
+                result = {
+                    **result_descriptor,
+                    "finding_type": finding["findingType"],
+                    "finding_issue_code": finding["issueCode"],
+                    "finding_description": finding["findingDetails"],
+                    "finding_link": finding["learnMoreLink"],
+                }
+                if result not in validate_policy_results:
+                    validate_policy_results.append(result)
+        for result in validate_policy_results:
+            self._result_collector.submit_result(result, disabled_finding_issue_codes)
 
         # Send policy through Access Analyzer's check_no_public_access, if supported
         if resource_type in ACCESS_ANALYZER_PARAMETERS_CHECK_NO_PUBLIC_ACCESS:
