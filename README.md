@@ -155,8 +155,8 @@ The following IAM policy types are analyzed:
 * EventBridge event bus policies
 * EventBridge schema registry policies
 * FSx volume policies
+* Glacier vault access policies
 * Glacier vault lock policies
-* Glacier vault resource policies
 * Glue data catalog policies
 * Glue database policies
 * Glue table policies
@@ -228,7 +228,7 @@ The following IAM policy types are analyzed:
 * SQS queue policies
 * SSM Incident Manager contact policies
 * SSM Incident Manager response plan policies
-* SSM OpsCenter OpsItemGroup resource policies
+* SSM OpsCenter OpsItemGroup policies
 * SSM Parameter Store parameter policies
 * Verified Access group policies
 * VPC endpoint policies
