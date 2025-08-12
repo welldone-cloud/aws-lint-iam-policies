@@ -226,6 +226,7 @@ The following IAM policy types are analyzed:
 * SES authorization policies
 * SNS topic policies
 * SQS queue policies
+* SSM document policies
 * SSM Incident Manager contact policies
 * SSM Incident Manager response plan policies
 * SSM OpsCenter OpsItemGroup policies
