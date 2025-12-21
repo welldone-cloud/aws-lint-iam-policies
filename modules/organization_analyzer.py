@@ -28,7 +28,7 @@ class OrganizationAnalyzer:
 
         # Get the actions that the script currently requires for account analysis
         policy_file_path = os.path.join(pathlib.Path(__file__).parent.parent, FILE_PATH_REQUIRED_IAM_PERMISSIONS)
-        with open(policy_file_path) as policy_file:
+        with open(policy_file_path, "r") as policy_file:
             actions_required_by_script = OrganizationAnalyzer._get_actions_allowed_by_iam_policy(
                 json.load(policy_file)
             )

@@ -32,7 +32,7 @@ class ResultCollector:
 
     @staticmethod
     def _get_div_element_for_plotly_figure(figure):
-        return plotly.offline.plot(figure, include_plotlyjs=False, config={"displayModeBar": False}, output_type="div")
+        return plotly.io.to_html(figure, include_plotlyjs=False, config={"displayModeBar": False}, full_html=False)
 
     @staticmethod
     def _get_treemap_chart_html(data, path, values):
@@ -120,12 +120,12 @@ class ResultCollector:
 
     def _write_json_result_file(self):
         json_file_name = os.path.join(self._results_directory, RESULTS_FILE_NAME.format(self._result_name, "json"))
-        with open(json_file_name, "w") as out_file:
+        with open(json_file_name, "w", encoding="utf-8") as out_file:
             json.dump(self._result_collection, out_file, indent=2)
 
     def _write_csv_result_file(self):
         csv_file_name = os.path.join(self._results_directory, RESULTS_FILE_NAME.format(self._result_name, "csv"))
-        with open(csv_file_name, "w", newline="") as csvfile:
+        with open(csv_file_name, "w", newline="", encoding="utf-8") as csvfile:
             fieldnames = (
                 "account_id",
                 "region",
@@ -209,7 +209,7 @@ class ResultCollector:
             }
 
         # Render HTML template and write output
-        with open(RESULTS_FILE_HTML_TEMPLATE_PATH) as template_file:
+        with open(RESULTS_FILE_HTML_TEMPLATE_PATH, "r") as template_file:
             jinja_template = jinja2.Template(
                 template_file.read(),
                 autoescape=True,
@@ -217,7 +217,7 @@ class ResultCollector:
                 lstrip_blocks=True,
             )
         html_file_name = os.path.join(self._results_directory, RESULTS_FILE_NAME.format(self._result_name, "html"))
-        with open(html_file_name, "w") as out_file:
+        with open(html_file_name, "w", encoding="utf-8") as out_file:
             out_file.write(
                 jinja_template.render(
                     invocation=self._result_collection["_metadata"]["invocation"],
@@ -266,7 +266,7 @@ class ResultCollector:
             break
 
         # Write policy document to file
-        with open(policy_file, "w") as out_file:
+        with open(policy_file, "w", encoding="utf-8") as out_file:
             out_file.write(policy_document)
 
         # Keep a copy of the policy document in memory for HTML output

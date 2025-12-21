@@ -2,21 +2,21 @@
 
 Runs IAM policy linting and security checks against either a single AWS account or multiple member accounts of an AWS Organization. Stores all supported identity-based and resource-based policies to a local directory and reports on those that may violate security best practices or contain errors. Results are written in JSON ([see example](doc/example_results.json)), CSV ([see example](doc/example_results.csv)) and HTML format ([see example](https://welldone.cloud/resources/aws-lint-iam-policies/example_results.html)).
 
-The script makes use of three mechanisms:
+Internally, the script makes use of three mechanisms to gather its results:
 
 1. AWS IAM Access Analyzer policy validation, which is mostly known for showing recommendations when manually editing IAM policies on the AWS Console UI. These checks are created and maintained by AWS and are closer described [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html).
 ![](./doc/access_analyzer_console.png)
 
 2. AWS IAM Access Analyzer checks for public access, which test whether resource-based policies grant unrestricted public access (e.g., to S3 buckets, SQS queues, etc.). This is closer described [here](https://docs.aws.amazon.com/access-analyzer/latest/APIReference/API_CheckNoPublicAccess.html).
 
-3. Custom policy checks that report on trust relationships to other AWS accounts and to identity providers. Please note that these are only basic checks: they neither make use of automated reasoning nor evaluate the meaning of policy conditions.
+3. Custom policy checks that report on trust relationships to other AWS accounts and to identity providers. Note that these are only basic checks: they neither make use of automated reasoning nor evaluate the meaning of policy conditions.
 
 
 
 ## Usage
 
-Make sure you have AWS credentials configured for your target environment. This can either be done using [environment 
-variables](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html) or by specifying a [named 
+Make sure you have AWS credentials configured for your target environment. This can be done by using [environment 
+variables](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html), or by using [aws login](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sign-in.html), or by specifying a [named 
 profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html) in the optional `--profile` 
 argument.
 
@@ -50,7 +50,7 @@ Running the script against all accounts of an AWS Organizations OU, excluding on
 python aws_lint_iam_policies.py \
   --scope ORGANIZATION \
   --member-accounts-role OrganizationAccountAccessRole \
-  --include-ous ou-abcd-1ab2c3d4 \
+  --include-ous ou-abcd-a1b2c3d4 \
   --exclude-accounts 112233445566
 ```
 
@@ -59,7 +59,7 @@ Running the script against all accounts of an AWS Organizations OU, not reportin
 python aws_lint_iam_policies.py \
   --scope ORGANIZATION \
   --member-accounts-role OrganizationAccountAccessRole \
-  --include-ous ou-abcd-1ab2c3d4 \
+  --include-ous ou-abcd-a1b2c3d4 \
   --trusted-accounts SAMEORG,998877665544
 ```
 

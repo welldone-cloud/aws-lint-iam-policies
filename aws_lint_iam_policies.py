@@ -142,8 +142,11 @@ if __name__ == "__main__":
         for requirements_line in requirements_file.read().splitlines():
             requirement = packaging.requirements.Requirement(requirements_line)
             expected_version_specifier = requirement.specifier
-            installed_version = packaging.version.parse(importlib.metadata.version(requirement.name))
-            if installed_version not in expected_version_specifier:
+            try:
+                installed_version = packaging.version.parse(importlib.metadata.version(requirement.name))
+                if installed_version not in expected_version_specifier:
+                    raise ImportError()
+            except:
                 print("Unfulfilled requirement: {}".format(requirements_line))
                 sys.exit(1)
 
@@ -243,7 +246,6 @@ if __name__ == "__main__":
         help="Only report the specified comma-separated list of finding issue codes.",
     )
     args = parser.parse_args()
-    args.scope = get_scope()
 
     # List policy types and exit, if configured
     if args.list_policy_types:
@@ -286,7 +288,7 @@ if __name__ == "__main__":
                 sys.exit(1)
 
     # Handle ACCOUNT scope
-    if args.scope == SCOPE_ACCOUNT:
+    if get_scope() == SCOPE_ACCOUNT:
         result_collector = ResultCollector(
             account_id,
             principal,
@@ -310,7 +312,7 @@ if __name__ == "__main__":
         result_collector.write_result_files()
 
     # Handle ORGANIZATION scope
-    elif args.scope == SCOPE_ORGANIZATION:
+    elif get_scope() == SCOPE_ORGANIZATION:
         organizations_client = boto_session.client("organizations", config=BOTO_CONFIG)
         try:
             # Confirm we are running with credentials of the management account
