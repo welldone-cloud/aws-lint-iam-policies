@@ -17,8 +17,9 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
             except (
                 cloudtrail_client.exceptions.from_code("ResourcePolicyNotFoundException"),
                 cloudtrail_client.exceptions.from_code("ResourceTypeNotSupportedException"),
+                cloudtrail_client.exceptions.from_code("UnsupportedOperationException"),
             ):
-                # Skip if there is no policy set
+                # Skip if there is no policy set or this resource does not support policies
                 continue
 
             policy_analysis_function(
