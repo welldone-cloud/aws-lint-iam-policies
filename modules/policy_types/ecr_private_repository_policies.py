@@ -27,4 +27,5 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 resource_arn=repository["repositoryArn"],
                 policy_document=get_repository_policy_response["policyText"],
                 access_analyzer_type="RESOURCE_POLICY",
+                disabled_finding_issue_codes=["MISSING_RESOURCE"],
             )
