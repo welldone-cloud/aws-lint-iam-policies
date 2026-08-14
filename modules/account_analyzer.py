@@ -135,7 +135,7 @@ class AccountAnalyzer:
                             futures[future]["region"],
                             futures[future]["policy_type"],
                             ex.response["Error"]["Code"],
-                            ex.response["Error"]["Message"].strip(),
+                            ex.response["Error"].get("Message", "").strip(),
                         )
                     )
                 except Exception as ex:
