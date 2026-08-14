@@ -8,7 +8,6 @@ import modules.policy_types
 from modules.policy_analyzer import PolicyAnalyzer
 from modules.policy_types import *
 
-
 THREADS_PER_CPU_AVAILABLE = 4
 
 
@@ -121,7 +120,11 @@ class AccountAnalyzer:
 
                 try:
                     future.result()
-                except (botocore.exceptions.EndpointConnectionError, botocore.exceptions.ConnectTimeoutError):
+                except (
+                    botocore.exceptions.EndpointConnectionError,
+                    botocore.exceptions.ConnectTimeoutError,
+                    botocore.exceptions.ReadTimeoutError,
+                ):
                     # Ignore errors when an AWS service is not available in a certain region
                     pass
                 except botocore.exceptions.ClientError as ex:
