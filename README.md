@@ -224,7 +224,7 @@ The following IAM policy types are analyzed:
 * Security Hub product subscription policies
 * Service Catalog AppRegistry application policies
 * Service Catalog AppRegistry attribute group policies
-* SES authorization policies
+* SES identity authorization policies
 * SNS topic policies
 * SQS queue policies
 * SSM document policies
