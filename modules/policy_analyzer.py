@@ -4,7 +4,6 @@ import re
 
 import modules.policy_types
 
-
 ACCESS_ANALYZER_PARAMETERS_VALIDATE_POLICY = (
     # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/accessanalyzer/client/validate_policy.html
     "AWS::DynamoDB::Table",
@@ -208,8 +207,10 @@ class PolicyAnalyzer:
         resource_arn,
         policy_document,
         access_analyzer_type,
-        disabled_finding_issue_codes=[],
+        disabled_finding_issue_codes=None,
     ):
+        if disabled_finding_issue_codes is None:
+            disabled_finding_issue_codes = []
         result_descriptor = {
             "account_id": account_id,
             "region": region,
