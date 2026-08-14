@@ -1,6 +1,6 @@
-awscrt ~= 0.29.2
-boto3 ~= 1.42.14
+awscrt ~= 0.36.2
+boto3 ~= 1.43.71
 jinja2 ~= 3.1.6
-packaging ~= 25.0
-pandas ~= 2.3.3
-plotly ~= 6.5.0
+packaging ~= 26.3
+pandas ~= 3.0.5
+plotly ~= 6.9.0

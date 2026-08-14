@@ -12,7 +12,6 @@ import shutil
 import string
 import sys
 
-
 RESULTS_DIRECTORY_NAME = "results"
 
 RESULTS_FILE_NAME = "results_{}.{}"
@@ -160,10 +159,7 @@ class ResultCollector:
 
             # Create figure "results by finding_issue_code"
             results_by_finding_issue_code_df = (
-                results_df.groupby(["finding_type", "finding_issue_code"])
-                .size()
-                .reset_index()
-                .rename(columns={0: "count"})
+                results_df.groupby(["finding_type", "finding_issue_code"]).size().reset_index(name="count")
             )
             results_by_finding_issue_code = ResultCollector._get_treemap_chart_html(
                 results_by_finding_issue_code_df,
@@ -172,23 +168,13 @@ class ResultCollector:
             )
 
             # Create figure "results by resource_type"
-            results_by_resource_type_df = (
-                results_df["resource_type"]
-                .value_counts()
-                .reset_index()
-                .rename(columns={"index": "resource_type", 0: "count"})
-            )
+            results_by_resource_type_df = results_df["resource_type"].value_counts().reset_index()
             results_by_resource_type = ResultCollector._get_bar_chart_html(
                 results_by_resource_type_df, "resource_type", "count"
             )
 
             # Create figure "results by account_id"
-            results_by_account_id_df = (
-                results_df["account_id"]
-                .value_counts()
-                .reset_index()
-                .rename(columns={"index": "account_id", 0: "count"})
-            )
+            results_by_account_id_df = results_df["account_id"].value_counts().reset_index()
             results_by_account_id = ResultCollector._get_pie_chart_html(
                 results_by_account_id_df,
                 "account_id",
@@ -196,9 +182,7 @@ class ResultCollector:
             )
 
             # Create figure "results by region"
-            results_by_region_df = (
-                results_df["region"].value_counts().reset_index().rename(columns={"index": "region", 0: "count"})
-            )
+            results_by_region_df = results_df["region"].value_counts().reset_index()
             results_by_region = ResultCollector._get_bar_chart_html(results_by_region_df, "region", "count")
 
             # Prepare JSON policies for embedding into HTML
