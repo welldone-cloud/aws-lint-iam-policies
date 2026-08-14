@@ -24,7 +24,7 @@ argument.
 
 * If you are running the script against multiple member accounts of an AWS Organization, you must use credentials that belong to the Organizations management account and have at least [these permissions](resources/permissions_scope_organization.json). The member accounts need to have an IAM role configured that can be assumed from the Organizations management account. In many cases, there is the default `OrganizationAccountAccessRole` available. When the script assumes the role specified, it drops its permissions to only those that are required. 
 
-Ensure you run at least Python 3.10 (or newer) and install dependencies:
+Ensure you run at least Python 3.11 (or newer) and install dependencies:
 
 ```bash
 pip install -r requirements.txt

@@ -17,7 +17,6 @@ from modules.organization_analyzer import OrganizationAnalyzer
 from modules.policy_analyzer import PolicyAnalyzer
 from modules.result_collector import ResultCollector
 
-
 AWS_DEFAULT_REGION = "us-east-1"
 
 BOTO_CONFIG = botocore.config.Config(
@@ -135,8 +134,8 @@ def parse_result_name(val):
 
 if __name__ == "__main__":
     # Check runtime environment
-    if sys.version_info < (3, 10):
-        print("Python version 3.10 or higher required")
+    if sys.version_info < (3, 11):
+        print("Python version 3.11 or higher required")
         sys.exit(1)
     with open(os.path.join(pathlib.Path(__file__).parent, REQUIREMENTS_FILE), "r") as requirements_file:
         for requirements_line in requirements_file.read().splitlines():
