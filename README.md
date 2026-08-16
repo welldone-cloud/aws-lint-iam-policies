@@ -180,6 +180,7 @@ The following IAM policy types are analyzed:
 * License Manager license configuration policies
 * Marketplace Catalog entity policies
 * Migration Hub Refactor Spaces environment policies
+* MSK cluster policies
 * Network Firewall firewall policies
 * Network Firewall policy policies
 * Network Firewall rule group policies
