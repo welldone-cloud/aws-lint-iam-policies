@@ -108,6 +108,7 @@
                 "kms:ListKeys",
                 "lambda:GetLayerVersionPolicy",
                 "lambda:GetPolicy",
+                "lambda:ListAliases",
                 "lambda:ListFunctions",
                 "lambda:ListLayers",
                 "lambda:ListLayerVersions",

@@ -172,6 +172,7 @@ The following IAM policy types are analyzed:
 * Kinesis data stream consumer policies
 * Kinesis data stream policies
 * KMS key policies
+* Lambda function alias policies
 * Lambda function policies
 * Lambda layer policies
 * Lex bot alias policies
