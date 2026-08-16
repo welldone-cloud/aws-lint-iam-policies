@@ -258,14 +258,33 @@ if __name__ == "__main__":
     except botocore.exceptions.ProfileNotFound as ex:
         print("Error: {}".format(ex))
         sys.exit(1)
-    sts_client = boto_session.client(
-        "sts",
-        config=BOTO_CONFIG,
-        endpoint_url="https://sts.{}.amazonaws.com".format(boto_session.region_name),
-    )
-    get_caller_identity_response = sts_client.get_caller_identity()
-    account_id = get_caller_identity_response["Account"]
-    principal = get_caller_identity_response["Arn"]
+    try:
+        sts_client = boto_session.client(
+            "sts",
+            config=BOTO_CONFIG,
+            endpoint_url="https://sts.{}.amazonaws.com".format(boto_session.region_name),
+        )
+        get_caller_identity_response = sts_client.get_caller_identity()
+    except (
+        botocore.exceptions.LoginTokenLoadError,
+        botocore.exceptions.NoCredentialsError,
+        botocore.exceptions.PartialCredentialsError,
+        botocore.exceptions.CredentialRetrievalError,
+        botocore.exceptions.UnknownCredentialError,
+        botocore.exceptions.ClientError,
+    ) as ex:
+        if isinstance(ex, botocore.exceptions.ClientError) and ex.response["Error"].get("Code") not in (
+            "InvalidClientTokenId",
+            "InvalidIdentityToken",
+            "ExpiredToken",
+            "SignatureDoesNotMatch",
+        ):
+            raise
+        print("No or invalid AWS credentials configured")
+        sys.exit(1)
+    else:
+        account_id = get_caller_identity_response["Account"]
+        principal = get_caller_identity_response["Arn"]
 
     # Validate regions provided as arguments
     provided_regions = set(args.exclude_regions + args.include_regions)
