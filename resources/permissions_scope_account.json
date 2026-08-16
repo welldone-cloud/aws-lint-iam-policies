@@ -120,6 +120,7 @@
                 "ram:ListResources",
                 "redshift-serverless:GetResourcePolicy",
                 "redshift-serverless:ListSnapshots",
+                "redshift-serverless:ListWorkgroups",
                 "refactor-spaces:GetResourcePolicy",
                 "refactor-spaces:ListEnvironments",
                 "rekognition:DescribeProjects",

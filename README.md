@@ -194,6 +194,7 @@ The following IAM policy types are analyzed:
 * Outposts site policies
 * RDS Aurora cluster policies
 * Redshift serverless snapshot policies
+* Redshift serverless workgroup policies
 * Rekognition custom labels project policies
 * Resource Explorer view policies
 * Resource Groups group policies
