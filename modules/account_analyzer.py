@@ -129,13 +129,14 @@ class AccountAnalyzer:
                     pass
                 except botocore.exceptions.ClientError as ex:
                     # Log expected errors such as a lack of permissions, regions/services denied by SCPs, etc.
+                    error_message = ex.response["Error"].get("Message") or ""
                     self._result_collector.submit_error(
                         "Error for account ID {}, region {}, policy type {}: {} ({})".format(
                             self._account_id,
                             futures[future]["region"],
                             futures[future]["policy_type"],
                             ex.response["Error"]["Code"],
-                            ex.response["Error"].get("Message", "").strip(),
+                            error_message.strip(),
                         )
                     )
                 except Exception as ex:

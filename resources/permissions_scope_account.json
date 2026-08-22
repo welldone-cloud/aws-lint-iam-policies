@@ -179,6 +179,7 @@
                 "ses:GetIdentityPolicies",
                 "ses:ListIdentities",
                 "ses:ListIdentityPolicies",
+                "signin:GetResourcePolicy",
                 "sms-voice:GetResourcePolicy",
                 "sns:GetTopicAttributes",
                 "sns:ListTopics",
