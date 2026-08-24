@@ -85,7 +85,9 @@ class AccountAnalyzer:
             self._boto_session, self._boto_config, self._result_collector, self._trusted_accounts
         )
         futures = {}
-        with concurrent.futures.ThreadPoolExecutor(max_workers=max(1, os.cpu_count() * THREADS_PER_CPU_AVAILABLE)) as executor:
+        with concurrent.futures.ThreadPoolExecutor(
+            max_workers=(os.cpu_count() or 1) * THREADS_PER_CPU_AVAILABLE
+        ) as executor:
             for policy_type in PolicyAnalyzer.get_supported_policy_types():
                 if policy_type in self._exclude_policy_types:
                     continue
