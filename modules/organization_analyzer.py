@@ -7,7 +7,6 @@ import pathlib
 
 from modules.account_analyzer import AccountAnalyzer
 
-
 AWS_IAM_POLICY_ARN_READ_ONLY_ACCESS = "arn:aws:iam::aws:policy/ReadOnlyAccess"
 
 FILE_PATH_REQUIRED_IAM_PERMISSIONS = os.path.join("resources", "permissions_scope_account.json")
@@ -133,11 +132,7 @@ class OrganizationAnalyzer:
             )
         )
         organizations_client = self._boto_session.client("organizations", config=self._boto_config)
-        sts_client = self._boto_session.client(
-            "sts",
-            config=self._boto_config,
-            endpoint_url="https://sts.{}.amazonaws.com".format(self._boto_session.region_name),
-        )
+        sts_client = self._boto_session.client("sts", config=self._boto_config)
         accounts_paginator = organizations_client.get_paginator("list_accounts")
         for accounts_page in accounts_paginator.paginate():
             for account in accounts_page["Accounts"]:

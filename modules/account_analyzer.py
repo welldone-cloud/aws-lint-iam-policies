@@ -45,7 +45,7 @@ class AccountAnalyzer:
                     ram_resource_types_per_region[region].add(resource["type"])
         except botocore.exceptions.ClientError as ex:
             self._result_collector.submit_error(
-                "Error for account ID {}, region {}: Cannot communicate with AWS RAM service: {} ({})".format(
+                "Error for account ID {}, region {}: cannot communicate with AWS RAM service: {} ({})".format(
                     self._account_id,
                     region,
                     ex.response["Error"]["Code"],
@@ -58,10 +58,18 @@ class AccountAnalyzer:
         ec2_client = self._boto_session.client("ec2", config=self._boto_config)
         try:
             describe_regions_response = ec2_client.describe_regions(AllRegions=False)
-        except botocore.exceptions.ClientError:
-            self._result_collector.submit_error(
-                "Error for account ID {}: cannot read enabled regions, skipping account".format(self._account_id)
-            )
+        except (
+            botocore.exceptions.ClientError,
+            botocore.exceptions.ConnectTimeoutError,
+            botocore.exceptions.ConnectionClosedError,
+            botocore.exceptions.ConnectionError,
+            botocore.exceptions.EndpointConnectionError,
+            botocore.exceptions.IncompleteReadError,
+            botocore.exceptions.ReadTimeoutError,
+        ):
+            msg = "Error for account ID {}: cannot read enabled regions ".format(self._account_id)
+            msg += "(permission or connection issue), skipping account"
+            self._result_collector.submit_error(msg)
             return
         target_regions = []
         for region in sorted([region["RegionName"] for region in describe_regions_response["Regions"]]):
@@ -123,11 +131,12 @@ class AccountAnalyzer:
                 try:
                     future.result()
                 except (
-                    botocore.exceptions.EndpointConnectionError,
                     botocore.exceptions.ConnectTimeoutError,
+                    botocore.exceptions.EndpointConnectionError,
                     botocore.exceptions.ReadTimeoutError,
+                    botocore.exceptions.ServiceNotInRegionError,
                 ):
-                    # Ignore errors when an AWS service is not available in a certain region
+                    # These errors can occur when an AWS service is not available in a certain region
                     pass
                 except botocore.exceptions.ClientError as ex:
                     # Log expected errors such as a lack of permissions, regions/services denied by SCPs, etc.

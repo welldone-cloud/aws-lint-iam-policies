@@ -259,11 +259,7 @@ if __name__ == "__main__":
         print("Error: {}".format(ex))
         sys.exit(1)
     try:
-        sts_client = boto_session.client(
-            "sts",
-            config=BOTO_CONFIG,
-            endpoint_url="https://sts.{}.amazonaws.com".format(boto_session.region_name),
-        )
+        sts_client = boto_session.client("sts", config=BOTO_CONFIG)
         get_caller_identity_response = sts_client.get_caller_identity()
     except (
         botocore.exceptions.LoginTokenLoadError,
@@ -272,6 +268,7 @@ if __name__ == "__main__":
         botocore.exceptions.CredentialRetrievalError,
         botocore.exceptions.UnknownCredentialError,
         botocore.exceptions.ClientError,
+        botocore.exceptions.LoginRefreshRequired,
     ) as ex:
         if isinstance(ex, botocore.exceptions.ClientError) and ex.response["Error"].get("Code") not in (
             "InvalidClientTokenId",
