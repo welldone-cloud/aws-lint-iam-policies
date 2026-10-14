@@ -36,22 +36,23 @@ class AccountAnalyzer:
         self._include_regions = include_regions
 
     def _get_ram_resource_types_used_in_region(self, region, ram_resource_types_per_region):
-        ram_resource_types_per_region[region] = set()
         ram_client = self._boto_session.client("ram", config=self._boto_config, region_name=region)
         resources_paginator = ram_client.get_paginator("list_resources")
         try:
+            ram_resource_types_per_region[region] = set()
             for resource_page in resources_paginator.paginate(resourceOwner="SELF"):
                 for resource in resource_page["resources"]:
                     ram_resource_types_per_region[region].add(resource["type"])
-        except botocore.exceptions.ClientError as ex:
+        except Exception as ex:
             self._result_collector.submit_error(
                 "Error for account ID {}, region {}: cannot communicate with AWS RAM service: {} ({})".format(
                     self._account_id,
                     region,
-                    ex.response["Error"]["Code"],
-                    ex.response["Error"]["Message"],
+                    type(ex).__name__,
+                    str(ex),
                 )
             )
+            ram_resource_types_per_region[region] = None
 
     def analyze_account(self):
         # Get all regions enabled in the account and determine the actual target regions
@@ -106,9 +107,15 @@ class AccountAnalyzer:
                 for region in target_regions:
                     if policy_type_implementation.RUN_IN_REGION not in ("ALL", region):
                         continue
-                    if policy_type_implementation.SOURCE_SERVICE == "ram":
-                        if policy_type_implementation.RAM_RESOURCE_TYPE not in ram_resource_types_per_region[region]:
-                            continue
+
+                    # If this is a RAM-based policy type and we were previously able to determine the RAM resource
+                    # types used in this region and no such resources are present, skip this policy type
+                    if (
+                        policy_type_implementation.SOURCE_SERVICE == "ram"
+                        and ram_resource_types_per_region[region] is not None
+                        and policy_type_implementation.RAM_RESOURCE_TYPE not in ram_resource_types_per_region[region]
+                    ):
+                        continue
 
                     # Submit future
                     future_params = {
