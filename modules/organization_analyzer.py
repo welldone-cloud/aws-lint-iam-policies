@@ -169,9 +169,13 @@ class OrganizationAnalyzer:
                             PolicyArns=[{"arn": AWS_IAM_POLICY_ARN_READ_ONLY_ACCESS}],
                             Policy=inline_session_policy,
                         )
-                    except botocore.exceptions.ClientError:
+                    except botocore.exceptions.ClientError as ex:
                         self._result_collector.submit_error(
-                            "Error for account ID {}: cannot assume specified member accounts role".format(account_id)
+                            "Error for account ID {}: cannot assume specified member accounts role: {} ({})".format(
+                                account_id,
+                                ex.response.get("Error", {}).get("Code", "Unknown error"),
+                                ex.response.get("Error", {}).get("Message", ""),
+                            )
                         )
                         continue
                     account_session = boto3.Session(
