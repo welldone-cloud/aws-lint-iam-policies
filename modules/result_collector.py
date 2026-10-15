@@ -227,14 +227,14 @@ class ResultCollector:
 
     def submit_policy(self, account_id, region, source_service, resource_type, resource_name, policy_document):
         policy_document = json.dumps(json.loads(policy_document), indent=2)
-        self._result_collection["_metadata"]["number_of_policies_analyzed"] += 1
 
         # Some AWS resources can have multiple policies attached or are allowed to have the same name, while using
-        # different IDs. An index is thus put at the end of the file name to handle collisions.
+        # different IDs. In case of file name collisions, an index is put at the end of the file name.
         file_index = 0
         while True:
-            policy_file_name = "{}_{}_{}_{}_{}_{}.json".format(
-                account_id, region, source_service, resource_type, resource_name, file_index
+            suffix = "" if file_index == 0 else "_{}".format(file_index)
+            policy_file_name = "{}_{}_{}_{}_{}{}.json".format(
+                account_id, region, source_service, resource_type, resource_name, suffix
             )
             policy_file_name = re.sub(
                 "_+",
@@ -269,6 +269,7 @@ class ResultCollector:
         self._result_collection["results"].append(result)
 
     def write_result_files(self):
+        self._result_collection["_metadata"]["number_of_policies_analyzed"] = len(self._json_policies)
         self._result_collection["results"].sort(
             key=lambda val: (
                 val["account_id"],
