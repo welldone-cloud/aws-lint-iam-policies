@@ -6,7 +6,6 @@
         "scope": "ORGANIZATION",
         "run_timestamp": "20241226200517",
         "number_of_policies_analyzed": 38,
-        "number_of_results_collected": 10,
         "errors": [
             "Error for account ID 737767487588, region ap-southeast-5, policy type iam_identity_center_application_policies: AccessDeniedException ()",
             "Error for account ID 737767487588, region ap-southeast-5, policy type iam_identity_center_permission_set_inline_policies: AccessDeniedException ()"

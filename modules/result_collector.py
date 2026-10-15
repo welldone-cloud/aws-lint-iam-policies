@@ -111,7 +111,6 @@ class ResultCollector:
                 "scope": scope,
                 "run_timestamp": run_timestamp,
                 "number_of_policies_analyzed": 0,
-                "number_of_results_collected": 0,
                 "errors": [],
             },
             "results": [],
@@ -210,7 +209,6 @@ class ResultCollector:
                     scope=self._result_collection["_metadata"]["scope"],
                     run_timestamp=self._result_collection["_metadata"]["run_timestamp"],
                     number_of_policies_analyzed=self._result_collection["_metadata"]["number_of_policies_analyzed"],
-                    number_of_results_collected=self._result_collection["_metadata"]["number_of_results_collected"],
                     errors=self._result_collection["_metadata"]["errors"],
                     results_by_finding_issue_code=results_by_finding_issue_code,
                     results_by_resource_type=results_by_resource_type,
@@ -268,9 +266,7 @@ class ResultCollector:
             return
         if self._include_finding_issue_codes and finding_issue_code not in self._include_finding_issue_codes:
             return
-
         self._result_collection["results"].append(result)
-        self._result_collection["_metadata"]["number_of_results_collected"] += 1
 
     def write_result_files(self):
         self._result_collection["results"].sort(
