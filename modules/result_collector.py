@@ -30,6 +30,14 @@ VALID_FILE_NAME_CHARACTERS = string.ascii_letters + string.digits + "_+=,.@-"
 class ResultCollector:
 
     @staticmethod
+    def _escape_csv_formula_characters(value):
+        formula_characters = ("=", "+", "-", "@")
+        if isinstance(value, str):
+            if value.lstrip().startswith(formula_characters):
+                return "'" + value
+        return value
+
+    @staticmethod
     def _get_div_element_for_plotly_figure(figure):
         return plotly.io.to_html(figure, include_plotlyjs=False, config={"displayModeBar": False}, full_html=False)
 
@@ -140,7 +148,10 @@ class ResultCollector:
             )
             csv_writer = csv.DictWriter(csvfile, fieldnames=fieldnames, quoting=csv.QUOTE_ALL)
             csv_writer.writeheader()
-            csv_writer.writerows(self._result_collection["results"])
+            for result in self._result_collection["results"]:
+                csv_writer.writerow(
+                    {key: ResultCollector._escape_csv_formula_characters(value) for key, value in result.items()}
+                )
 
     def _write_html_result_file(self):
         unique_finding_issue_codes = []
