@@ -11,6 +11,7 @@ import re
 import shutil
 import string
 import sys
+import urllib.parse
 
 RESULTS_DIRECTORY_NAME = "results"
 
@@ -36,6 +37,17 @@ class ResultCollector:
             if value.lstrip().startswith(formula_characters):
                 return "'" + value
         return value
+
+    @staticmethod
+    def _to_safe_href_url(url):
+        url = url.strip()
+        try:
+            parsed = urllib.parse.urlsplit(url)
+            if parsed.scheme.lower() == "https" and bool(parsed.netloc):
+                return url
+        except ValueError:
+            pass
+        return ""
 
     @staticmethod
     def _get_div_element_for_plotly_figure(figure):
@@ -211,9 +223,11 @@ class ResultCollector:
                 lstrip_blocks=True,
             )
         html_file_name = os.path.join(self._results_directory, RESULTS_FILE_NAME.format(self._result_name, "html"))
+
         with open(html_file_name, "w", encoding="utf-8") as out_file:
             out_file.write(
                 jinja_template.render(
+                    to_safe_href_url=self._to_safe_href_url,
                     invocation=self._result_collection["_metadata"]["invocation"],
                     account_id=self._result_collection["_metadata"]["account_id"],
                     principal=self._result_collection["_metadata"]["principal"],

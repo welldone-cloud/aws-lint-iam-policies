@@ -197,7 +197,7 @@
 			{% for finding_issue_code in unique_finding_issue_codes %}
 				<p>
 					{{ finding_issue_code }}<br />
-					<a href="javascript:toggleVisibility('results_by_finding_issue_code_{{ finding_issue_code }}')">Show</a>
+					<a href="javascript:toggleVisibility('{{ (('results_by_finding_issue_code_' ~ finding_issue_code) | tojson)[1:-1] }}')">Show</a>
 				</p>
 				<div id="results_by_finding_issue_code_{{ finding_issue_code }}" class="hidden">
 					{% for result in results %}
@@ -241,7 +241,7 @@
 								</tr>
 								<tr>
 									<td class="fixedwidth">finding_link</td>
-									<td class="wrapped"><a href="{{ result["finding_link"] }}" target="_blank" rel="noopener noreferrer">{{ result["finding_link"] }}</a></td>
+									<td class="wrapped"><a href="{{ to_safe_href_url(result["finding_link"]) }}" target="_blank" rel="noopener noreferrer">{{ result["finding_link"] }}</a></td>
 								</tr>
 								<tr>
 									<td class="fixedwidth">policy_type</td>
@@ -276,7 +276,7 @@
 			{% for account_id in unique_account_ids %}
 				<p>
 					{{ account_id }}<br />
-					<a href="javascript:toggleVisibility('results_by_account_id_{{ account_id }}')">Show</a>
+					<a href="javascript:toggleVisibility('{{ (('results_by_account_id_' ~ account_id) | tojson)[1:-1] }}')">Show</a>
 				</p>
 				<div id="results_by_account_id_{{ account_id }}" class="hidden">
 					{% for result in results %}
@@ -320,7 +320,7 @@
 								</tr>
 								<tr>
 									<td class="fixedwidth">finding_link</td>
-									<td class="wrapped"><a href="{{ result["finding_link"] }}" target="_blank" rel="noopener noreferrer">{{ result["finding_link"] }}</a></td>
+									<td class="wrapped"><a href="{{ to_safe_href_url(result["finding_link"]) }}" target="_blank" rel="noopener noreferrer">{{ result["finding_link"] }}</a></td>
 								</tr>
 								<tr>
 									<td class="fixedwidth">policy_type</td>
