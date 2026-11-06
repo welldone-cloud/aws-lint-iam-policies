@@ -178,6 +178,20 @@ class OrganizationAnalyzer:
                             )
                         )
                         continue
+                    except (
+                        botocore.exceptions.ConnectTimeoutError,
+                        botocore.exceptions.ConnectionClosedError,
+                        botocore.exceptions.ConnectionError,
+                        botocore.exceptions.EndpointConnectionError,
+                        botocore.exceptions.IncompleteReadError,
+                        botocore.exceptions.ReadTimeoutError,
+                    ):
+                        self._result_collector.submit_error(
+                            "Error for account ID {}: connection error when trying to assume specified member accounts role".format(
+                                account_id
+                            )
+                        )
+                        continue
                     account_session = boto3.Session(
                         aws_access_key_id=assume_role_response["Credentials"]["AccessKeyId"],
                         aws_secret_access_key=assume_role_response["Credentials"]["SecretAccessKey"],
