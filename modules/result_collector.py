@@ -87,13 +87,10 @@ class ResultCollector:
         )
         return ResultCollector._get_div_element_for_plotly_figure(figure)
 
-    def __init__(
-        self, account_id, principal, scope, exclude_finding_issue_codes, include_finding_issue_codes, result_name
-    ):
+    def __init__(self, account_id, principal, scope, exclude_finding_issue_codes, include_finding_issue_codes):
         self._exclude_finding_issue_codes = exclude_finding_issue_codes
         self._include_finding_issue_codes = include_finding_issue_codes
-        run_timestamp = datetime.datetime.now(datetime.timezone.utc).strftime(TIMESTAMP_FORMAT)
-        self._result_name = result_name if result_name else run_timestamp
+        self._run_timestamp = datetime.datetime.now(datetime.timezone.utc).strftime(TIMESTAMP_FORMAT)
         self._json_policies = {}
 
         # Ensure the results directory exists
@@ -103,18 +100,9 @@ class ResultCollector:
         except FileExistsError:
             pass
 
-        # If result files with the same name already exists, remove them
-        for results_file_name in [
-            RESULTS_FILE_NAME.format(self._result_name, suffix) for suffix in ("json", "csv", "html")
-        ]:
-            try:
-                os.remove(os.path.join(self._results_directory, results_file_name))
-            except FileNotFoundError:
-                pass
-
         # Create the policies directory or replace it, if it already exists
         self._policies_directory = os.path.join(
-            self._results_directory, POLICIES_DIRECTORY_NAME.format(self._result_name)
+            self._results_directory, POLICIES_DIRECTORY_NAME.format(self._run_timestamp)
         )
         try:
             os.mkdir(self._policies_directory)
@@ -129,7 +117,7 @@ class ResultCollector:
                 "account_id": account_id,
                 "principal": principal,
                 "scope": scope,
-                "run_timestamp": run_timestamp,
+                "run_timestamp": self._run_timestamp,
                 "number_of_policies_analyzed": 0,
                 "errors": [],
             },
@@ -137,12 +125,12 @@ class ResultCollector:
         }
 
     def _write_json_result_file(self):
-        json_file_name = os.path.join(self._results_directory, RESULTS_FILE_NAME.format(self._result_name, "json"))
+        json_file_name = os.path.join(self._results_directory, RESULTS_FILE_NAME.format(self._run_timestamp, "json"))
         with open(json_file_name, "w", encoding="utf-8") as out_file:
             json.dump(self._result_collection, out_file, indent=2)
 
     def _write_csv_result_file(self):
-        csv_file_name = os.path.join(self._results_directory, RESULTS_FILE_NAME.format(self._result_name, "csv"))
+        csv_file_name = os.path.join(self._results_directory, RESULTS_FILE_NAME.format(self._run_timestamp, "csv"))
         with open(csv_file_name, "w", newline="", encoding="utf-8") as csvfile:
             fieldnames = (
                 "account_id",
@@ -222,7 +210,7 @@ class ResultCollector:
                 trim_blocks=True,
                 lstrip_blocks=True,
             )
-        html_file_name = os.path.join(self._results_directory, RESULTS_FILE_NAME.format(self._result_name, "html"))
+        html_file_name = os.path.join(self._results_directory, RESULTS_FILE_NAME.format(self._run_timestamp, "html"))
 
         with open(html_file_name, "w", encoding="utf-8") as out_file:
             out_file.write(

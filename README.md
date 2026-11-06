@@ -76,8 +76,6 @@ python aws_lint_iam_policies.py \
     Assume the specified IAM role name in member accounts of the Organization.
 --profile PROFILE
     Use the specified AWS named profile.
---result-name RESULT_NAME
-    Use the specified result name instead of the run timestamp.
 --trusted-accounts TRUSTED_ACCOUNTS
     Treat the specified comma-separated list of account IDs as trusted and do not generate trusted outside principal findings for them. Use 'SAMEORG' to refer to all accounts that belong to the Organization.
 --exclude-policy-types EXCLUDE_POLICY_TYPES

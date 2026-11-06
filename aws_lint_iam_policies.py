@@ -38,8 +38,6 @@ PATTERN_AWS_ROLE_NAME = re.compile(r"^[\w+=,.@-]{1,64}$")
 
 PATTERN_FINDING_ISSUE_CODE = re.compile(r"^[A-Z0-9_]+$")
 
-PATTERN_RESULT_NAME = re.compile(r"^[A-Za-z0-9_-]{1,64}$")
-
 REQUIREMENTS_FILE = "requirements.txt"
 
 SCOPE_ACCOUNT = "ACCOUNT"
@@ -124,14 +122,6 @@ def parse_issue_codes(val):
     return val.split(",")
 
 
-def parse_result_name(val):
-    if get_scope() not in (SCOPE_ACCOUNT, SCOPE_ORGANIZATION):
-        raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAMETER)
-    if not PATTERN_RESULT_NAME.match(val):
-        raise argparse.ArgumentTypeError("Result name must satisfy pattern: {}".format(PATTERN_RESULT_NAME.pattern))
-    return val
-
-
 if __name__ == "__main__":
     # Check runtime environment
     if sys.version_info < (3, 11):
@@ -172,11 +162,6 @@ if __name__ == "__main__":
     parser.add_argument(
         "--profile",
         help="Use the specified AWS named profile.",
-    )
-    parser.add_argument(
-        "--result-name",
-        type=parse_result_name,
-        help="Use the specified result name instead of the run timestamp.",
     )
     parser.add_argument(
         "--trusted-accounts",
@@ -306,7 +291,6 @@ if __name__ == "__main__":
             args.scope,
             args.exclude_finding_issue_codes,
             args.include_finding_issue_codes,
-            args.result_name,
         )
         account_analyzer = AccountAnalyzer(
             account_id,
@@ -372,7 +356,6 @@ if __name__ == "__main__":
                 args.scope,
                 args.exclude_finding_issue_codes,
                 args.include_finding_issue_codes,
-                args.result_name,
             )
             organization_analyzer = OrganizationAnalyzer(
                 describe_organization_response,
