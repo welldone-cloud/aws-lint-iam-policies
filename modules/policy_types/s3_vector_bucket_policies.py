@@ -32,10 +32,14 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                     access_analyzer_type="RESOURCE_POLICY",
                 )
 
-    except s3_client.exceptions.from_code("AccessDeniedException") as ex:
-        # When S3 vector buckets are not available in a region, it will raise an AccessDenied exception. However,
-        # the error message will be different compared to when a caller is actually lacking permissions. Ignore cases
-        # where the feature is not available.
-        if ex.response["Error"].get("Message", "").strip() == "Access Denied":
+    except (
+        s3_client.exceptions.from_code("AccessDeniedException"),
+        s3_client.exceptions.from_code("405"),
+    ) as ex:
+        # When S3 vector buckets are not available in a region, different exception types are possible. This includes
+        # an AccessDenied exception. However, the error message will be different compared to when a caller is
+        # actually lacking permissions. Only ignore those cases where the feature is not available.
+        exception_message = ex.response["Error"].get("Message", "").strip()
+        if exception_message in ("Access Denied", "Region Not Available."):
             return
         raise ex
