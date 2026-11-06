@@ -11,6 +11,14 @@ from modules.policy_types import *
 THREADS_PER_CPU_AVAILABLE = 4
 
 
+class InterruptibleThreadPoolExecutor(concurrent.futures.ThreadPoolExecutor):
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if exc_type is not None and issubclass(exc_type, KeyboardInterrupt):
+            print("Stopping...")
+        self.shutdown(wait=True, cancel_futures=True)
+        return False
+
+
 class AccountAnalyzer:
 
     def __init__(
@@ -84,7 +92,7 @@ class AccountAnalyzer:
         # skip policy type implementations that use RAM, if there are anyhow no such resources in a certain region.
         print("Analyzing account ID {}".format(self._account_id))
         ram_resource_types_per_region = {}
-        with concurrent.futures.ThreadPoolExecutor(max_workers=max(1, len(target_regions))) as executor:
+        with InterruptibleThreadPoolExecutor(max_workers=max(1, len(target_regions))) as executor:
             for region in target_regions:
                 executor.submit(self._get_ram_resource_types_used_in_region, region, ram_resource_types_per_region)
 
@@ -94,7 +102,7 @@ class AccountAnalyzer:
             self._boto_session, self._boto_config, self._result_collector, self._trusted_accounts
         )
         futures = {}
-        with concurrent.futures.ThreadPoolExecutor(
+        with InterruptibleThreadPoolExecutor(
             max_workers=(os.cpu_count() or 1) * THREADS_PER_CPU_AVAILABLE
         ) as executor:
             for policy_type in PolicyAnalyzer.get_supported_policy_types():
