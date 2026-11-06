@@ -15,7 +15,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 app_monitors_names.append(app_monitor["Name"])
     except rum_client.exceptions.from_code("AccessDeniedException") as ex:
         # Ignore regions where RUM is not available
-        if ex.response["Error"]["Message"] != "Account is not authorized":
+        if ex.response["Error"].get("Message", "") != "Account is not authorized":
             raise
 
     # Iterate app monitors names and retrieve their resource-based policy

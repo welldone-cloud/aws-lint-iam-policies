@@ -1,6 +1,5 @@
 import json
 
-
 RUN_IN_REGION = "ALL"
 
 SOURCE_SERVICE = "sso-admin"
@@ -67,6 +66,6 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
         # When certain SSO features are not available in a region, it will raise AccessDenied with a blank error
         # message. If a caller is actually lacking permissions, there will be an error message set. Ignore cases
         # where features are not available.
-        if not ex.response["Error"]["Message"].strip():
+        if not ex.response["Error"].get("Message", "").strip():
             return
         raise ex

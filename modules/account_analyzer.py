@@ -161,7 +161,7 @@ class AccountAnalyzer:
                             self._account_id,
                             futures[future]["region"],
                             futures[future]["policy_type"],
-                            ex.response["Error"]["Code"],
+                            ex.response["Error"].get("Code", ""),
                             error_message.strip(),
                         )
                     )

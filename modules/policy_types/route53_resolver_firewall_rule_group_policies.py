@@ -1,6 +1,5 @@
 import json
 
-
 RUN_IN_REGION = "ALL"
 
 SOURCE_SERVICE = "route53resolver"
@@ -39,6 +38,6 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
         # When Route53 resolver firewall is not available in a region, it will raise an AccessDenied exception.
         # However, the error message will be different compared to when a caller is actually lacking permissions.
         # Ignore cases where the feature is not available.
-        if ex.response["Error"]["Message"].strip() == "Account is not authorized to perform this operation.":
+        if ex.response["Error"].get("Message", "").strip() == "Account is not authorized to perform this operation.":
             return
         raise ex
