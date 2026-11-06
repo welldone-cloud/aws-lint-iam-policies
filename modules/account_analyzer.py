@@ -44,10 +44,10 @@ class AccountAnalyzer:
         self._include_regions = include_regions
 
     def _get_ram_resource_types_used_in_region(self, region, ram_resource_types_per_region):
+        ram_resource_types_per_region[region] = set()
         ram_client = self._boto_session.client("ram", config=self._boto_config, region_name=region)
         resources_paginator = ram_client.get_paginator("list_resources")
         try:
-            ram_resource_types_per_region[region] = set()
             for resource_page in resources_paginator.paginate(resourceOwner="SELF"):
                 for resource in resource_page["resources"]:
                     ram_resource_types_per_region[region].add(resource["type"])
@@ -93,8 +93,13 @@ class AccountAnalyzer:
         print("Analyzing account ID {}".format(self._account_id))
         ram_resource_types_per_region = {}
         with InterruptibleThreadPoolExecutor(max_workers=max(1, len(target_regions))) as executor:
+            futures = []
             for region in target_regions:
-                executor.submit(self._get_ram_resource_types_used_in_region, region, ram_resource_types_per_region)
+                futures.append(
+                    executor.submit(self._get_ram_resource_types_used_in_region, region, ram_resource_types_per_region)
+                )
+            for future in concurrent.futures.as_completed(futures):
+                future.result()
 
         # Iterate all policy types and target regions and trigger analysis for applicable combinations that are
         # also allowed by include and exclude arguments
