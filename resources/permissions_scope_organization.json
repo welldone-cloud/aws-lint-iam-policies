@@ -138,7 +138,8 @@
                 "sso:Get*",
                 "sso:List*",
                 "vpc-lattice:Get*",
-                "vpc-lattice:List*"
+                "vpc-lattice:List*",
+                "xray:List*"
             ],
             "Resource": "*"
         },

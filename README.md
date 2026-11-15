@@ -250,6 +250,7 @@ The following IAM policy types are analyzed:
 * VPC Traffic Mirroring target policies
 * VPC Transit Gateway multicast domain policies
 * VPC Transit Gateway policies
+* X-Ray policies
 
 
 
