@@ -11,6 +11,7 @@ import re
 import shutil
 import string
 import sys
+import threading
 import urllib.parse
 
 RESULTS_DIRECTORY_NAME = "results"
@@ -92,6 +93,7 @@ class ResultCollector:
         self._include_finding_issue_codes = include_finding_issue_codes
         self._run_timestamp = datetime.datetime.now(datetime.timezone.utc).strftime(TIMESTAMP_FORMAT)
         self._json_policies = {}
+        self._write_policy_file_lock = threading.Lock()
 
         # Ensure the results directory exists
         self._results_directory = os.path.join(pathlib.Path(__file__).parent.parent, RESULTS_DIRECTORY_NAME)
@@ -196,10 +198,11 @@ class ResultCollector:
             results_by_region = ResultCollector._get_bar_chart_html(results_by_region_df, "region", "count")
 
             # Prepare JSON policies for embedding into HTML
+            referenced_policy_file_names = set(results_df["policy_file_name"])
             json_policies_html_encoded = {
                 key: html.escape(self._json_policies[key])
                 for key in self._json_policies
-                if key in set(results_df["policy_file_name"])
+                if key in referenced_policy_file_names
             }
 
         # Render HTML template and write output
@@ -242,27 +245,30 @@ class ResultCollector:
         policy_document = json.dumps(json.loads(policy_document), indent=2)
 
         # Some AWS resources can have multiple policies attached or are allowed to have the same name, while using
-        # different IDs. In case of file name collisions, an index is put at the end of the file name.
-        file_index = 0
-        while True:
-            suffix = "" if file_index == 0 else "_{}".format(file_index)
-            policy_file_name = "{}_{}_{}_{}_{}{}.json".format(
-                account_id, region, source_service, resource_type, resource_name, suffix
-            )
-            policy_file_name = re.sub(
-                "_+",
-                "_",
-                "".join(char if char in VALID_FILE_NAME_CHARACTERS else "_" for char in policy_file_name),
-            )
-            policy_file = os.path.join(self._policies_directory, policy_file_name)
-            if os.path.isfile(policy_file):
-                file_index += 1
-                continue
-            break
+        # different IDs. In case of file name collisions, an index is put at the end of the file name. The lock
+        # prevents TOCTOU races between threads, which can occur because different policy types may use the same
+        # resource type (e.g. SCPs and RCPs both use "AWS::Organizations::Policy").
+        with self._write_policy_file_lock:
+            file_index = 0
+            while True:
+                suffix = "" if file_index == 0 else "_{}".format(file_index)
+                policy_file_name = "{}_{}_{}_{}_{}{}.json".format(
+                    account_id, region, source_service, resource_type, resource_name, suffix
+                )
+                policy_file_name = re.sub(
+                    "_+",
+                    "_",
+                    "".join(char if char in VALID_FILE_NAME_CHARACTERS else "_" for char in policy_file_name),
+                )
+                policy_file = os.path.join(self._policies_directory, policy_file_name)
+                if os.path.isfile(policy_file):
+                    file_index += 1
+                    continue
+                break
 
-        # Write policy document to file
-        with open(policy_file, "w", encoding="utf-8") as out_file:
-            out_file.write(policy_document)
+            # Write policy document to file
+            with open(policy_file, "w", encoding="utf-8") as out_file:
+                out_file.write(policy_document)
 
         # Keep a copy of the policy document in memory for HTML output
         self._json_policies[policy_file_name] = policy_document

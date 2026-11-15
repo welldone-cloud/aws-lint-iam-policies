@@ -181,9 +181,10 @@ class PolicyAnalyzer:
         self._regional_access_analyzer_clients = {}
 
     def _get_calling_policy_type(self):
+        supported_policy_types = self.get_supported_policy_types()
         for frame in inspect.getouterframes(inspect.currentframe()):
             calling_module = inspect.getmodulename(frame.filename)
-            if calling_module in self.get_supported_policy_types():
+            if calling_module in supported_policy_types:
                 return calling_module
         return None
 
