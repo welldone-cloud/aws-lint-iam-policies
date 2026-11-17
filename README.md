@@ -173,6 +173,7 @@ The following IAM policy types are analyzed:
 * Lambda function alias policies
 * Lambda function policies
 * Lambda layer policies
+* Lambda web function policies
 * Lex bot alias policies
 * Lex bot policies
 * License Manager license configuration policies
