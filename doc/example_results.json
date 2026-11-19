@@ -24,7 +24,7 @@
             "finding_description": "The resource policy grants public access for the given resource type.",
             "finding_link": "https://docs.aws.amazon.com/access-analyzer/latest/APIReference/API_CheckNoPublicAccess.html",
             "policy_type": "s3_bucket_policies",
-            "policy_file_name": "737767487588_eu-central-1_s3_AWS_S3_Bucket_applicationbucket-737767487588_0.json"
+            "policy_file_name": "737767487588_eu-central-1_s3_AWS_S3_Bucket_applicationbucket-737767487588.json"
         },
         {
             "account_id": "737767487588",
@@ -38,7 +38,7 @@
             "finding_description": "The condition key aws:PrincipalTag must include a tag-key to control access based on tags. Use the format aws:PrincipalTag/tag-key and specify a key name for tag-key.",
             "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-error-missing-tag-key-in-condition",
             "policy_type": "s3_bucket_policies",
-            "policy_file_name": "737767487588_eu-central-1_s3_AWS_S3_Bucket_share-737767487588_0.json"
+            "policy_file_name": "737767487588_eu-central-1_s3_AWS_S3_Bucket_share-737767487588.json"
         },
         {
             "account_id": "737767487588",
@@ -52,7 +52,7 @@
             "finding_description": "This condition block is empty and it does not affect the policy. Specify conditions.",
             "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-object-condition",
             "policy_type": "iam_role_trust_policies",
-            "policy_file_name": "737767487588_us-east-1_iam_AWS_IAM_AssumeRolePolicyDocument_TemporaryAdminRole_0.json"
+            "policy_file_name": "737767487588_us-east-1_iam_AWS_IAM_AssumeRolePolicyDocument_TemporaryAdminRole.json"
         },
         {
             "account_id": "737767487588",
@@ -66,7 +66,7 @@
             "finding_description": "The policy trusts principals outside the analyzed AWS account. A review is recommended to determine whether this is the desired setup. Trusted principals: ['arn:aws:iam::251094496418:root']",
             "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html",
             "policy_type": "iam_role_trust_policies",
-            "policy_file_name": " 737767487588_us-east-1_iam_AWS_IAM_AssumeRolePolicyDocument_TemporaryAdminRole_0.json"
+            "policy_file_name": " 737767487588_us-east-1_iam_AWS_IAM_AssumeRolePolicyDocument_TemporaryAdminRole.json"
         },
         {
             "account_id": "737767487588",
@@ -80,7 +80,7 @@
             "finding_description": "Add a value to the empty string in the Sid element.",
             "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-sid-value",
             "policy_type": "iam_role_trust_policies",
-            "policy_file_name": "737767487588_us-east-1_iam_AWS_IAM_AssumeRolePolicyDocument_rds-monitoring-role_0.json"
+            "policy_file_name": "737767487588_us-east-1_iam_AWS_IAM_AssumeRolePolicyDocument_rds-monitoring-role.json"
         },
         {
             "account_id": "737767487588",
@@ -94,7 +94,7 @@
             "finding_description": "Using the iam:PassRole action with wildcards (*) in the resource can be overly permissive because it allows iam:PassRole permissions on multiple resources. We recommend that you specify resource ARNs or add the iam:PassedToService condition key to your statement.",
             "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-security-warning-pass-role-with-star-in-resource",
             "policy_type": "iam_role_trust_policies",
-            "policy_file_name": "737767487588_us-east-1_iam_AWS_IAM_Role_TemporaryAdminRole_allow_lambda_access_0.json"
+            "policy_file_name": "737767487588_us-east-1_iam_AWS_IAM_Role_TemporaryAdminRole_allow_lambda_access.json"
         },
         {
             "account_id": "251094496418",
@@ -108,7 +108,7 @@
             "finding_description": "The 2 action(s) are redundant because they provide similar permissions. Update the policy to remove the redundant action such as: SNS:Subscribe.",
             "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-redundant-action",
             "policy_type": "sns_topic_policies",
-            "policy_file_name": "251094496418_ap-southeast-1_sns_AWS_SNS_Topic_swarmhost-notification_0.json"
+            "policy_file_name": "251094496418_ap-southeast-1_sns_AWS_SNS_Topic_swarmhost-notification.json"
         },
         {
             "account_id": "251094496418",
@@ -122,7 +122,7 @@
             "finding_description": "The policy trusts principals outside the analyzed AWS account. A review is recommended to determine whether this is the desired setup. Trusted principals: ['arn:aws:iam::737767487588:root']",
             "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html",
             "policy_type": "sns_topic_policies",
-            "policy_file_name": "251094496418_ap-southeast-1_sns_AWS_SNS_Topic_swarmhost-notification_0.json"
+            "policy_file_name": "251094496418_ap-southeast-1_sns_AWS_SNS_Topic_swarmhost-notification.json"
         },
         {
             "account_id": "251094496418",
@@ -136,7 +136,7 @@
             "finding_description": "Add a value to the empty string in the Sid element.",
             "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-sid-value",
             "policy_type": "iam_role_trust_policies",
-            "policy_file_name": "251094496418_us-east-1_iam_AWS_IAM_AssumeRolePolicyDocument_EC2RoleForSSM_0.json"
+            "policy_file_name": "251094496418_us-east-1_iam_AWS_IAM_AssumeRolePolicyDocument_EC2RoleForSSM.json"
         },
         {
             "account_id": "251094496418",
@@ -150,7 +150,7 @@
             "finding_description": "This condition block is empty and it does not affect the policy. Specify conditions.",
             "finding_link": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-empty-object-condition",
             "policy_type": "iam_role_trust_policies",
-            "policy_file_name": "251094496418_us-east-1_iam_AWS_IAM_AssumeRolePolicyDocument_SwimBikeRunRole_0.json"
+            "policy_file_name": "251094496418_us-east-1_iam_AWS_IAM_AssumeRolePolicyDocument_SwimBikeRunRole.json"
         }
     ]
 }
