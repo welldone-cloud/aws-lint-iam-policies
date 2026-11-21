@@ -11,6 +11,8 @@
                 "acm-pca:List*",
                 "appmesh:Get*",
                 "appsync:Get*",
+                "aps:Describe*",
+                "aps:List*",
                 "aws-marketplace:Get*",
                 "aws-marketplace:List*",
                 "backup:Get*",

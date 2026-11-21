@@ -107,6 +107,7 @@ python aws_lint_iam_policies.py \
 The following IAM policy types are analyzed:
 
 * ACM private CA policies
+* AMS Prometheus workspace policies
 * API Gateway custom domain name policies
 * API Gateway custom domain name private domain policies
 * API Gateway REST API policies
