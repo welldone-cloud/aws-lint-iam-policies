@@ -26,8 +26,6 @@ BOTO_CONFIG = botocore.config.Config(
     user_agent_appid="aws-lint-iam-policies",
 )
 
-ERROR_MESSAGE_INVALID_PARAMETER = "Invalid parameter for provided scope"
-
 PATTERN_AWS_ACCOUNT_ID = re.compile(r"^\d{12,}$")
 
 PATTERN_AWS_ORGANIZATIONAL_UNIT = re.compile(r"^ou-[a-z0-9]{4,32}-[a-z0-9]{8,32}$")
@@ -45,28 +43,13 @@ SCOPE_ACCOUNT = "ACCOUNT"
 SCOPE_ORGANIZATION = "ORGANIZATION"
 
 
-def get_scope():
-    for pair in [(sys.argv[i], sys.argv[i + 1]) for i in range(0, len(sys.argv) - 1)]:
-        if pair == ("--scope", SCOPE_ACCOUNT):
-            return SCOPE_ACCOUNT
-        elif pair == ("--scope", SCOPE_ORGANIZATION):
-            return SCOPE_ORGANIZATION
-    return None
-
-
 def parse_member_accounts_role(val):
-    if val and get_scope() != SCOPE_ORGANIZATION:
-        raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAMETER)
-    elif not val and get_scope() == SCOPE_ORGANIZATION:
-        raise argparse.ArgumentTypeError("Parameter required when using scope {}".format(SCOPE_ORGANIZATION))
-    if val and not PATTERN_AWS_ROLE_NAME.match(val):
+    if not PATTERN_AWS_ROLE_NAME.match(val):
         raise argparse.ArgumentTypeError("Invalid IAM role name")
     return val
 
 
 def parse_policy_types(val):
-    if get_scope() not in (SCOPE_ACCOUNT, SCOPE_ORGANIZATION):
-        raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAMETER)
     supported_policy_types = PolicyAnalyzer.get_supported_policy_types()
     for policy_type in val.split(","):
         if policy_type not in supported_policy_types:
@@ -75,8 +58,6 @@ def parse_policy_types(val):
 
 
 def parse_regions(val):
-    if get_scope() not in (SCOPE_ACCOUNT, SCOPE_ORGANIZATION):
-        raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAMETER)
     for region in val.split(","):
         if not PATTERN_AWS_REGION.match(region):
             raise argparse.ArgumentTypeError("Invalid region format: {}".format(region))
@@ -84,8 +65,6 @@ def parse_regions(val):
 
 
 def parse_organizations_accounts(val):
-    if get_scope() != SCOPE_ORGANIZATION:
-        raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAMETER)
     for account in val.split(","):
         if not PATTERN_AWS_ACCOUNT_ID.match(account):
             raise argparse.ArgumentTypeError("Invalid account ID format: {}".format(account))
@@ -94,19 +73,12 @@ def parse_organizations_accounts(val):
 
 def parse_trusted_accounts(val):
     for account in val.split(","):
-        if account == "SAMEORG":
-            if get_scope() != SCOPE_ORGANIZATION:
-                raise argparse.ArgumentTypeError(
-                    "SAMEORG only supported when using scope {}".format(SCOPE_ORGANIZATION)
-                )
-        elif not PATTERN_AWS_ACCOUNT_ID.match(account):
+        if account != "SAMEORG" and not PATTERN_AWS_ACCOUNT_ID.match(account):
             raise argparse.ArgumentTypeError("Invalid account ID format: {}".format(account))
     return val.split(",")
 
 
 def parse_ous(val):
-    if get_scope() != SCOPE_ORGANIZATION:
-        raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAMETER)
     for ou in val.split(","):
         if not PATTERN_AWS_ORGANIZATIONAL_UNIT.match(ou):
             raise argparse.ArgumentTypeError("Invalid OU ID format: {}".format(ou))
@@ -114,12 +86,56 @@ def parse_ous(val):
 
 
 def parse_issue_codes(val):
-    if get_scope() not in (SCOPE_ACCOUNT, SCOPE_ORGANIZATION):
-        raise argparse.ArgumentTypeError(ERROR_MESSAGE_INVALID_PARAMETER)
     for issue_code in val.split(","):
         if not PATTERN_FINDING_ISSUE_CODE.match(issue_code):
             raise argparse.ArgumentTypeError("Invalid issue code format: {}".format(issue_code))
     return val.split(",")
+
+
+def validate_args(parser, args):
+    if args.list_policy_types:
+        denied_args = (
+            ("scope", "--scope"),
+            ("member_accounts_role", "--member-accounts-role"),
+            ("profile", "--profile"),
+            ("trusted_accounts", "--trusted-accounts"),
+            ("exclude_policy_types", "--exclude-policy-types"),
+            ("include_policy_types", "--include-policy-types"),
+            ("exclude_regions", "--exclude-regions"),
+            ("include_regions", "--include-regions"),
+            ("exclude_accounts", "--exclude-accounts"),
+            ("include_accounts", "--include-accounts"),
+            ("exclude_ous", "--exclude-ous"),
+            ("include_ous", "--include-ous"),
+            ("exclude_finding_issue_codes", "--exclude-finding-issue-codes"),
+            ("include_finding_issue_codes", "--include-finding-issue-codes"),
+        )
+        for var_name, arg_name in denied_args:
+            if getattr(args, var_name):
+                parser.error("argument {}: not allowed when listing policy types".format(arg_name))
+
+    elif args.scope == SCOPE_ACCOUNT:
+        denied_args = (
+            ("member_accounts_role", "--member-accounts-role"),
+            ("exclude_accounts", "--exclude-accounts"),
+            ("include_accounts", "--include-accounts"),
+            ("exclude_ous", "--exclude-ous"),
+            ("include_ous", "--include-ous"),
+        )
+        for var_name, arg_name in denied_args:
+            if getattr(args, var_name):
+                parser.error("argument {}: not allowed when using scope {}".format(arg_name, SCOPE_ACCOUNT))
+
+        if "SAMEORG" in args.trusted_accounts:
+            parser.error(
+                "argument --trusted-accounts: SAMEORG only supported when using scope {}".format(SCOPE_ORGANIZATION)
+            )
+
+    elif args.scope == SCOPE_ORGANIZATION:
+        required_args = (("member_accounts_role", "--member-accounts-role"),)
+        for var_name, arg_name in required_args:
+            if not getattr(args, var_name):
+                parser.error("argument {}: required when using scope {}".format(arg_name, SCOPE_ORGANIZATION))
 
 
 if __name__ == "__main__":
@@ -155,7 +171,6 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--member-accounts-role",
-        default="",
         type=parse_member_accounts_role,
         help="Assume the specified IAM role name in member accounts of the Organization.",
     )
@@ -230,8 +245,9 @@ if __name__ == "__main__":
         help="Only report the specified comma-separated list of finding issue codes.",
     )
     args = parser.parse_args()
+    validate_args(parser, args)
 
-    # List policy types and exit, if configured
+    # Handle case of listing policy types
     if args.list_policy_types:
         for policy_type in PolicyAnalyzer.get_supported_policy_types():
             print(policy_type)
@@ -284,7 +300,7 @@ if __name__ == "__main__":
                 sys.exit(1)
 
     # Handle ACCOUNT scope
-    if get_scope() == SCOPE_ACCOUNT:
+    if args.scope == SCOPE_ACCOUNT:
         result_collector = ResultCollector(
             account_id,
             principal,
@@ -307,7 +323,7 @@ if __name__ == "__main__":
         result_collector.write_result_files()
 
     # Handle ORGANIZATION scope
-    elif get_scope() == SCOPE_ORGANIZATION:
+    elif args.scope == SCOPE_ORGANIZATION:
         organizations_client = boto_session.client("organizations", config=BOTO_CONFIG)
         try:
             # Confirm we are running with credentials of the management account
