@@ -68,6 +68,7 @@
                 "logs:Get*",
                 "mediastore:Get*",
                 "mediastore:List*",
+                "mpa:Get*",
                 "network-firewall:Describe*",
                 "network-firewall:List*",
                 "networkmanager:Get*",
