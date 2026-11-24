@@ -4,6 +4,7 @@ import argparse
 import boto3
 import botocore.config
 import botocore.exceptions
+import enum
 import importlib.metadata
 import os
 import packaging.requirements
@@ -38,9 +39,10 @@ PATTERN_FINDING_ISSUE_CODE = re.compile(r"^[A-Z0-9_]+$")
 
 REQUIREMENTS_FILE = "requirements.txt"
 
-SCOPE_ACCOUNT = "ACCOUNT"
 
-SCOPE_ORGANIZATION = "ORGANIZATION"
+class Scope(enum.Enum):
+    ACCOUNT = enum.auto()
+    ORGANIZATION = enum.auto()
 
 
 def parse_member_accounts_role(val):
@@ -114,7 +116,7 @@ def validate_args(parser, args):
             if getattr(args, var_name):
                 parser.error("argument {}: not allowed when listing policy types".format(arg_name))
 
-    elif args.scope == SCOPE_ACCOUNT:
+    elif args.scope == Scope.ACCOUNT.name:
         denied_args = (
             ("member_accounts_role", "--member-accounts-role"),
             ("exclude_accounts", "--exclude-accounts"),
@@ -124,18 +126,20 @@ def validate_args(parser, args):
         )
         for var_name, arg_name in denied_args:
             if getattr(args, var_name):
-                parser.error("argument {}: not allowed when using scope {}".format(arg_name, SCOPE_ACCOUNT))
+                parser.error("argument {}: not allowed when using scope {}".format(arg_name, Scope.ACCOUNT.name))
 
         if "SAMEORG" in args.trusted_accounts:
             parser.error(
-                "argument --trusted-accounts: SAMEORG only supported when using scope {}".format(SCOPE_ORGANIZATION)
+                "argument --trusted-accounts: SAMEORG only supported when using scope {}".format(
+                    Scope.ORGANIZATION.name
+                )
             )
 
-    elif args.scope == SCOPE_ORGANIZATION:
+    elif args.scope == Scope.ORGANIZATION.name:
         required_args = (("member_accounts_role", "--member-accounts-role"),)
         for var_name, arg_name in required_args:
             if not getattr(args, var_name):
-                parser.error("argument {}: required when using scope {}".format(arg_name, SCOPE_ORGANIZATION))
+                parser.error("argument {}: required when using scope {}".format(arg_name, Scope.ORGANIZATION.name))
 
 
 if __name__ == "__main__":
@@ -166,7 +170,7 @@ if __name__ == "__main__":
     )
     mutually_exclusive_args.add_argument(
         "--scope",
-        choices=[SCOPE_ACCOUNT, SCOPE_ORGANIZATION],
+        choices=[Scope.ACCOUNT.name, Scope.ORGANIZATION.name],
         help="Target either an individual account or all accounts of an Organization.",
     )
     parser.add_argument(
@@ -300,7 +304,7 @@ if __name__ == "__main__":
                 sys.exit(1)
 
     # Handle ACCOUNT scope
-    if args.scope == SCOPE_ACCOUNT:
+    if args.scope == Scope.ACCOUNT.name:
         result_collector = ResultCollector(
             account_id,
             principal,
@@ -323,7 +327,7 @@ if __name__ == "__main__":
         result_collector.write_result_files()
 
     # Handle ORGANIZATION scope
-    elif args.scope == SCOPE_ORGANIZATION:
+    elif args.scope == Scope.ORGANIZATION.name:
         organizations_client = boto_session.client("organizations", config=BOTO_CONFIG)
         try:
             # Confirm we are running with credentials of the management account
@@ -335,7 +339,7 @@ if __name__ == "__main__":
             if account_id != describe_organization_response["Organization"]["MasterAccountId"]:
                 print(
                     "Need to run with credentials of the Organizations management account when using scope {}".format(
-                        SCOPE_ORGANIZATION
+                        Scope.ORGANIZATION.name
                     )
                 )
                 sys.exit(1)
