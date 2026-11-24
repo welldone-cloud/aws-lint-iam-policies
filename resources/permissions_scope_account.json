@@ -18,6 +18,7 @@
                 "backup:Get*",
                 "backup:List*",
                 "bedrock:Get*",
+                "bedrock:List*",
                 "billing:Get*",
                 "cloudhsm:Get*",
                 "cloudtrail:Get*",
