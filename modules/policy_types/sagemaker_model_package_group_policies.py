@@ -18,7 +18,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                     )
                 except sagemaker_client.exceptions.from_code("ValidationException"):
                     # Skip if there is no policy configured
-                    return
+                    continue
 
                 policy_analysis_function(
                     account_id=account_id,
