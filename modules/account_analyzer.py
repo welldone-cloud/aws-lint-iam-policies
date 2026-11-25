@@ -63,10 +63,15 @@ class AccountAnalyzer:
             ram_resource_types_per_region[region] = None
 
     def analyze_account(self):
-        # Get all regions enabled in the account and determine the actual target regions
+        print("Analyzing account ID {}".format(self._account_id))
+
+        # Get all regions enabled in the account
         ec2_client = self._boto_session.client("ec2", config=self._boto_config)
         try:
             describe_regions_response = ec2_client.describe_regions(AllRegions=False)
+            regions_enabled_in_account = sorted(
+                [region["RegionName"] for region in describe_regions_response["Regions"]]
+            )
         except (
             botocore.exceptions.ClientError,
             botocore.exceptions.ConnectTimeoutError,
@@ -80,17 +85,29 @@ class AccountAnalyzer:
             msg += "(permission or connection issue), skipping account"
             self._result_collector.submit_error(msg)
             return
+
+        # Check if any regions should be targeted that are not enabled in this account
+        include_regions_not_enabled = set(self._include_regions) - set(regions_enabled_in_account)
+        if include_regions_not_enabled:
+            msg = "Error for account ID {}: regions specified in --include-regions are not enabled in this account: {}".format(
+                self._account_id, ", ".join(sorted(include_regions_not_enabled))
+            )
+            self._result_collector.submit_error(msg)
+
+        # Determine the actual target regions for this account (applying include and exclude arguments)
         target_regions = []
-        for region in sorted([region["RegionName"] for region in describe_regions_response["Regions"]]):
+        for region in regions_enabled_in_account:
             if region in self._exclude_regions:
                 continue
             if self._include_regions and region not in self._include_regions:
                 continue
             target_regions.append(region)
+        if not target_regions:
+            msg = "Error for account ID {}: no regions to be targeted".format(self._account_id)
+            self._result_collector.submit_error(msg)
 
         # Iterate resources shared via RAM for each region and collect their RAM resource types. This allows to later
         # skip policy type implementations that use RAM, if there are anyhow no such resources in a certain region.
-        print("Analyzing account ID {}".format(self._account_id))
         ram_resource_types_per_region = {}
         with InterruptibleThreadPoolExecutor(max_workers=max(1, len(target_regions))) as executor:
             futures = []
