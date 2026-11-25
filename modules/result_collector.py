@@ -118,7 +118,7 @@ class ResultCollector:
                 "invocation": " ".join(sys.argv),
                 "account_id": account_id,
                 "principal": principal,
-                "scope": scope,
+                "scope": scope.name,
                 "run_timestamp": self._run_timestamp,
                 "number_of_policies_analyzed": 0,
                 "errors": [],

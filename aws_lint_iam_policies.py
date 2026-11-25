@@ -45,9 +45,18 @@ class Scope(enum.Enum):
     ORGANIZATION = enum.auto()
 
 
+def parse_scope(val):
+    try:
+        return Scope[val.upper()]
+    except KeyError:
+        raise argparse.ArgumentTypeError(
+            "Invalid scope value: {}. Must be one of: {}".format(val, ", ".join(s.name for s in Scope))
+        )
+
+
 def parse_member_accounts_role(val):
     if not PATTERN_AWS_ROLE_NAME.match(val):
-        raise argparse.ArgumentTypeError("Invalid IAM role name")
+        raise argparse.ArgumentTypeError("Invalid IAM role name: {}".format(val))
     return val
 
 
@@ -116,7 +125,7 @@ def validate_args(parser, args):
             if getattr(args, var_name):
                 parser.error("argument {}: not allowed when listing policy types".format(arg_name))
 
-    elif args.scope == Scope.ACCOUNT.name:
+    elif args.scope == Scope.ACCOUNT:
         denied_args = (
             ("member_accounts_role", "--member-accounts-role"),
             ("exclude_accounts", "--exclude-accounts"),
@@ -135,7 +144,7 @@ def validate_args(parser, args):
                 )
             )
 
-    elif args.scope == Scope.ORGANIZATION.name:
+    elif args.scope == Scope.ORGANIZATION:
         required_args = (("member_accounts_role", "--member-accounts-role"),)
         for var_name, arg_name in required_args:
             if not getattr(args, var_name):
@@ -170,8 +179,8 @@ if __name__ == "__main__":
     )
     mutually_exclusive_args.add_argument(
         "--scope",
-        choices=[Scope.ACCOUNT.name, Scope.ORGANIZATION.name],
-        help="Target either an individual account or all accounts of an Organization.",
+        type=parse_scope,
+        help="Use either 'ACCOUNT' to target a single account or 'ORGANIZATION' to target multiple accounts of an Organization.",
     )
     parser.add_argument(
         "--member-accounts-role",
@@ -304,7 +313,7 @@ if __name__ == "__main__":
                 sys.exit(1)
 
     # Handle ACCOUNT scope
-    if args.scope == Scope.ACCOUNT.name:
+    if args.scope == Scope.ACCOUNT:
         result_collector = ResultCollector(
             account_id,
             principal,
@@ -327,7 +336,7 @@ if __name__ == "__main__":
         result_collector.write_result_files()
 
     # Handle ORGANIZATION scope
-    elif args.scope == Scope.ORGANIZATION.name:
+    elif args.scope == Scope.ORGANIZATION:
         organizations_client = boto_session.client("organizations", config=BOTO_CONFIG)
         try:
             # Confirm we are running with credentials of the management account

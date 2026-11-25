@@ -70,8 +70,8 @@ python aws_lint_iam_policies.py \
 ```
 --list-policy-types
     List all supported policy types and exit.
---scope {ACCOUNT,ORGANIZATION}
-    Target either an individual account or all accounts of an Organization.
+--scope SCOPE
+    Use either 'ACCOUNT' to target a single account or 'ORGANIZATION' to target multiple accounts of an Organization.
 --member-accounts-role MEMBER_ACCOUNTS_ROLE
     Assume the specified IAM role name in member accounts of the Organization.
 --profile PROFILE
