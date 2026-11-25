@@ -409,4 +409,4 @@ if __name__ == "__main__":
             print("Insufficient permissions to communicate with the AWS Organizations service")
             sys.exit(1)
 
-    print("Done. Results and policies written to results directory.")
+    print("Done. See results directory.")

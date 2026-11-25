@@ -89,10 +89,11 @@ class AccountAnalyzer:
         # Check if any regions should be targeted that are not enabled in this account
         include_regions_not_enabled = set(self._include_regions) - set(regions_enabled_in_account)
         if include_regions_not_enabled:
-            msg = "Error for account ID {}: regions specified in --include-regions are not enabled in this account: {}".format(
-                self._account_id, ", ".join(sorted(include_regions_not_enabled))
+            self._result_collector.submit_error(
+                "Error for account ID {}: regions specified in --include-regions are not enabled in this account: {}".format(
+                    self._account_id, ", ".join(sorted(include_regions_not_enabled))
+                )
             )
-            self._result_collector.submit_error(msg)
 
         # Determine the actual target regions for this account (applying include and exclude arguments)
         target_regions = []
@@ -103,8 +104,9 @@ class AccountAnalyzer:
                 continue
             target_regions.append(region)
         if not target_regions:
-            msg = "Error for account ID {}: no regions to be targeted".format(self._account_id)
-            self._result_collector.submit_error(msg)
+            self._result_collector.submit_error(
+                "Error for account ID {}: no regions to be targeted".format(self._account_id)
+            )
 
         # Iterate resources shared via RAM for each region and collect their RAM resource types. This allows to later
         # skip policy type implementations that use RAM, if there are anyhow no such resources in a certain region.

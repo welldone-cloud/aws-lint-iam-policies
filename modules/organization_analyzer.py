@@ -113,6 +113,12 @@ class OrganizationAnalyzer:
             return all_parents
 
     def analyze_organization(self):
+        print(
+            "Analyzing organization ID {} under management account ID {}".format(
+                self._organization_id, self._management_account_id
+            )
+        )
+
         # We only require read-only access to Organizations member accounts, even if users provide a role that has
         # more permissions. When assuming the roles, we drop permissions to read-only access by using session
         # policies. As the AWS ReadOnlyAccess managed IAM policy often lags behind with new feature releases, we need
@@ -122,15 +128,14 @@ class OrganizationAnalyzer:
         try:
             inline_session_policy = OrganizationAnalyzer._create_inline_session_policy(iam_client)
         except botocore.exceptions.ClientError:
-            print("Insufficient permissions to communicate with the AWS IAM service")
+            self._result_collector.submit_error(
+                "Error for account ID {}: cannot communicate with the IAM service in the Organizations management account".format(
+                    self._management_account_id
+                )
+            )
             return
 
         # Iterate all accounts of the Organization
-        print(
-            "Analyzing organization ID {} under management account ID {}".format(
-                self._organization_id, self._management_account_id
-            )
-        )
         organizations_client = self._boto_session.client("organizations", config=self._boto_config)
         sts_client = self._boto_session.client("sts", config=self._boto_config)
         accounts_paginator = organizations_client.get_paginator("list_accounts")

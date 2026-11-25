@@ -102,15 +102,11 @@ class ResultCollector:
         except FileExistsError:
             pass
 
-        # Create the policies directory or replace it, if it already exists
+        # Create the policies directory
         self._policies_directory = os.path.join(
             self._results_directory, POLICIES_DIRECTORY_NAME.format(self._run_timestamp)
         )
-        try:
-            os.mkdir(self._policies_directory)
-        except FileExistsError:
-            shutil.rmtree(self._policies_directory)
-            os.mkdir(self._policies_directory)
+        os.mkdir(self._policies_directory)
 
         # Prepare the result collection JSON structure
         self._result_collection = {
