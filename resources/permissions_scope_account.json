@@ -99,6 +99,8 @@
                 "s3:List*",
                 "s3express:Get*",
                 "s3express:List*",
+                "s3files:Get*",
+                "s3files:List*",
                 "s3tables:Get*",
                 "s3tables:List*",
                 "s3vectors:Get*",
