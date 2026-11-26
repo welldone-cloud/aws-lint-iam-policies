@@ -115,6 +115,7 @@ The following IAM policy types are analyzed:
 * AppSync GraphQL API policies
 * Backup vault policies
 * Bedrock custom model policies
+* Bedrock guardrail policies
 * Bedrock knowledge base policies
 * Billing view policies
 * Cloud WAN core network policies
