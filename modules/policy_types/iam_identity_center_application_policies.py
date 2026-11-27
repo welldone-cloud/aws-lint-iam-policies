@@ -68,4 +68,4 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
         # where features are not available.
         if not ex.response["Error"].get("Message", "").strip():
             return
-        raise ex
+        raise

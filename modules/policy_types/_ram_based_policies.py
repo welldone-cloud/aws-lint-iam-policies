@@ -1,6 +1,5 @@
 import json
 
-
 SOURCE_SERVICE = "ram"
 
 
@@ -18,7 +17,7 @@ def analyze(
     resources_paginator = ram_client.get_paginator("list_resources")
 
     # Iterate resources via RAM. A resource ARN may be returned multiple times if the same resource is shared
-    # via multiple RAM resource shares. Thus first create a list of unique ARNs.
+    # via multiple RAM resource shares. Thus first create a set of unique ARNs.
     resource_arns = set()
     for resource_page in resources_paginator.paginate(resourceType=ram_resource_type, resourceOwner="SELF"):
         for resource in resource_page["resources"]:

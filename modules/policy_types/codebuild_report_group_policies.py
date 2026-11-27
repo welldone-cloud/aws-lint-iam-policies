@@ -32,5 +32,5 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
     except codebuild_client.exceptions.from_code("AccessDeniedException") as ex:
         # Some regions where CodeBuild is not available yield this error, but it can be distinguished from an actual
         # lack of permissions because the error message is empty
-        if ex.response["Error"]["Message"]:
+        if ex.response["Error"].get("Message"):
             raise

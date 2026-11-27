@@ -6,7 +6,7 @@ SOURCE_SERVICE = "events"
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     eventbridge_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
 
-    # Iterate all event buses (there is unfortunately no paginator available for this at the moment)
+    # Iterate all event buses
     call_params = {}
     while True:
         list_event_buses_response = eventbridge_client.list_event_buses(**call_params)

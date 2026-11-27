@@ -1,6 +1,5 @@
 import json
 
-
 RUN_IN_REGION = "ALL"
 
 SOURCE_SERVICE = "migration-hub-refactor-spaces"

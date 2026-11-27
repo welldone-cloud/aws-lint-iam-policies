@@ -6,7 +6,7 @@ SOURCE_SERVICE = "s3control"
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     s3_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
 
-    # Iterate all access points (there is unfortunately no paginator available for this at the moment)
+    # Iterate all access points
     call_params = {"AccountId": account_id}
     while True:
         list_access_points_response = s3_client.list_access_points(**call_params)

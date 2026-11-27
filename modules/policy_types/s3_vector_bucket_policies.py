@@ -39,7 +39,6 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
         # When S3 vector buckets are not available in a region, different exception types are possible. This includes
         # an AccessDenied exception. However, the error message will be different compared to when a caller is
         # actually lacking permissions. Only ignore those cases where the feature is not available.
-        exception_message = ex.response["Error"].get("Message", "").strip()
-        if exception_message in ("Access Denied", "Region Not Available."):
+        if ex.response["Error"].get("Message", "").strip() in ("Access Denied", "Region Not Available."):
             return
-        raise ex
+        raise

@@ -32,7 +32,9 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                     access_analyzer_type="RESOURCE_POLICY",
                 )
 
-    except vpc_lattice_client.exceptions.from_code("AccessDeniedException"):
-        # Opt-in regions that don't support VPC Lattice unfortunately yield AccessDenied errors, making the
-        # situation indistinguishable from an actual lack of permissions.
-        pass
+    except vpc_lattice_client.exceptions.from_code("AccessDeniedException") as ex:
+        # Regions that don't support VPC Lattice can yield AccessDenied errors. However, the error message is
+        # different from an actual lack of permissions.
+        if ex.response["Error"].get("Message", "") == "Unauthorized":
+            return
+        raise

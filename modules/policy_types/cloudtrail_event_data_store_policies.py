@@ -6,7 +6,7 @@ SOURCE_SERVICE = "cloudtrail"
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     cloudtrail_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
 
-    # Iterate all event data stores (there is unfortunately no paginator available for this at the moment)
+    # Iterate all event data stores
     call_params = {}
     while True:
         try:

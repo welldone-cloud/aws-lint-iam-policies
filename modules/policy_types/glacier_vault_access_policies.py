@@ -32,6 +32,6 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 )
 
     except glacier_client.exceptions.from_code("ThrottlingException"):
-        # Known issue: Some regions that don't support standalone Glacier (the pre-S3 variant) yield this
-        # exception, instead of using a different exception type.
+        # Some regions that don't support standalone Glacier (the pre-S3 variant) can yield this exception,
+        # instead of using a different exception type.
         return

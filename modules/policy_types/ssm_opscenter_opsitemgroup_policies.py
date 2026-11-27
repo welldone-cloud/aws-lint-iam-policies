@@ -27,7 +27,11 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                     access_analyzer_type="RESOURCE_POLICY",
                 )
 
-    except ssm_client.exceptions.from_code("AccessDeniedException"):
-        # Regions that don't support this SSM feature unfortunately yield AccessDenied errors, making the
-        # situation indistinguishable from an actual lack of permissions.
-        pass
+    except ssm_client.exceptions.from_code("AccessDeniedException") as ex:
+        # In regions that don't support this SSM feature or where the feature has never been used before,
+        # AccessDenied errors can be returned. In those cases, the error message refers to an explicit deny
+        # in a resource-based policy, which can be used as an indicator to distinguish from a situation
+        # where the principal executing the script does not have the required permissions.
+        if "with an explicit deny in a resource-based policy" in ex.response["Error"].get("Message", ""):
+            return
+        raise

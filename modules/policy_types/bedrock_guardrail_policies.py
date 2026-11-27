@@ -20,7 +20,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 except bedrock_client.exceptions.from_code("ResourceNotFoundException"):
                     continue
 
-                # The API can return a string with an empty dict as the policy
+                # Skip empty policies
                 if not json.loads(get_resource_policy_response["resourcePolicy"]):
                     continue
 
@@ -36,7 +36,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 )
 
     except bedrock_client.exceptions.from_code("AccessDeniedException") as ex:
-        # Bedrock unfortunately returns AccessDeniedException when the service is not available in a region.
-        # However, the error message is different from an actual lack of permissions.
+        # Bedrock can return AccessDeniedException when the service is not available in a region. The error message
+        # allows to distinguish from an actual lack of permissions.
         if "Your account is not authorized" not in ex.response["Error"].get("Message", ""):
             raise

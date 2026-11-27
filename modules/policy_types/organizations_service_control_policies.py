@@ -25,13 +25,14 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
         # Account is either not a management account or does not have Organizations enabled
         return
 
-    # Iterate SCPs and forward to validation
+    # Iterate SCPs
     policy_paginator = organizations_client.get_paginator("list_policies")
     for policies_page in policy_paginator.paginate(Filter="SERVICE_CONTROL_POLICY"):
         for policy in policies_page["Policies"]:
             if policy["AwsManaged"]:
                 continue
             describe_policy_reponse = organizations_client.describe_policy(PolicyId=policy["Id"])
+
             policy_analysis_function(
                 account_id=account_id,
                 region=region,

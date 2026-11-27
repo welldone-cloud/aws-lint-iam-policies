@@ -1,6 +1,5 @@
 import json
 
-
 RUN_IN_REGION = "us-east-1"
 
 SOURCE_SERVICE = "iam"

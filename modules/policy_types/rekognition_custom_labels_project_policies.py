@@ -27,7 +27,8 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                             access_analyzer_type="RESOURCE_POLICY",
                         )
 
-    except rekognition_client.exceptions.from_code("AccessDeniedException"):
-        # Regions that don't support this Rekognition custom labels unfortunately yield AccessDenied errors, making
-        # the situation indistinguishable from an actual lack of permissions.
-        pass
+    except rekognition_client.exceptions.from_code("AccessDeniedException") as ex:
+        # Regions that don't support the Rekognition custom labels feature can return AccessDeniedException. However,
+        # the error message is empty, in comparison to an actual lack of permissions.
+        if ex.response["Error"].get("Message"):
+            raise

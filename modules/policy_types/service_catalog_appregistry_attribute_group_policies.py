@@ -1,12 +1,9 @@
 import modules.policy_types._ram_based_policies as ram_based_policies
 
-
 RUN_IN_REGION = "ALL"
 
 SOURCE_SERVICE = "ram"
 
-# Current AWS documentation and implementation is inconsistent between "servicecatalog:AttributeGroup"
-# and "servicecatalog:AttributeGroups". The API uses the latter.
 RAM_RESOURCE_TYPE = "servicecatalog:AttributeGroups"
 
 CFN_RESOURCE_TYPE = "AWS::ServiceCatalogAppRegistry::AttributeGroup"

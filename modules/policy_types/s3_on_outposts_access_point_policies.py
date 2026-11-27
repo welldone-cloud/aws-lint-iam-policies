@@ -12,8 +12,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
     for outposts_page in outposts_with_s3_paginator.paginate():
         for outpost in outposts_page["Outposts"]:
 
-            # Iterate all buckets available on the Outpost (there is unfortunately no paginator available for this
-            # at the moment)
+            # Iterate all buckets available on the Outpost
             call_params_list_regional_buckets = {"AccountId": account_id, "OutpostId": outpost["OutpostId"]}
             while True:
                 list_regional_buckets_response = s3_control_client.list_regional_buckets(
@@ -21,8 +20,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 )
                 for bucket in list_regional_buckets_response["RegionalBucketList"]:
 
-                    # Iterate all access points for the bucket (there is unfortunately no paginator available for
-                    # this at the moment)
+                    # Iterate all access points for the bucket
                     call_params_list_access_points = {"AccountId": account_id, "Bucket": bucket["BucketArn"]}
                     while True:
                         list_access_points_response = s3_control_client.list_access_points(

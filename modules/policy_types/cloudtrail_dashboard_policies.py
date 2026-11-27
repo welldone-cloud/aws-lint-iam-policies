@@ -6,7 +6,7 @@ SOURCE_SERVICE = "cloudtrail"
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     cloudtrail_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
 
-    # Iterate all dashboards (there is unfortunately no paginator available for this at the moment)
+    # Iterate all dashboards
     call_params = {"Type": "CUSTOM"}
     while True:
         try:

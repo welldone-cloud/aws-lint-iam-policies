@@ -33,11 +33,10 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 )
 
     # The service can also return AccessDenied exceptions when Lambda web functions are not available in
-    # a region, instead of a lack of permissions. However, the respective error messages are different.
+    # a region. The error message allows to distinguish this from an actual lack of permissions.
     except (
         lambda_web_client.exceptions.from_code("AccessDeniedException"),
         lambda_web_client.exceptions.from_code("403"),
     ) as ex:
-        if "Unable to determine service/operation name" in ex.response["Error"].get("Message", ""):
-            return
-        raise
+        if not "Unable to determine service/operation name" in ex.response["Error"].get("Message", ""):
+            raise

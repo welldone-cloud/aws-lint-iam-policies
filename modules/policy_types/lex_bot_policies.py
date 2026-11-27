@@ -6,7 +6,7 @@ SOURCE_SERVICE = "lexv2-models"
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     lex_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
 
-    # Iterate all bots (there is unfortunately no paginator available for this at the moment)
+    # Iterate all bots
     call_params = {}
     while True:
         list_bots_response = lex_client.list_bots(**call_params)

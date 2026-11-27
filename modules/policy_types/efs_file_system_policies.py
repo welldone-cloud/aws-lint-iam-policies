@@ -7,7 +7,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
     efs_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
     file_systems_paginator = efs_client.get_paginator("describe_file_systems")
 
-    # Iterate all S3 object Lambda access points
+    # Iterate all EFS file systems
     for file_systems_page in file_systems_paginator.paginate():
         for file_system in file_systems_page["FileSystems"]:
             # Fetch the file system policy

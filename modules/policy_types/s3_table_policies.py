@@ -40,5 +40,5 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                         )
 
     except s3_client.exceptions.from_code("UnauthorizedException"):
-        # Occurs for regions where s3tables is not available
+        # Can occur for regions where s3tables is not available
         return

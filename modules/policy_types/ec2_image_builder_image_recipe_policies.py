@@ -1,6 +1,5 @@
 import json
 
-
 RUN_IN_REGION = "ALL"
 
 SOURCE_SERVICE = "imagebuilder"
@@ -9,7 +8,7 @@ SOURCE_SERVICE = "imagebuilder"
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     image_builder_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
 
-    # Iterate all image recipes (there is unfortunately no paginator available for this at the moment)
+    # Iterate all image recipes
     call_params = {}
     while True:
         list_image_recipes_response = image_builder_client.list_image_recipes(**call_params)

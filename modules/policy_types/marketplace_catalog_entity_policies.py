@@ -10,8 +10,10 @@ ENTITY_TYPES = (
     "Audience",
     "BrandingSettings",
     "Offer",
+    "OfferSet",
     "Seller",
     "ResaleAuthorization",
+    "Solution",
 )
 
 RUN_IN_REGION = "us-east-1"

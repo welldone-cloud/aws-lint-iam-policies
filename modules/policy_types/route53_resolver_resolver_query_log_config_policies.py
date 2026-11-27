@@ -1,6 +1,5 @@
 import json
 
-
 RUN_IN_REGION = "ALL"
 
 SOURCE_SERVICE = "route53resolver"
@@ -19,10 +18,12 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 get_resolver_query_log_config_policy_response = route53_client.get_resolver_query_log_config_policy(
                     Arn=resolver_query_log_config["Arn"]
                 )
-            except route53_client.exceptions.from_code("AccessDeniedException"):
-                # The service unfortunately yields AccessDenied errors when there is no policy configured, making the
-                # situation indistinguishable from an actual lack of permissions.
-                continue
+            except route53_client.exceptions.from_code("AccessDeniedException") as ex:
+                # The service can return AccessDenied errors when there is no policy configured, but the error
+                # message can be used to distinguish the situation from an actual lack of permissions.
+                if "Trace Id" in ex.response["Error"].get("Message", ""):
+                    continue
+                raise
 
             # Skip if the returned policy is empty
             if not json.loads(get_resolver_query_log_config_policy_response["ResolverQueryLogConfigPolicy"]):

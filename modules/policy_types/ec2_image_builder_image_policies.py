@@ -1,6 +1,5 @@
 import json
 
-
 RUN_IN_REGION = "ALL"
 
 SOURCE_SERVICE = "imagebuilder"
@@ -9,13 +8,13 @@ SOURCE_SERVICE = "imagebuilder"
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     image_builder_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
 
-    # Iterate all images (there is unfortunately no paginator available for this at the moment)
+    # Iterate all images
     call_params_list_images = {"includeDeprecated": True}
     while True:
         list_images_response = image_builder_client.list_images(**call_params_list_images)
         for image in list_images_response["imageVersionList"]:
 
-            # Iterate all image build versions (there is unfortunately no paginator available for this at the moment)
+            # Iterate all image build versions
             call_params_list_image_build_versions = {"imageVersionArn": image["arn"]}
             while True:
                 list_image_build_versions_response = image_builder_client.list_image_build_versions(

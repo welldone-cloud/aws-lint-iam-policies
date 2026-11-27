@@ -24,7 +24,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                     bedrock_client.exceptions.from_code("ResourceNotFoundException"),
                     bedrock_client.exceptions.from_code("ValidationException"),
                 ):
-                    # There either is no policy or it's a knowledge base type that doesn't support resource policies
+                    # There either is no policy or it's a type of knowledge base that doesn't support resource policies
                     continue
 
                 policy_analysis_function(
@@ -38,6 +38,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                     access_analyzer_type="RESOURCE_POLICY",
                 )
 
-    except bedrock_client.exceptions.from_code("InternalServerErrorException"):
-        # Bedrock unfortunately returns this error in regions where the knowledge base service is not available
-        return
+    except bedrock_client.exceptions.from_code("InternalServerErrorException") as ex:
+        # Bedrock can return this error in regions where the knowledge base service is not available
+        if not ex.response["Error"].get("Message", "") == "Internal server error":
+            raise

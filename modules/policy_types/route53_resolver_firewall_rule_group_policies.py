@@ -40,4 +40,4 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
         # Ignore cases where the feature is not available.
         if ex.response["Error"].get("Message", "").strip() == "Account is not authorized to perform this operation.":
             return
-        raise ex
+        raise

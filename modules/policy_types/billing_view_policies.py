@@ -1,6 +1,5 @@
 import modules.policy_types._ram_based_policies as ram_based_policies
 
-
 RUN_IN_REGION = "us-east-1"
 
 SOURCE_SERVICE = "ram"

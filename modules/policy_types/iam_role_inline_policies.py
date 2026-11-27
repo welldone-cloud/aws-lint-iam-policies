@@ -1,6 +1,5 @@
 import json
 
-
 RUN_IN_REGION = "us-east-1"
 
 SERVICE_LINKED_ROLE_PATH_PREFIX = "/aws-service-role/"

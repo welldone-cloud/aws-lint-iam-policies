@@ -6,7 +6,7 @@ SOURCE_SERVICE = "rum"
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     rum_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
 
-    # Collect a list of app monitors names
+    # Collect a list of app monitor names
     app_monitors_names = []
     app_monitors_paginator = rum_client.get_paginator("list_app_monitors")
     try:
