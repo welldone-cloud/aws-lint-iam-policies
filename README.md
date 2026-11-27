@@ -116,6 +116,7 @@ The following IAM policy types are analyzed:
 * Backup vault policies
 * Bedrock custom model policies
 * Bedrock guardrail policies
+* Bedrock guardrail profile policies
 * Bedrock knowledge base policies
 * Billing view policies
 * Cloud WAN core network policies
