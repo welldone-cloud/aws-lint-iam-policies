@@ -11,7 +11,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
     for domains_page in domains_paginator.paginate():
         for domain in domains_page["items"]:
             # Skip domain types other than private domains
-            if "PRIVATE" not in domain["endpointConfiguration"]["types"]:
+            if "PRIVATE" not in domain.get("endpointConfiguration", {}).get("types", []):
                 continue
 
             # Fetch domain details
@@ -19,6 +19,10 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 domainName=domain["domainName"],
                 domainNameId=domain["domainNameId"],
             )
+
+            # Skip if policy is not present
+            if "policy" not in get_domain_name_response:
+                continue
 
             policy_analysis_function(
                 account_id=account_id,

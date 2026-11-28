@@ -30,7 +30,9 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                         {"Name": "service-type", "Values": [vpc_endpoint_type]},
                     ],
                 )
-                if not describe_vpc_endpoint_services_response["ServiceDetails"][0]["VpcEndpointPolicySupported"]:
+                if not describe_vpc_endpoint_services_response.get("ServiceDetails"):
+                    continue
+                if not describe_vpc_endpoint_services_response["ServiceDetails"][0].get("VpcEndpointPolicySupported"):
                     continue
 
                 policy_analysis_function(

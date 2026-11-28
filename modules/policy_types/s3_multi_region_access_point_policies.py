@@ -2,6 +2,8 @@ RUN_IN_REGION = "us-west-2"
 
 SOURCE_SERVICE = "s3control"
 
+S3_MRAP_POLICY_STATUS = ("Established", "Proposed")
+
 
 def analyze(account_id, region, boto_session, boto_config, policy_analysis_function):
     s3_client = boto_session.client(SOURCE_SERVICE, config=boto_config, region_name=region)
@@ -15,7 +17,14 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
             get_multi_region_access_point_policy_response = s3_client.get_multi_region_access_point_policy(
                 AccountId=account_id, Name=access_point["Name"]
             )
-            access_point_policy = get_multi_region_access_point_policy_response["Policy"]["Established"]["Policy"]
+
+            access_point_policy = None
+            for status in S3_MRAP_POLICY_STATUS:
+                try:
+                    access_point_policy = get_multi_region_access_point_policy_response["Policy"][status]["Policy"]
+                    break
+                except KeyError:
+                    pass
 
             # Skip if there is no access point policy set
             if not access_point_policy:

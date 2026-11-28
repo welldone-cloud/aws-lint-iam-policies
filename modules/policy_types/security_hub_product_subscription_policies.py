@@ -27,6 +27,10 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
     for describe_products_page in describe_products_paginator.paginate():
         for product in describe_products_page["Products"]:
 
+            # Skip if no policy is present
+            if "ProductSubscriptionResourcePolicy" not in product:
+                continue
+
             # Proceed if there is a subscription for this product
             if any(
                 product["ProductArn"].endswith("product/{}".format(product_subscription))

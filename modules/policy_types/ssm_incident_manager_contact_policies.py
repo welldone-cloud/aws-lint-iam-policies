@@ -24,7 +24,7 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 region=region,
                 source_service=SOURCE_SERVICE,
                 resource_type="AWS::SSMContacts::Contact",
-                resource_name=contact["DisplayName"],
+                resource_name=contact["Alias"],
                 resource_arn=contact["ContactArn"],
                 policy_document=get_contact_policy_response["Policy"],
                 access_analyzer_type="RESOURCE_POLICY",
