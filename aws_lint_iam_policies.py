@@ -27,7 +27,7 @@ BOTO_CONFIG = botocore.config.Config(
     user_agent_appid="aws-lint-iam-policies",
 )
 
-PATTERN_AWS_ACCOUNT_ID = re.compile(r"^\d{12,}$")
+PATTERN_AWS_ACCOUNT_ID = re.compile(r"^\d{12}$")
 
 PATTERN_AWS_ORGANIZATIONAL_UNIT = re.compile(r"^ou-[a-z0-9]{4,32}-[a-z0-9]{8,32}$")
 
@@ -266,12 +266,16 @@ if __name__ == "__main__":
             print(policy_type)
         sys.exit(0)
 
-    # Validate provided credentials and get account details
+    # Use the default region configured by the user and use a fallback value if none is set
     try:
-        boto_session = boto3.Session(profile_name=args.profile, region_name=AWS_DEFAULT_REGION)
+        boto_session = boto3.Session(profile_name=args.profile)
+        if not boto_session.region_name:
+            boto_session = boto3.Session(profile_name=args.profile, region_name=AWS_DEFAULT_REGION)
     except botocore.exceptions.ProfileNotFound as ex:
         print("Error: {}".format(ex))
         sys.exit(1)
+
+    # Validate provided credentials
     try:
         sts_client = boto_session.client("sts", config=BOTO_CONFIG)
         get_caller_identity_response = sts_client.get_caller_identity()
@@ -291,11 +295,16 @@ if __name__ == "__main__":
             "SignatureDoesNotMatch",
         ):
             raise
-        print("No or invalid AWS credentials configured")
+        print("No or invalid AWS credentials configured for partition 'aws'")
         sys.exit(1)
-    else:
-        account_id = get_caller_identity_response["Account"]
-        principal = get_caller_identity_response["Arn"]
+
+    # Get account details and validate partition
+    account_id = get_caller_identity_response["Account"]
+    principal = get_caller_identity_response["Arn"]
+    partition = principal.split(":")[1]
+    if partition != "aws":
+        print("Invalid AWS partition '{}': only 'aws' is supported".format(partition))
+        sys.exit(1)
 
     # Validate regions provided as arguments
     provided_regions = set(args.exclude_regions + args.include_regions)

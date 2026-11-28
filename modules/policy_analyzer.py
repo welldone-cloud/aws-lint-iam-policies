@@ -44,7 +44,7 @@ ACCESS_ANALYZER_PARAMETERS_CHECK_NO_PUBLIC_ACCESS = (
     "AWS::SQS::Queue",
 )
 
-AWS_ACCOUNT_ID_PATTERN = re.compile(r"^\d{12,}$")
+AWS_ACCOUNT_ID_PATTERN = re.compile(r"^\d{12}$")
 
 AWS_IAM_STS_ARN_PATTERN = re.compile(r"^arn:aws:(iam|sts)::\d{12,}:[^\s]*$")
 

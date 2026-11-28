@@ -4,6 +4,7 @@ RUN_IN_REGION = "us-east-1"
 
 SOURCE_SERVICE = "ram"
 
+# While some AWS documentation suggests "billing:billingview", the API actually uses "billing:Billingview"
 RAM_RESOURCE_TYPE = "billing:Billingview"
 
 CFN_RESOURCE_TYPE = "AWS::Billing::BillingView"

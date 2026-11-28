@@ -263,6 +263,8 @@ The following IAM policy types are analyzed:
 
 ## Notes
 
-* The provided minimum IAM permissions exceed the policy size limit for IAM user inline policies (2048 characters). Consider using managed policies or roles instead, which have higher policy size limits.
+* The script currently supports only the AWS commercial partition (`aws`).
+
+* The provided minimum IAM permissions exceed the policy size limit for IAM user inline policies (2048 characters). Use managed policies or roles instead, which have higher policy size limits.
 
 * The script lints policies that are using the AWS IAM policy language. It is not capable of linting other policy types, such as Cedar policies (as used in AWS Verified Access and AWS Verified Permissions) or declarative policies.
