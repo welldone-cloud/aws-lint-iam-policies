@@ -14,6 +14,8 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
             if "policy" not in api:
                 continue
 
+            policy_document = api["policy"].replace('\\"', '"').replace("\\/", "/")
+
             policy_analysis_function(
                 account_id=account_id,
                 region=region,
@@ -21,6 +23,6 @@ def analyze(account_id, region, boto_session, boto_config, policy_analysis_funct
                 resource_type="AWS::ApiGateway::RestApi",
                 resource_name=api["name"],
                 resource_arn="arn:aws:apigateway:{}::/restapis/{}".format(region, api["id"]),
-                policy_document=api["policy"].encode().decode("unicode_escape"),
+                policy_document=policy_document,
                 access_analyzer_type="RESOURCE_POLICY",
             )
